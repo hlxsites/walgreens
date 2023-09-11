@@ -1,21 +1,9 @@
-# Your Project's Title...
-Your project's description...
+# Walgreens - Franklin site
+This project is for the https://main--walgreens--hlxsites.hlx.page/ website.
 
 ## Environments
 - Preview: https://main--walgreens--hlxsites.hlx.page/
 - Live: https://main--walgreens--hlxsites.hlx.live/
-
-## Installation
-
-```sh
-npm i
-```
-
-## Linting
-
-```sh
-npm run lint
-```
 
 ## Local development
 
