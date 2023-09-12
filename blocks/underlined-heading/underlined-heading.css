@@ -1,5 +1,5 @@
-/*reduces heading margin*/
-.underlined-heading div div > *{
+/* reduces heading margin */
+.underlined-heading div div > * {
     margin: 0;
 }
 
