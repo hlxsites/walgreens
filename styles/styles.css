@@ -12,12 +12,15 @@
 
  :root {
   /* colors */
+
+  --text-color: #0a1414;
   --link-color: #284b9b;
-  --link-hover-color: #136ff6;
+  --link-hover-color: var(--text-color);
+  --link-hover-underline-color: var(--link-color);
   --background-color: #fff;
   --overlay-background-color: #eee;
   --highlight-background-color: #ccc;
-  --text-color: #0a1414;
+  
 
   /* fonts */
   --ff-source-sans-pro: 'Source Sans Pro', sans-serif;
@@ -64,6 +67,7 @@
 
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -151,7 +155,6 @@ a:any-link {
 
 a:hover {
   text-decoration: underline;
-  color: var(--link-hover-color);
 }
 
 /* buttons */
