@@ -1,0 +1,44 @@
+.breadcrumb ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  padding-left: 15px;
+  font-size: 1rem;
+}
+
+.breadcrumb li a {
+  position: relative;
+  margin-right: 12px;
+  padding-right: 16px;
+  display: inline-block;
+}
+
+.breadcrumb li .icon {
+  height: unset;
+  width: unset;
+}
+
+.breadcrumb li a svg {
+  fill: #707575;
+  bottom: -2px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: -10px;
+  width: 30px;
+}
+
+@media (max-width: 1023px) {
+  .breadcrumb ul {
+    font-size: .875rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .breadcrumb {
+    display: none;
+  }
+}
