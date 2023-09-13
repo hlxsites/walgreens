@@ -40,7 +40,7 @@
   --heading-font-size-xs: 16px;
 
   /* nav height */
-  --nav-height: 64px;
+  --nav-height: 149px;
 }
 
 @font-face {
@@ -123,6 +123,7 @@ h6 { font-size: var(--heading-font-size-xs) }
 p, dl, ol, ul, pre, blockquote {
   margin-top: 1em;
   margin-bottom: 1em;
+  line-height: 1.78;
 }
 
 hr {
