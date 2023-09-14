@@ -1,16 +1,16 @@
-#nav {
+header #nav {
   display: grid;
   grid-template-rows: auto auto auto; /* Three rows */
   grid-template-columns: 1fr; /* One column */
 }
 
-.nav-banner {
+header .nav-banner {
   background-color: #ccc; /* Set the background color for the first child */
   padding: 0 10%; /* Adjust padding as needed */
   height: 38px;
 }
 
-.nav-banner ul {
+header .nav-banner ul {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -18,22 +18,22 @@
   margin: 8px;
 }
 
-.nav-banner ul li {
+header .nav-banner ul li {
   padding: 0 15px;
 }
 
 /* Middle row */
-.nav-sections,
-.nav-search,
-.nav-tools,
-.nav-cart,
-.nav-brand {
+header .nav-sections,
+header .nav-search,
+header .nav-tools,
+header .nav-cart,
+header .nav-brand {
   grid-row: 2; /* Display in the middle row */
   grid-column: 1; /* Span across the entire column */
   background-color: var(--overlay-background-color);
 }
 
-.nav-location {
+header .nav-location {
   grid-row: 3; /* Display in the last row */
   grid-column: 1; /* Span across the entire column */
   height: 36px;
