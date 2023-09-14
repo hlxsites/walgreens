@@ -14,11 +14,12 @@
   /* colors */
   --text-color: #0a1414;
   --link-color: #284b9b;
-  --link-hover-color: #284b9b;
   --background-color: #fff;
   --overlay-background-color: #323264;
   --overlay-font-color: #fff;
   --highlight-background-color: #f5f5f0;
+  --link-hover-color: var(--text-color);
+  --link-hover-underline-color: var(--link-color);
 
   /* fonts */
   --ff-source-sans-pro: 'Source Sans Pro', helvetica, arial, sans-serif;
@@ -65,6 +66,7 @@
 
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -88,6 +90,10 @@ body.appear {
 
 header {
   height: var(--nav-height);
+}
+
+main {
+  overflow-x: hidden;
 }
 
 h1, h2, h3,
@@ -162,7 +168,6 @@ a:any-link {
 
 a:hover {
   text-decoration: underline;
-  color: var(--link-hover-color);
 }
 
 /* buttons */
