@@ -22,13 +22,6 @@
   padding: 0 15px;
 }
 
-.nav-location {
-  grid-row: 3; /* Display in the last row */
-  grid-column: 1; /* Span across the entire column */
-  background-color: #ccc; /* Set the background color for the last child */
-  padding: 10px; /* Adjust padding as needed */
-}
-
 /* Middle row */
 .nav-sections,
 .nav-search,
@@ -41,11 +34,13 @@
 }
 
 .nav-location {
+  grid-row: 3; /* Display in the last row */
+  grid-column: 1; /* Span across the entire column */
   height: 36px;
   width: 100%;
   display: flex;
   border: solid 1px #cfcfcf;
-  background-color: #ffffff;
+  background-color: #fff;
   padding: 0 5px;
   justify-content: space-between;
   align-items: center;
