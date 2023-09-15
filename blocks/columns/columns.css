@@ -74,6 +74,10 @@
     gap: 32px;
   }
 
+  .promo>div {
+    gap: 0;
+  }
+
   .columns>div>div {
     flex: 1;
     order: unset;
@@ -96,25 +100,25 @@
     font-size: 56px;
   }
 
-  .promo>div>div {
-    flex: auto;
-  }
 
   .promo {
     border-bottom: 1px solid #f5f5f0;
     margin-bottom: 2rem;
   }
 
-  .promo>div {
-    gap: 0;
+  
+
+  .promo .button-container {
+    flex: auto;
   }
+
 
   .promo .button-container a::after {
     position: absolute;
     content: '';
     width: 1px;
     height: 60%;
-    background-color: rgba(50, 50, 100, .5);
+    background-color: rgba(50 50 100 50%);
     right: 0;
   }
 
