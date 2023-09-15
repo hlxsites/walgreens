@@ -17,7 +17,7 @@ export default function decorate(block) {
     const headerArray = headerP.innerHTML.split(' ');
 
     strong1.innerHTML = `${headerArray[0]} `;
-    span.innerHTML = `${headerArray[1]} ${headerArray[2]} `
+    span.innerHTML = `${headerArray[1]} ${headerArray[2]} `;
     strong2.innerHTML = `${headerArray[3]}`;
     strong1.classList.add('large-text');
     strong2.classList.add('large-text');
