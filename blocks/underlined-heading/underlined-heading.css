@@ -1,0 +1,11 @@
+/* reduces heading margin */
+.underlined-heading div div {
+    border-bottom: 1px solid #989090;
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    width: 100%;
+}
+
+.underlined-heading div div> * {
+    margin: 0;
+}
