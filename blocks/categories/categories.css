@@ -1,32 +1,80 @@
-.categories > ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 16px;
+.categories {
+    display: flex;
+    flex-direction: row;
+    /*align-self: flex-end;
+    justify-content: flex-start;*/
+    flex-wrap: wrap; 
+}
+
+.categories > div {
+    display: flex;
+    flex-direction: column;
+    /*flex: 1;*/
+    border: 2px solid var(--highlight-background-color);
+    background-color: var(--background-color);
+    border-radius: 8px;
+    margin: 0 25px 25px 0;
+    width: 45%;
+    flex-basis: auto;
+    flex-direction: unset;
+    /*gap: 32px;*/
   }
   
-  .categories > ul > li {
-    border: 1px solid var(--highlight-background-color);
-    background-color: var(--background-color)
+  .categories img {
+    /*width: 100%;*/
+    top: auto; /*here*/
+    bottom: 0;
+    min-width: 170px;
+    min-height: auto;
+    left: -60px;
+    object-fit: cover; /*to here*/
   }
   
-  .categories .categories-category-body {
-    margin: 16px;
+  .categories > div > div {
+    /*order: 1;*/
+    flex: 1;
+    order: unset;
+    padding: 10px 10px 10px 10px;
+  }
+
+  .categories > div > div > p {
+    margin: 8px 0px 8px 0px;
   }
   
-  .categories .categories-category-image {
-    line-height: 0;
+  .categories > div > .categories-img-col {
+    /*order: 0;*/
+    flex: 0.35;
+    padding: 0px 0px 0px 0px !important;
+    align-self: flex-end;
+    justify-content: flex-start;
+    height: auto;
+    overflow: hidden;
+    /*min-width: 105x;*/
   }
   
-  .categories .categories-category-body > *:first-child {
-    margin-top: 0;
-  }
-  
-  .categories > ul > li img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
+  .categories > div > .categories-img-col img {
+    /*width: 100%;*/
+    top: auto;
+    bottom: 0;
+    min-width: 200px;
+    min-height: auto;
+    left: -70px;
+    /*aspect-ratio: 4 / 3;*/
     object-fit: cover;
+    position: relative;
+    margin-left: 0;
+    margin-bottom: 0;
+    width: 95px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+  
+  
+  @media (max-width: 900px) {
+    .categories > div {
+        width: 55%;
+    }
+
   }
   

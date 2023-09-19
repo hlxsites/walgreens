@@ -1,18 +1,21 @@
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
-
 export default function decorate(block) {
-  /* change to ul, li */
-  const ul = document.createElement('ul');
-  [...block.children].forEach((row) => {
-    const li = document.createElement('li');
-    while (row.firstElementChild) li.append(row.firstElementChild);
-    [...li.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'categories-category-image';
-      else div.className = 'categories-category-body';
+    const cols = [...block.firstElementChild.children];
+    block.classList.add(`categories-${cols.length}-cols`);
+  
+    // setup image categories
+    [...block.children].forEach((row) => {
+      [...row.children].forEach((col) => {
+        const pic = col.querySelector('picture');
+        if (pic) {
+          const picWrapper = pic.closest('div');
+          if (picWrapper && picWrapper.children.length === 1) {
+            // picture is only content in category
+            picWrapper.classList.add('categories-img-col');
+          }
+        }
+        /*else {
+            col.querySelector('div').classList.add('categories-body-col')
+        }*/
+      });
     });
-    ul.append(li);
-  });
-  ul.querySelectorAll('img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
-  block.textContent = '';
-  block.append(ul);
-}
+  }
