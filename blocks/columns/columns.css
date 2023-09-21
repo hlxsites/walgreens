@@ -1,4 +1,4 @@
-.columns > div {
+.columns>div {
   display: flex;
   flex-direction: column;
 }
@@ -7,27 +7,118 @@
   width: 100%;
 }
 
-.columns > div > div {
+.columns>div>div {
   order: 1;
 }
 
-.columns > div > .columns-img-col {
+.columns>div>.columns-img-col {
   order: 0;
 }
 
-.columns > div > .columns-img-col img {
+.columns>div>.columns-img-col img {
   display: block;
 }
 
+.columns.dotw {
+  background-color: #01A0C0;
+  border-radius: 0.5rem;
+  color: white;
+  padding: 0.5rem;
+  margin-block: 1rem;
+}
+
+.columns.dotw p {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem;
+}
+
+.columns.dotw p span {
+  font-size: 16px;
+}
+
+.columns.dotw p strong {
+  font-size: 32px;
+}
+
+
+.columns.promo .button-container a {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  padding: 1rem;
+  border-bottom: 1px solid #f5f5f0;
+}
+
+
+.columns.promo .button-container a:hover::after {
+  position: absolute;
+  content: '';
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #284b9b;
+}
+
+
 @media (min-width: 900px) {
-  .columns > div {
+  .columns>div {
     align-items: center;
     flex-direction: unset;
     gap: 32px;
   }
 
-  .columns > div > div {
+  .columns>div>div {
     flex: 1;
     order: unset;
+  }
+
+  .columns.dotw {
+    padding: 1rem;
+    margin-block: 1rem;
+  }
+
+  .columns.dotw p {
+    margin: 1rem 0;
+  }
+
+  .columns.dotw p span {
+    font-size: 28px;
+  }
+
+  .columns.dotw p strong {
+    font-size: 56px;
+  }
+
+  .columns.promo {
+    border-bottom: 1px solid #f5f5f0;
+    margin-bottom: 2rem;
+  }
+
+  .columns.promo>div {
+    gap: 0;
+  }
+
+  .columns.promo .button-container {
+    flex: auto;
+  }
+
+  .columns.promo .button-container a::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 60%;
+    background-color: #32326477;
+    right: 0;
+  }
+
+  .columns.promo .button-container:last-child a::after {
+    width: 0;
   }
 }
