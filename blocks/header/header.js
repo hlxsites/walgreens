@@ -1,4 +1,5 @@
-import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
+import { readBlockConfig, decorateIcons } from '../../scripts/lib-franklin.js';
+import { loadFileList, resolveRelativeURLs } from '../../scripts/scripts.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
@@ -90,43 +91,21 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // fetch nav content
-  const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta).pathname : '/nav';
-  const resp = await fetch(`${navPath}.plain.html`);
+  const apiURL = 'https://www.walgreens.com/common/v1/headerui'; // block.querySelector('a');
+  const path = apiURL; // ? apiURL.getAttribute('href') : block.textContent.trim();
+  const resp = await fetch(path);
 
   if (resp.ok) {
-    const html = await resp.text();
-
-    // decorate nav DOM
+    const jsonData = await resp.json();
+    const content = jsonData.content;
+    const absoluteContent = resolveRelativeURLs(content);
     const nav = document.createElement('nav');
     nav.id = 'nav';
-    nav.innerHTML = html;
-
-    const classes = ['banner', 'brand', 'sections', 'search', 'tools', 'cart', 'location'];
-    classes.forEach((c, i) => {
-      const section = nav.children[i];
-      if (section) section.classList.add(`nav-${c}`);
-    });
-
-    const navSections = nav.querySelector('.nav-sections');
-    if (navSections) {
-      navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
-        if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-        navSection.addEventListener('click', () => {
-          if (isDesktop.matches) {
-            const expanded = navSection.getAttribute('aria-expanded') === 'true';
-            toggleAllNavSections(navSections);
-            navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          }
-        });
-      });
-    }
-
-    decorateIcons(nav);
+    nav.innerHTML = content;
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
     block.firstElementChild.replaceWith(navWrapper);
+    loadFileList(jsonData.fileList);
   }
 }
