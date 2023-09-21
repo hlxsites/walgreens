@@ -13,9 +13,7 @@ export default function decorate(block) {
             picWrapper.classList.add('categories-img-col');
           }
         }
-        /*else {
-            col.querySelector('div').classList.add('categories-body-col')
-        }*/
+
       });
     });
   }
