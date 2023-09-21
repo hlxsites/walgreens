@@ -4,6 +4,17 @@ import { loadFileList, resolveRelativeURLs } from '../../scripts/scripts.js';
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
+function addCSSStyle(css) {
+  const styleEl = document.querySelector('style');
+  if (styleEl) {
+    styleEl.innerHTML += css;
+  } else {
+    const style = document.createElement('style');
+    style.innerHTML = css;
+    document.head.append(style);
+  }
+}
+
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
     const nav = document.getElementById('nav');
@@ -102,6 +113,8 @@ export default async function decorate(block) {
     const nav = document.createElement('nav');
     nav.id = 'nav';
     nav.innerHTML = content;
+    addCSSStyle(jsonData.clientCSSContent);
+    addCSSStyle(jsonData.clientLSGCSSContent);
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);

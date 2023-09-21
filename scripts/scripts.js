@@ -41,14 +41,19 @@ export function resolveRelativeURLs(content) {
 export function loadFileList(fileList) {
   const baseUrl = "https://www.walgreens.com";
 
+  const scriptTags = document.querySelectorAll('script[src]');
+
   for (const fileName in fileList) {
     if (fileList.hasOwnProperty(fileName)) {
       const fileInfo = fileList[fileName];
-      const absolutePath = fileInfo.path.startsWith("http") // Check if the path is already absolute
+      const absolutePath = fileInfo.path.startsWith("http")
         ? fileInfo.path
         : baseUrl + fileInfo.path;
 
-      if (fileInfo.type === "js") {
+      // Check if a script with the same URL is already on the page
+      const scriptExists = Array.from(scriptTags).some((scriptTag) => scriptTag.src === absolutePath);
+
+      if (fileInfo.type === "js" && !scriptExists) {
         loadScript(absolutePath);
       } else if (fileInfo.type === "css") {
         loadCSS(absolutePath);
