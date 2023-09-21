@@ -39,7 +39,7 @@ export function resolveRelativeURLs(content) {
  * @param {JSON} fileList json object that comes with the UI API response
  */
 export function loadFileList(fileList) {
-  const baseUrl = "https://www.walgreens.com"; // Replace with your base URL
+  const baseUrl = "https://www.walgreens.com";
 
   for (const fileName in fileList) {
     if (fileList.hasOwnProperty(fileName)) {
