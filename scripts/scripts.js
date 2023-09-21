@@ -17,8 +17,8 @@ import {
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
 /**
- * Remaps the relative urls to absolute urls
- * @param {*} content string of html with relative urls
+ * Remaps the relative urls to absolute urls.
+ * @param {string} content string of html with relative urls
  * @returns the string with absolute urls
  */
 export function resolveRelativeURLs(content) {
@@ -34,6 +34,10 @@ export function resolveRelativeURLs(content) {
   return absoluteContent;
 }
 
+/**
+ * Adds the js and css to the head.
+ * @param {JSON} fileList json object that comes with the UI API response
+ */
 export function loadFileList(fileList) {
   const baseUrl = "https://www.walgreens.com"; // Replace with your base URL
 
