@@ -53,8 +53,12 @@ export function loadFileList(fileList) {
       // Check if a script with the same URL is already on the page
       const scriptExists = Array.from(scriptTags).some((scriptTag) => scriptTag.src === absolutePath);
 
-      if (fileInfo.type === "js" && !scriptExists && fileName != 'dtm') {
-        loadScript(absolutePath);
+      if (fileInfo.type === "js" && !scriptExists && !['dtm', 'googleApi', 'speedIndex'].includes(fileName)) {
+        loadScript(absolutePath, {
+          type: 'text/javascript',
+          charset: 'UTF-8',
+          async: true,
+        });
       } else if (fileInfo.type === "css") {
         loadCSS(absolutePath);
       }
