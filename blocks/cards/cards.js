@@ -67,7 +67,7 @@ async function decorateAPICards(block) {
               img({
                 src: new URL(offer.imageUrl, 'https://www.walgreens.com').toString(),
                 loading: 'lazy',
-                alt: offer.title,
+                alt: `Offer Image: ${offer.title}`,
               }),
             ),
             div({ class: 'card-body' },
