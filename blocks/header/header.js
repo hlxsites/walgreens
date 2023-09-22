@@ -1,8 +1,5 @@
 import { loadFileList, resolveRelativeURLs } from '../../scripts/scripts.js';
 
-// media query match that indicates mobile/tablet width
-const isDesktop = window.matchMedia('(min-width: 900px)');
-
 function addCSSStyle(css) {
   const styleEl = document.querySelector('style');
   if (styleEl) {
@@ -19,8 +16,8 @@ function addCSSStyle(css) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  const apiURL = 'https://www.walgreens.com/common/v1/headerui'; // block.querySelector('a');
-  const path = apiURL; // ? apiURL.getAttribute('href') : block.textContent.trim();
+  const apiURL = 'https://www.walgreens.com/common/v1/headerui';
+  const path = apiURL;
   const resp = await fetch(path);
 
   if (resp.ok) {
