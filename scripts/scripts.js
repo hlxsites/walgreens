@@ -46,21 +46,19 @@ export function loadFileList(fileList) {
   const fileKeys = Object.keys(fileList);
 
   fileKeys.forEach((fileName) => {
-    if (fileList.hasOwnProperty(fileName)) {
+    if (fileList[fileName]) {
       const fileInfo = fileList[fileName];
       const absolutePath = fileInfo.path.startsWith('http')
         ? fileInfo.path
         : baseUrl + fileInfo.path;
 
       // Check if a script with the same URL is already on the page
-      const scriptExists = Array.from(scriptTags).some(
-        (scriptTag) => scriptTag.src === absolutePath
-      );
+      const scriptExists = [...scriptTags].some((scriptTag) => scriptTag.src === absolutePath);
 
       if (
-        fileInfo.type === 'js' &&
-        !scriptExists &&
-        !['dtm', 'googleApi', 'speedIndex'].includes(fileName)
+        fileInfo.type === 'js'
+        && !scriptExists
+        && !['dtm', 'googleApi', 'speedIndex'].includes(fileName)
       ) {
         loadScript(absolutePath, {
           type: 'text/javascript',
