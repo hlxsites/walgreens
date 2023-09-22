@@ -53,7 +53,7 @@ export function loadFileList(fileList) {
       // Check if a script with the same URL is already on the page
       const scriptExists = Array.from(scriptTags).some((scriptTag) => scriptTag.src === absolutePath);
 
-      if (fileInfo.type === "js" && !scriptExists) {
+      if (fileInfo.type === "js" && !scriptExists && fileName != 'dtm') {
         loadScript(absolutePath);
       } else if (fileInfo.type === "css") {
         loadCSS(absolutePath);
