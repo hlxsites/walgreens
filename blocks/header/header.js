@@ -112,7 +112,7 @@ export default async function decorate(block) {
     const absoluteContent = resolveRelativeURLs(content);
     const nav = document.createElement('nav');
     nav.id = 'nav';
-    nav.innerHTML = content;
+    nav.innerHTML = absoluteContent;
     addCSSStyle(jsonData.clientCSSContent);
     addCSSStyle(jsonData.clientLSGCSSContent);
     const navWrapper = document.createElement('div');

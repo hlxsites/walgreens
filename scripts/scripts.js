@@ -25,7 +25,7 @@ export function resolveRelativeURLs(content) {
   const baseUrl = 'https://walgreens.com';
     
   // Use a regular expression to find relative links (starting with "/")
-  const relativeLinkRegex = /(?:href|action)="\/([^"]+)"/g;
+  const relativeLinkRegex = /(?:href|action)="(?!\/images\/)(\/[^"]+)"/g;
   const absoluteContent = content.replace(relativeLinkRegex, (match, relativePath) => {
     // Combine the base URL and the relative path to create an absolute URL
     const absoluteUrl = `${baseUrl}/${relativePath}`;
