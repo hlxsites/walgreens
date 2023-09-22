@@ -22,7 +22,7 @@ export default async function decorate(block) {
 
   if (resp.ok) {
     const jsonData = await resp.json();
-    const content = jsonData.content;
+    const { content } = jsonData;
     const absoluteContent = resolveRelativeURLs(content);
     const nav = document.createElement('nav');
     nav.id = 'nav';

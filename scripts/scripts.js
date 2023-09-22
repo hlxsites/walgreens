@@ -23,7 +23,7 @@ const LCP_BLOCKS = []; // add your LCP blocks to the list
  */
 export function resolveRelativeURLs(content) {
   const baseUrl = 'https://walgreens.com';
-    
+
   // Use a regular expression to find relative links (starting with "/")
   const relativeLinkRegex = /(?:href|action)="(?!\/images\/)(\/[^"]+)"/g;
   const absoluteContent = content.replace(relativeLinkRegex, (match, relativePath) => {
@@ -39,31 +39,39 @@ export function resolveRelativeURLs(content) {
  * @param {JSON} fileList json object that comes with the UI API response
  */
 export function loadFileList(fileList) {
-  const baseUrl = "https://www.walgreens.com";
+  const baseUrl = 'https://www.walgreens.com';
 
   const scriptTags = document.querySelectorAll('script[src]');
 
-  for (const fileName in fileList) {
+  const fileKeys = Object.keys(fileList);
+
+  fileKeys.forEach((fileName) => {
     if (fileList.hasOwnProperty(fileName)) {
       const fileInfo = fileList[fileName];
-      const absolutePath = fileInfo.path.startsWith("http")
+      const absolutePath = fileInfo.path.startsWith('http')
         ? fileInfo.path
         : baseUrl + fileInfo.path;
 
       // Check if a script with the same URL is already on the page
-      const scriptExists = Array.from(scriptTags).some((scriptTag) => scriptTag.src === absolutePath);
+      const scriptExists = Array.from(scriptTags).some(
+        (scriptTag) => scriptTag.src === absolutePath
+      );
 
-      if (fileInfo.type === "js" && !scriptExists && !['dtm', 'googleApi', 'speedIndex'].includes(fileName)) {
+      if (
+        fileInfo.type === 'js' &&
+        !scriptExists &&
+        !['dtm', 'googleApi', 'speedIndex'].includes(fileName)
+      ) {
         loadScript(absolutePath, {
           type: 'text/javascript',
           charset: 'UTF-8',
           async: true,
         });
-      } else if (fileInfo.type === "css") {
+      } else if (fileInfo.type === 'css') {
         loadCSS(absolutePath);
       }
     }
-  }
+  });
 }
 
 /**
