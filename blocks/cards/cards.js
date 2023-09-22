@@ -1,33 +1,91 @@
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+import {
+  a, div, li, strong, ul, p, img,
+} from '../../scripts/dom-helpers.js';
 
-export default function decorate(block) {
+function decorateCuratedCards(block) {
   const cardsWithBorder = block.classList.contains('border');
 
   /* change to ul, li */
-  const ul = document.createElement('ul');
+  const list = ul();
   [...block.children].forEach((row) => {
-    const li = document.createElement('li');
-    li.classList.add('card');
-    if (cardsWithBorder) {
-      li.classList.add('with-border');
-    }
+    const listItem = li({ class: `card ${cardsWithBorder ? ' with-border' : ''}` });
 
     const link = row.querySelector('a');
-    let parent = li;
+    let parent = listItem;
     if (link) {
       link.textContent = '';
       parent = link;
-      li.appendChild(link);
+      listItem.appendChild(link);
     }
 
     while (row.firstElementChild) parent.append(row.firstElementChild);
-    [...parent.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'card-image';
-      else div.className = 'card-body';
+    [...parent.children].forEach((child) => {
+      if (child.children.length === 1 && child.querySelector('picture')) child.className = 'card-image';
+      else child.className = 'card-body';
     });
-    ul.append(li);
+    list.append(listItem);
   });
-  ul.querySelectorAll('img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+  list.querySelectorAll('img').forEach((image) => image.closest('picture').replaceWith(
+    createOptimizedPicture(image.src, image.alt, false, [{ width: '750' }]),
+  ));
   block.textContent = '';
-  block.append(ul);
+  block.append(list);
+}
+
+function apiCardLink(offer) {
+  if ('plucode' in offer) {
+    return `https://www.walgreens.com/store/store/xpo_products.jsp?pluCode=${offer.plucode}`;
+  }
+
+  if ('eventCode' in offer) {
+    return `https://www.walgreens.com/store/BalanceRewardsOffers/balance-rewards-offer.jsp?eventCode=${offer.eventCode}`;
+  }
+
+  // eslint-disable-next-line no-console
+  console.warn('Could not generate link for the following offer', offer);
+  return '';
+}
+
+async function decorateAPICards(block) {
+  const cardsWithBorder = block.classList.contains('border');
+  const apiEndpoint = block.querySelector('a').href;
+  block.innerHTML = '';
+  const apiResponse = await fetch(apiEndpoint);
+
+  if (!apiResponse.ok) {
+    return;
+  }
+
+  const apiInfo = JSON.parse(await apiResponse.text());
+  block.append(
+    ul(
+      ...apiInfo.offers.map((offer) => (
+        li({ class: `card ${cardsWithBorder ? ' with-border' : ''}` },
+          a({ href: apiCardLink(offer) },
+            div({ class: 'card-image' },
+              img({
+                src: new URL(offer.imageUrl, 'https://www.walgreens.com').toString(),
+                loading: 'lazy',
+                alt: offer.title,
+              }),
+            ),
+            div({ class: 'card-body' },
+              p(strong(offer.title)),
+              offer.brand ? p(strong(offer.brand)) : '',
+              offer.offerDescription ? p(offer.offerDescription) : '',
+            ),
+          ),
+        )),
+      ),
+    ),
+  );
+}
+
+export default async function decorate(block) {
+  if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
+    await decorateAPICards(block);
+  } else {
+    decorateCuratedCards(block);
+  }
 }
