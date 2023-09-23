@@ -28,7 +28,7 @@ export function resolveRelativeURLs(content) {
   const relativeLinkRegex = /(?:href|action)="(?!\/images\/)(\/[^"]+)"/g;
   const absoluteContent = content.replace(relativeLinkRegex, (match, relativePath) => {
     // Combine the base URL and the relative path to create an absolute URL
-    const absoluteUrl = `${baseUrl}/${relativePath}`;
+    const absoluteUrl = `${baseUrl}${relativePath}`;
     return `href="${absoluteUrl}"`;
   });
   return absoluteContent;
