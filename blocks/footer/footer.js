@@ -12,7 +12,7 @@ export default async function decorate(block) {
     const data = await resp.json();
     // decorate footer DOM
     const footer = document.createElement('div');
-    footer.innerHTML =  resolveRelativeURLs(data.content);
+    footer.innerHTML = resolveRelativeURLs(data.content);
     decorateIcons(footer);
     block.append(footer);
     const footerStyles = document.createElement('style');
