@@ -21,6 +21,11 @@
   vertical-align: baseline;
 }
 
+.card > a {
+  display: block;
+  width: 100%;
+}
+
 .card.with-border {
   box-shadow: 0 1px 6px 1px rgba(64 64 64 / 15%);
   border-radius: 8px;
