@@ -1,8 +1,6 @@
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 import {
   a, div, li, ul, p, img,
 } from '../../scripts/dom-helpers.js';
-
 
 function apiCardLink(offer) {
   if ('plucode' in offer) {
@@ -53,7 +51,5 @@ async function decorateAPICarousel(block) {
 export default async function decorate(block) {
   if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
     await decorateAPICarousel(block);
-  } else {
-    return;
   }
 }
