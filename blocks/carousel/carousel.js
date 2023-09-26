@@ -31,14 +31,14 @@ async function decorateAPICarousel(block) {
       ...apiInfo.offers.map((offer) => (
         li(
           a({ href: apiCardLink(offer) },
-            div({ class: 'card-image' },
+            div(
               img({
                 src: new URL(offer.imageUrl, 'https://www.walgreens.com').toString(),
                 loading: 'lazy',
                 alt: `Offer Image: ${offer.title}`,
               }),
             ),
-            div({ class: 'card-body' },
+            div(
               p((offer.title)),
             ),
           ),
