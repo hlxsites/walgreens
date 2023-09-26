@@ -1,7 +1,7 @@
 import { div, span } from '../../scripts/dom-helpers.js';
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 
-export default function(block) {
+export default function decorate(block) {
   block.querySelectorAll('a').forEach((link) => {
     if (!link.previousElementSibling || link.previousElementSibling.nodeName.toLowerCase() !== 'picture') {
       return;
@@ -17,20 +17,20 @@ export default function(block) {
 
   const header = block.querySelector('h2');
   const list = block.querySelector('ul');
-  block.innerHTML = ''; 
+  block.innerHTML = '';
 
   const openCloseAccordion = (e) => {
     const parent = e.currentTarget.parentElement;
     parent.setAttribute('aria-expanded', `${!(parent.getAttribute('aria-expanded') === 'true')}`);
-  }
+  };
 
   block.setAttribute('aria-expanded', false);
   block.append(
-    div({ class: 'accordion-button', role: 'button', onclick: openCloseAccordion }, 
-      header, 
+    div({ class: 'accordion-button', role: 'button', onclick: openCloseAccordion },
+      header,
       span({ class: 'icon icon-arrow-down' }),
     ),
-    div({ class: 'accordion-content' }, 
+    div({ class: 'accordion-content' },
       list,
     ),
   );
