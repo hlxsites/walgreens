@@ -269,3 +269,42 @@ main img {
 main .section.highlight {
   background-color: var(--highlight-background-color);
 }
+
+
+/* Sidebar implementation - BEGIN */
+@media (min-width: 767px) {
+  main.sidebar {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    max-width: 1170px;
+    margin: 0 auto;
+  }
+
+  main.sidebar .section {
+    grid-column: 2;
+    padding: 0 15px;
+  }
+
+  main.sidebar .section > div {
+    width: unset;
+  }
+
+  main.sidebar .section.sidebar {
+    padding: 0 35px 0 15px;
+    grid-column: 1;
+    grid-row: 2 / inf;
+    border-left: 1px dashed var(--border-color-light-grey);
+  }
+
+  main.sidebar .section.breadcrumb-container {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  main.sidebar .section > div {
+    width: unset;
+    padding: 0 15px;
+  }
+}
+/* Sidebar implementation - END */

@@ -113,6 +113,26 @@ function buildAutoBlocks(main) {
 }
 
 /**
+ * Detect the sidebar section and decorate the main element
+ * @param {Element} main The main element
+ */
+function detectSidebar(main) {
+  const sidebar = main.querySelector('.section.sidebar');
+  if (sidebar) {
+    main.classList.add('sidebar');
+    const sidebarOffset = sidebar.getAttribute('data-start-sidebar-at-section');
+
+    const numSections = main.children.length - 1;
+    main.style = `grid-template-rows: repeat(${numSections}, auto);`;
+
+    if (sidebarOffset && Number.parseInt(sidebar.getAttribute('data-start-sidebar-at-section'), 10)) {
+      const offset = Number.parseInt(sidebar.getAttribute('data-start-sidebar-at-section'), 10);
+      sidebar.style = `grid-row: ${offset} / infinite;`;
+    }
+  }
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -124,6 +144,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  detectSidebar(main);
 }
 
 /**
