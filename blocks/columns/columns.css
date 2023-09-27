@@ -1,4 +1,4 @@
-.columns>div {
+.columns > div {
   display: flex;
   flex-direction: column;
 }
@@ -11,11 +11,11 @@
   order: 1;
 }
 
-.columns>div>.columns-img-col {
+.columns > div > .columns-img-col {
   order: 0;
 }
 
-.columns>div>.columns-img-col img {
+.columns > div > .columns-img-col img {
   display: block;
 }
 
@@ -44,7 +44,6 @@
   font-size: 32px;
 }
 
-
 .columns.promo .button-container a {
   position: relative;
   display: block;
@@ -52,7 +51,6 @@
   text-align: center;
   padding: 1rem;
 }
-
 
 .columns.promo .button-container a::after {
   position: absolute;
@@ -71,13 +69,13 @@
 }
 
 @media (min-width: 900px) {
-  .columns>div {
+  .columns > div {
     align-items: center;
     flex-direction: unset;
     gap: 32px;
   }
 
-  .columns>div>div {
+  .columns > div > div {
     flex: 1;
     order: unset;
   }
