@@ -1,66 +1,117 @@
 .categories {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; 
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  /*flex-basis: 50%;
+    flex: 0 0 50% !important;*/
+  /*overflow: hidden;
+  flex-wrap: nowrap;*/
 }
 
-.categories > div {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid var(--highlight-background-color);
-    background-color: var(--background-color);
-    border-radius: 8px;
-    margin: 0 25px 25px 0;
-    width: 45%;
-    flex-direction: unset;
-  }
-  
-  .categories img {
-    top: auto; 
-    bottom: 0;
-    min-width: 170px;
-    left: -60px;
-    object-fit: cover; 
-  }
-  
-  .categories > div > div {
-    flex: 1;
-    order: unset;
-    padding: 10px 10px 10px 10px;
-  }
+.categories>div {
+  display: flex;
+  flex-direction: unset;
+  border: 2px solid var(--highlight-background-color);
+  background-color: var(--background-color);
+  border-radius: 8px;
+  margin: 0 25px 25px 0;
+  /*width: 45%;*/
+  width: 100%;
+  max-width: 350px;
+  /*flex-basis: 45% !important;*/
 
-  .categories > div > div > p {
-    margin: 8px 0px 8px 0px;
-  }
-  
-  .categories > div > .categories-img-col {
-    flex: 0.35;
-    padding: 0px 0px 0px 0px !important;
-    align-self: flex-end;
-    justify-content: flex-start;
-    overflow: hidden;
-  }
-  
-  .categories > div > .categories-img-col img {
-    top: auto;
-    bottom: 0;
-    min-width: 200px;
-    left: -70px;
-    object-fit: cover;
-    position: relative;
-    display: flex;
-  }
-  
-  .categories a.button:any-link, .categories button {
-    background-color: #fff;
-    color: #284b9b;
-    padding: 0 0 0 0;
-    margin: 0 0 0 0;
-  }
-  
-  @media (max-width: 900px) {
-    .categories > div {
-        width: 55%;
-    }
+}
 
-  }
+/*
+.categories img {
+  /*top: auto;
+  bottom: 0;
+  min-width: 170px;
+  left: -60px;
+  object-fit: cover;*/
+/*
+  top: auto;
+  bottom: 0;
+  min-width: 170px;
+  min-height: auto;
+  left: -60px;
+}*/
+
+.categories>div>div {
+  /*flex: 1;
+  order: unset;
+  padding: 10px 10px 10px 10px;*/
+
+  margin-left: 0;
+  padding: 10px;
+}
+
+/*.categories>div>div>p {
+  margin: 8px 0px 8px 0px;
+}*/
+
+.categories>div>.categories-img-col {
+  /*flex: 0.35;
+  padding: 0px 0px 0px 0px !important;
+  align-self: flex-end;
+  justify-content: flex-start;
+  overflow: hidden;*/
+
+  position: relative;
+  margin-left: 0;
+  margin-bottom: 0;
+  width: 95px;
+  height: auto;
+  overflow: hidden;
+  min-width: 95px;
+  padding: 0px;
+
+}
+
+.categories>div>.categories-img-col img {
+  /*top: auto;
+  bottom: 0;
+  min-width: 200px;
+  left: -70px;
+  object-fit: cover;
+  position: relative;
+  display: flex;*/
+
+  /*top: auto;
+  bottom: 0;
+  min-width: 170px;
+  min-height: auto;
+  left: -60px;
+  position: relative;
+  display: flex;*/
+  position: relative;
+  top: auto;
+  bottom: 0;
+  min-width: 170px;
+  min-height: auto;
+  left: -60px;
+}
+
+.categories a.button:any-link,
+.categories button {
+  background-color: #fff;
+  color: #284b9b;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
+.categories a:hover {
+  text-decoration: underline;
+  color: #284b9b;
+}
+
+.categories strong {
+  font-weight: normal;
+}
+
+@media (max-width: 900px) {
+  /*.categories>div {
+    width: 55%;
+  }*/
+
+}
