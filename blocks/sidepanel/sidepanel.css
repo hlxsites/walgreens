@@ -37,7 +37,7 @@
     background-color: var(--background-color);
     border-bottom: 1px solid #e1e1e1;
     border-top: 1px solid #e1e1e1;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     position: relative;
     padding: 0;
   }
@@ -58,12 +58,12 @@
   }
 
   .sidepanel .panel-accordion li .link-image {
-    width: 16.666667%;
+    width: 16.6667%;
   }
 
   .sidepanel .panel-accordion li .link-text {
     margin-left: 10px;
-    width: 83.333333%;
+    width: 83.3333%;
   }
 
   .sidepanel .panel-accordion[aria-expanded="false"] h2 {

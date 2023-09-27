@@ -3,7 +3,7 @@ import { decorateIcons } from '../../scripts/lib-franklin.js';
 
 /**
  * The sidepanel has a more complex behaviour.
- * On Desktop: 
+ * On Desktop:
  *  - added as a sidebar (this is implemeneted in the global styles.css)
  *  - a series of rounded panels
  *  - each panel has a header
@@ -12,7 +12,7 @@ import { decorateIcons } from '../../scripts/lib-franklin.js';
  *  - an inlined series of accordions
  *  - the header is the title for the accordion button
  *  - the list of links, some with pictures, is the hidden content of the accordion
- * 
+ *
  * Word content structure
  *  - A table with 1 column
  *  - each row represents a panel on Desktop/Accordion on Mobile
