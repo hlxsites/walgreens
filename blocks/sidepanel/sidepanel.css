@@ -1,24 +1,24 @@
-.panel {
+.sidepanel .panel-accordion {
   background-color: #f9f9f6;
   border-radius: 8px;
   margin-bottom: 15px;
   padding: 16px;
 }
 
-.panel h2 {
+.sidepanel .panel-accordion h2 {
   padding: 0 0 5px;
   font-size: 1rem;
   line-height: 1.19;
   margin: 0;
 }
 
-.panel ul {
+.sidepanel .panel-accordion ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.panel li a {
+.sidepanel .panel-accordion li a {
   display: inline-flex;
   padding: 8px 0;
   width: 100%;
@@ -26,13 +26,13 @@
   align-items: center;
 }
 
-.panel li picture,
-.panel .accordion-button .icon {
+.sidepanel .panel-accordion li picture,
+.sidepanel .panel-accordion .accordion-button .icon {
   display: none;
 }
 
 @media (max-width: 767px) {
-  .panel {
+  .sidepanel .panel-accordion {
     border-radius: 0;
     background-color: var(--background-color);
     border-bottom: 1px solid #e1e1e1;
@@ -42,40 +42,40 @@
     padding: 0;
   }
 
-  .panel h2 {
+  .sidepanel .panel-accordion h2 {
     font-size: 1.125rem;
     line-height: 1.33;
     padding: 0;
   }
 
-  .panel li a {
+  .sidepanel .panel-accordion li a {
     display: flex;
     width: 100%;
   }
 
-  .panel li picture {
+  .sidepanel .panel-accordion li picture {
     display: block;
   }
 
-  .panel li .link-image {
+  .sidepanel .panel-accordion li .link-image {
     width: 16.666667%;
   }
 
-  .panel li .link-text {
+  .sidepanel .panel-accordion li .link-text {
     margin-left: 10px;
     width: 83.333333%;
   }
 
-  .panel[aria-expanded="false"] h2 {
+  .sidepanel .panel[aria-expanded="false"] h2 {
     color: #284b9b;
   }
 
-  .panel .accordion-button {
+  .sidepanel .panel-accordion .accordion-button {
     cursor: pointer;
     padding: 13px 45px 13px 0;
   }
 
-  .panel .accordion-button .icon {
+  .sidepanel .panel-accordion .accordion-button .icon {
     position: absolute;
     color: var(--text-color);
     min-width: 15px;
@@ -88,7 +88,7 @@
     transition: .3s;
   }
 
-  .panel .accordion-button .icon svg {
+  .sidepanel .panel-accordion .accordion-button .icon svg {
     position: absolute;
     top: -5px;
     width: 24px;
@@ -96,11 +96,11 @@
     margin: auto;
   }
 
-  .panel[aria-expanded="true"] .accordion-button .icon {
+  .sidepanel .panel-accordion[aria-expanded="true"] .accordion-button .icon {
     transform: rotateX(180deg);
   }
 
-  .panel[aria-expanded="false"] .accordion-content {
+  .sidepanel .panel-accordion[aria-expanded="false"] .accordion-content {
     display: none;
   }
 }
