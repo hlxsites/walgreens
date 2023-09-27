@@ -16,7 +16,6 @@ function addCSSStyle(css) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  return;
   const apiURL = 'https://www.walgreens.com/common/v1/headerui';
   const path = apiURL;
   const resp = await fetch(path);
