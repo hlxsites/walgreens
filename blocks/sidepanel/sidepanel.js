@@ -47,8 +47,10 @@ export default function decorate(block) {
 
     panel.classList.add('panel-accordion');
     panel.setAttribute('aria-expanded', false);
+    panel.setAttribute('role', 'button');
+
     panel.append(
-      div({ class: 'accordion-button', role: 'button', onclick: openCloseAccordion },
+      div({ class: 'accordion-button', onclick: openCloseAccordion },
         header,
         span({ class: 'icon icon-arrow-down' }),
       ),
