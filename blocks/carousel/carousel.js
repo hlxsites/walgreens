@@ -1,20 +1,6 @@
-import {
-  a, div, li, ul, p, img,
-} from '../../scripts/dom-helpers.js';
-
-function apiCardLink(offer) {
-  if ('plucode' in offer) {
-    return `https://www.walgreens.com/store/store/xpo_products.jsp?pluCode=${offer.plucode}`;
-  }
-
-  if ('eventCode' in offer) {
-    return `https://www.walgreens.com/store/BalanceRewardsOffers/balance-rewards-offer.jsp?eventCode=${offer.eventCode}`;
-  }
-
-  // eslint-disable-next-line no-console
-  console.warn('Could not generate link for the following offer', offer);
-  return '';
-}
+import { button, span } from '../../scripts/dom-helpers.js';
+import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
+import { decorateAPICards } from '../cards/cards.js';
 
 async function decorateAPICarousel(block) {
   const apiEndpoint = block.querySelector('a').href;
@@ -26,30 +12,32 @@ async function decorateAPICarousel(block) {
   }
 
   const apiInfo = JSON.parse(await apiResponse.text());
-  block.append(
-    ul(
-      ...apiInfo.offers.map((offer) => (
-        li(
-          a({ href: apiCardLink(offer) },
-            div(
-              img({
-                src: new URL(offer.imageUrl, 'https://www.walgreens.com').toString(),
-                loading: 'lazy',
-                alt: `Offer Image: ${offer.title}`,
-              }),
-            ),
-            div(
-              p((offer.title)),
-            ),
-          ),
-        )),
-      ),
-    ),
-  );
+  block.append(decorateAPICards(apiInfo.offers, true));
+}
+
+function navLeft(block, e) {
+  // TODO scroll/translate left
+}
+
+function navRight(block, e) {
+  // TODO scroll/translate right
 }
 
 export default async function decorate(block) {
+  const cardsCSSPromise = loadCSS('/blocks/cards/cards.css');
   if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
     await decorateAPICarousel(block);
   }
+
+  block.append(
+    button({ class: 'carousel-nav carousel-nav-left', onclick: (e) => navLeft(block, e) },
+      span({ class: 'icon icon-arrow-right' }),
+    ),
+    button({ class: 'carousel-nav carousel-nav-right', onclick: (e) => navRight(block, e) },
+      span({ class: 'icon icon-arrow-right' }),
+    ),
+  );
+
+  decorateIcons(block);
+  await cardsCSSPromise;
 }

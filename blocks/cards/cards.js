@@ -47,20 +47,10 @@ function apiCardLink(offer) {
   return '';
 }
 
-async function decorateAPICards(block) {
-  const cardsWithBorder = block.classList.contains('border');
-  const apiEndpoint = block.querySelector('a').href;
-  block.innerHTML = '';
-  const apiResponse = await fetch(apiEndpoint);
-
-  if (!apiResponse.ok) {
-    return;
-  }
-
-  const apiInfo = JSON.parse(await apiResponse.text());
-  block.append(
+export function decorateAPICards(cardsInfo, cardsWithBorder) {
+  return (
     ul(
-      ...apiInfo.offers.map((offer) => (
+      ...cardsInfo.map((offer) => (
         li({ class: `card ${cardsWithBorder ? ' with-border' : ''}` },
           a({ href: apiCardLink(offer) },
             div({ class: 'card-image' },
@@ -78,13 +68,23 @@ async function decorateAPICards(block) {
           ),
         )),
       ),
-    ),
+    )
   );
 }
 
 export default async function decorate(block) {
   if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
-    await decorateAPICards(block);
+    const apiEndpoint = block.querySelector('a').href;
+    block.innerHTML = '';
+    const apiResponse = await fetch(apiEndpoint);
+
+    if (!apiResponse.ok) {
+      return;
+    }
+
+    const apiInfo = JSON.parse(await apiResponse.text());
+
+    block.append(decorateAPICards(apiInfo.offers, block.classList.contains('border')));
   } else {
     decorateCuratedCards(block);
   }
