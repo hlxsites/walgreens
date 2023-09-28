@@ -17,6 +17,15 @@ import {
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
 /**
+ * Get the Absolute walgreens url from a relative one
+ * @param {Element} path relative walgreens path
+ * @returns Absolute wallgreens url
+ */
+export function walgreensUrl(path) {
+  return new URL(path, 'https://www.walgreens.com').toString();
+}
+
+/**
  * Remaps the relative urls to absolute urls.
  * @param {string} content string of html with relative urls
  * @returns the string with absolute urls
