@@ -15,12 +15,6 @@ function closeAllOtherFaqs(faq) {
   function addFaqEventListeners(block) {
     block.querySelectorAll('.faq-question').forEach((question) => {
       question.addEventListener('click', toggleFaq);
-      question.addEventListener('keydown', (event) => {
-        const { keyCode } = event;
-        if (keyCode === 32 || keyCode === 13) {
-          toggleFaq(event);
-        }
-      });
     });
   }
   

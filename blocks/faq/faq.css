@@ -24,10 +24,9 @@ main .faq .faq-question {
     cursor: pointer;
 }
 
-main .faq .faq-question:focus {
-    outline: none;
+main .faq .faq-question:hover {
+    text-decoration: underline;
 }
-
 
 main .faq .faq-question::before {
     position: relative;
@@ -36,9 +35,10 @@ main .faq .faq-question::before {
     margin-right: 10px;
   }
 
+  /*
 main .faq .faq-question .chevron {
     float: right;
-    margin-top: 10px;
+    margin-top: 0px;
     box-sizing: border-box;
     position: relative;
     display: block;
@@ -47,17 +47,23 @@ main .faq .faq-question .chevron {
     border: 2px solid transparent;
     border-radius: 100px;
     transform: rotate(45deg);
-}
+}*/
 
-main .faq .faq-question .chevron::after {
+
+main .faq .faq-question .chevron {
     content: "";
     display: block;
+    color: #707070;
+    margin-top: 0px;
+    right: -30px;
     box-sizing: border-box;
-    position: absolute;
+    position: relative;
+    float: right;
     width: 10px;
     height: 10px;
-    border-bottom: 2px solid;
-    border-right: 2px solid;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    transform: rotate(45deg);
 }
 
 main .faq .faq-answer {
@@ -70,9 +76,17 @@ main .faq .faq-answer {
     display: none;
 }
 
+main .faq .faq-answer a{
+    text-decoration: underline;
+}
+
+main .faq .faq-answer a:hover{
+    color: white;
+    background-color: #323264;
+}
+
 main .faq .active .faq-question {
     color: #252426;
-    text-decoration: underline;
 }
 
 main .faq .active .faq-answer {
@@ -107,6 +121,7 @@ main .faq .faq-answer p {
     margin-bottom: 10px;
 }
 
+/*
 @media (max-width: 600px) {
     main .faq .faq-question,
     main .faq .faq-answer {
@@ -117,4 +132,4 @@ main .faq .faq-answer p {
     main .faq .faq-question .chevron {
         margin-top: 4px;
     }
-}
+}*/
