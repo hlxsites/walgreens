@@ -16,6 +16,32 @@ import {
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
+export function pushToDataLayer(event, payload) {
+  if (!event) {
+    // eslint-disable-next-line no-console
+    console.error('The data layer event is missing');
+    return;
+  }
+  if (!window.adobeDataLayer) {
+    window.adobeDataLayer = [];
+    window.adobeDataLayerInPage = true;
+  }
+  window.adobeDataLayer.push({ event, ...payload });
+}
+
+/*
+  * Returns the environment type based on the hostname.
+*/
+export function getEnvType(hostname = window.location.hostname) {
+  const fqdnToEnvType = {
+    'walgreens.com': 'live',
+    'www.walgreens.com': 'live',
+    'main--walgreens--hlxsites.hlx.page': 'dev',
+    'main--walgreens--hlxsites.hlx.live': 'live',
+  };
+  return fqdnToEnvType[hostname] || 'dev';
+}
+
 /**
  * Remaps the relative urls to absolute urls.
  * @param {string} content string of html with relative urls
@@ -183,8 +209,12 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  // TODO: remove this check before go-live
+  const noHeader = new URLSearchParams(window.location.search).has('test');
+  if (!noHeader) {
+    loadHeader(doc.querySelector('header'));
+    loadFooter(doc.querySelector('footer'));
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
