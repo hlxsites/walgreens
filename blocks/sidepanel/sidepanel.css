@@ -1,0 +1,106 @@
+.sidepanel .panel-accordion {
+  background-color: #f9f9f6;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 16px;
+}
+
+.sidepanel .panel-accordion h2 {
+  padding: 0 0 5px;
+  font-size: 1rem;
+  line-height: 1.19;
+  margin: 0;
+}
+
+.sidepanel .panel-accordion ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidepanel .panel-accordion li a {
+  display: inline-flex;
+  padding: 8px 0;
+  width: 100%;
+  line-height: 1;
+  align-items: center;
+}
+
+.sidepanel .panel-accordion li picture,
+.sidepanel .panel-accordion .accordion-button .icon {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .sidepanel .panel-accordion {
+    border-radius: 0;
+    background-color: var(--background-color);
+    border-bottom: 1px solid #e1e1e1;
+    border-top: 1px solid #e1e1e1;
+    margin-bottom: 0;
+    position: relative;
+    padding: 0;
+  }
+
+  .sidepanel .panel-accordion h2 {
+    font-size: 1.125rem;
+    line-height: 1.33;
+    padding: 0;
+  }
+
+  .sidepanel .panel-accordion li a {
+    display: flex;
+    width: 100%;
+  }
+
+  .sidepanel .panel-accordion li picture {
+    display: block;
+  }
+
+  .sidepanel .panel-accordion li .link-image {
+    width: 16.6667%;
+  }
+
+  .sidepanel .panel-accordion li .link-text {
+    margin-left: 10px;
+    width: 83.3333%;
+  }
+
+  .sidepanel .panel-accordion[aria-expanded="false"] h2 {
+    color: #284b9b;
+  }
+
+  .sidepanel .panel-accordion .accordion-button {
+    cursor: pointer;
+    padding: 13px 45px 13px 0;
+  }
+
+  .sidepanel .panel-accordion .accordion-button .icon {
+    position: absolute;
+    color: var(--text-color);
+    min-width: 15px;
+    right: 15px;
+    top: 12px;
+    z-index: 10;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    transition: .3s;
+  }
+
+  .sidepanel .panel-accordion .accordion-button .icon svg {
+    position: absolute;
+    top: -5px;
+    width: 24px;
+    height: 24px;
+    margin: auto;
+  }
+
+  .sidepanel .panel-accordion[aria-expanded="true"] .accordion-button .icon {
+    transform: rotateX(180deg);
+  }
+
+  .sidepanel .panel-accordion[aria-expanded="false"] .accordion-content {
+    display: none;
+  }
+}
