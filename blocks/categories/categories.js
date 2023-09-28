@@ -19,14 +19,14 @@ export default async function decorate(block) {
         li(
           div({ class: 'category' },
             div({ class: 'category-image' },
-              img({ src: walgreensUrl(category.imageUrl) }),
+              img({ src: walgreensUrl(category.imageUrl), alt: `${category.name} Category` }),
             ),
             div({ class: 'category-body' },
               h3(category.name),
               ul({ class: 'category-links' },
                 ...category.childCategories.slice(0, 4).map((link) => (
                   li(
-                    a({ href: walgreensUrl(link.url) }, link.name),
+                    a({ href: walgreensUrl(link.url), 'aria-label': `${link.name} Category` }, link.name),
                   )),
                 ),
                 li(
