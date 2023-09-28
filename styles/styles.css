@@ -133,6 +133,10 @@ p, dl, ol, ul, pre, blockquote {
   line-height: 1.78;
 }
 
+ol, ul {
+  list-style: none;
+}
+
 hr {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
