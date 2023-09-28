@@ -27,7 +27,7 @@ main div.categories-wrapper {
   max-width: 350px;
   border: 1px solid #989090;
   box-shadow: none;
-  background: #fff;
+  background: var(--background-color);
   border-radius: 8px;
   height: 100%;
 }
