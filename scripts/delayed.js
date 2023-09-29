@@ -13,7 +13,15 @@ async function loadAdobeLaunch() {
     preview: '',
     live: 'https://assets.adobedtm.com/launch-ENdd5c82450e4a478ba693752c21000d75.min.js',
   };
-  await loadScript(adobedtmSrc[getEnvType()]);
+  await loadScript(adobedtmSrc[getEnvType()], {
+    type: 'text/javascript',
+    async: true,
+  });
 }
+
+loadScript('https://resources.digital-cloud-west.medallia.com/wdcwest/378975/onsite/embed.js', {
+  type: 'text/javascript',
+  async: true,
+});
 
 await loadAdobeLaunch();

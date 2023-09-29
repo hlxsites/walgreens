@@ -12,9 +12,12 @@ import {
   loadBlocks,
   loadCSS,
   loadScript,
+  getMetadata,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
+const BASEURL = 'https://walgreens.com';
+export const METADATA_ANAYTICS_TAGS = 'analytics-tags';
 
 export function pushToDataLayer(event, payload) {
   if (!event) {
@@ -22,11 +25,62 @@ export function pushToDataLayer(event, payload) {
     console.error('The data layer event is missing');
     return;
   }
-  if (!window.adobeDataLayer) {
-    window.adobeDataLayer = [];
-    window.adobeDataLayerInPage = true;
+  if (!window.digitalData) {
+    window.digitalData = [];
   }
-  window.adobeDataLayer.push({ event, ...payload });
+  window.digitalData.push({ event, ...payload });
+}
+
+export function getTags(tags) {
+  return tags ? tags.split(':').filter((tag) => !!tag).map((tag) => tag.trim()) : [];
+}
+
+function getDeviceType() {
+    const userAgent = navigator.userAgent;
+
+    if (/Mobile/i.test(userAgent)) {
+        // Mobile device (including tablets)
+        return 'mobile';
+    } else if (/Tablet/i.test(userAgent)) {
+        // Tablet device
+        return 'tablet';
+    } else {
+        // Desktop device
+        return 'desktop';
+    }
+}
+
+/**
+ * Returns the environment name based on the hostname
+ * @returns {String}
+ */
+export function getEnvironment(hostname) {
+  if (hostname.includes('hlx.page') || hostname.includes('hlx.live')) {
+    return 'stage';
+  }
+  if (hostname.includes(BASEURL)) {
+    return 'prod';
+  }
+  return 'dev';
+}
+
+function pushPageLoadToDataLayer() {
+  const { hostname } = window.location;
+  const environment = getEnvironment(hostname);
+  const tags = getTags(getMetadata(METADATA_ANAYTICS_TAGS));
+  pushToDataLayer('page load started', {
+    page: {
+      pageInfo: {
+        cleanURL: window.location.href,
+        deviceType: getDeviceType(),
+        environment: environment,
+        pageName:'',
+        pageTemplate:'',
+        setSection:'',
+        serverName: 'hlx.live', // indicator for AEM Edge Delivery
+      }
+    }
+  });
 }
 
 /*
@@ -48,7 +102,7 @@ export function getEnvType(hostname = window.location.hostname) {
  * @returns Absolute wallgreens url
  */
 export function walgreensUrl(path) {
-  return new URL(path, 'https://www.walgreens.com').toString();
+  return new URL(path, BASEURL).toString();
 }
 
 /**
@@ -57,13 +111,11 @@ export function walgreensUrl(path) {
  * @returns the string with absolute urls
  */
 export function resolveRelativeURLs(content) {
-  const baseUrl = 'https://walgreens.com';
-
   // Use a regular expression to find relative links (starting with "/")
   const relativeLinkRegex = /(?:href|action)="(?!\/images\/)(\/[^"]+)"/g;
   const absoluteContent = content.replace(relativeLinkRegex, (match, relativePath) => {
     // Combine the base URL and the relative path to create an absolute URL
-    const absoluteUrl = `${baseUrl}${relativePath}`;
+    const absoluteUrl = `${BASEURL}${relativePath}`;
     return `href="${absoluteUrl}"`;
   });
   return absoluteContent;
@@ -74,8 +126,6 @@ export function resolveRelativeURLs(content) {
  * @param {JSON} fileList json object that comes with the UI API response
  */
 export function loadFileList(fileList) {
-  const baseUrl = 'https://www.walgreens.com';
-
   const scriptTags = document.querySelectorAll('script[src]');
 
   const fileKeys = Object.keys(fileList);
@@ -85,7 +135,7 @@ export function loadFileList(fileList) {
       const fileInfo = fileList[fileName];
       const absolutePath = fileInfo.path.startsWith('http')
         ? fileInfo.path
-        : baseUrl + fileInfo.path;
+        : BASEURL + fileInfo.path;
 
       // Check if a script with the same URL is already on the page
       const scriptExists = [...scriptTags].some((scriptTag) => scriptTag.src === absolutePath);
@@ -93,7 +143,7 @@ export function loadFileList(fileList) {
       if (
         fileInfo.type === 'js'
         && !scriptExists
-        && !['dtm', 'googleApi', 'speedIndex'].includes(fileName)
+        && !['dtm', 'googleApi'].includes(fileName)
       ) {
         loadScript(absolutePath, {
           type: 'text/javascript',
@@ -244,6 +294,7 @@ function loadDelayed() {
 }
 
 async function loadPage() {
+  pushPageLoadToDataLayer();
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
