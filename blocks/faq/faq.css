@@ -22,6 +22,7 @@ main .faq .faq-question {
     font-size: 18px;
     transition: all .25s ease-in-out;
     cursor: pointer;
+    position: relative;
 }
 
 main .faq .faq-question:hover {
@@ -29,51 +30,20 @@ main .faq .faq-question:hover {
 }
 
 main .faq .faq-question::before {
-    position: relative;
     font-size: 24px;
     top: 4px;
     margin-right: 10px;
-  }
-
-  /*
-main .faq .faq-question .chevron {
-    float: right;
-    margin-top: 0px;
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    width: 10px;
-    height: 10px;
-    border: 2px solid transparent;
-    border-radius: 100px;
-    transform: rotate(45deg);
-}*/
-
-
-main .faq .faq-question .chevron {
-    content: "";
-    display: block;
-    color: #707070;
-    margin-top: 0px;
-    right: -30px;
-    box-sizing: border-box;
-    position: relative;
-    float: right;
-    width: 10px;
-    height: 10px;
-    border-bottom: 1px solid;
-    border-right: 1px solid;
-    transform: rotate(45deg);
 }
 
 main .faq .faq-answer {
     color: #707070;
-    padding: 5px 15px 15px 0;
     font-size: 18px;
     line-height: 28px;
     font-weight: 400;
-    padding-bottom: 30px;
-    display: none;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: all .5s;
+    height: 0;
 }
 
 main .faq .faq-answer a{
@@ -90,11 +60,9 @@ main .faq .active .faq-question {
 }
 
 main .faq .active .faq-answer {
-    display: block;
-}
-
-main .faq .active .chevron {
-    transform: rotate(225deg);
+    transform: scaleY(1);
+    height: auto;
+    padding: 5px 15px 30px 0;
 }
 
 main .faq .faq-answer ul {
@@ -121,15 +89,36 @@ main .faq .faq-answer p {
     margin-bottom: 10px;
 }
 
-/*
+main .faq .faq-question .icon {
+    position: absolute;
+    color: var(--text-color);
+    min-width: 15px;
+    right: 15px;
+    top: 12px;
+    z-index: 10;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    transition: .3s;
+  }
+
+main .faq .faq-question .icon svg {
+    position: absolute;
+    top: -6px;
+    width: 24px;
+    height: 24px;
+    margin: auto;
+}
+
+main .faq .faq-accordion.active .faq-question .icon {
+    transform: rotateX(180deg);
+  }
+
+
 @media (max-width: 600px) {
     main .faq .faq-question,
     main .faq .faq-answer {
         font-size: 18px;
         line-height: 28px;
     }
-
-    main .faq .faq-question .chevron {
-        margin-top: 4px;
-    }
-}*/
+}
