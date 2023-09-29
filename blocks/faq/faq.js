@@ -26,7 +26,7 @@ export default async function decorate(block) {
   });
 
   block.innerHTML = '';
-  faqs.forEach((faq, i) => {
+  faqs.forEach((faq) => {
     const { question, answer } = faq;
 
     block.append(
