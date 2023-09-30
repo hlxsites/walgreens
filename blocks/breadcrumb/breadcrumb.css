@@ -16,8 +16,13 @@
 }
 
 .breadcrumb li .icon {
+  position: static;
+  overflow: visible;
+  display: inline-block;
   height: unset;
   width: unset;
+  min-width: unset;
+  min-height: unset;
 }
 
 .breadcrumb li a svg {
@@ -27,6 +32,8 @@
   margin: 0;
   padding: 0;
   position: absolute;
+  left: unset;
+  top: unset;
   right: -10px;
   width: 30px;
 }
