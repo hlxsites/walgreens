@@ -12,7 +12,6 @@ function closeAllOtherFaqs(faq) {
 function toggleFaq(e) {
   const faq = e.target.closest('.faq-accordion');
   const arrowIcon = faq.querySelector('.icon');
-  
   if (arrowIcon === e.target) {
     faq.classList.toggle('active');
   } else {
