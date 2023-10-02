@@ -10,9 +10,15 @@ function closeAllOtherFaqs(faq) {
 }
 
 function toggleFaq(e) {
-  const faq = e.target.parentElement;
-  closeAllOtherFaqs(faq);
-  faq.classList.toggle('active');
+  const faq = e.target.closest('.faq-accordion');
+  const arrowIcon = faq.querySelector('.icon');
+  
+  if (arrowIcon === e.target) {
+    faq.classList.toggle('active');
+  } else {
+    closeAllOtherFaqs(faq);
+    faq.classList.toggle('active');
+  }
 }
 
 export default async function decorate(block) {
