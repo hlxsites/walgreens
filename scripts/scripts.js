@@ -17,6 +17,15 @@ import {
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 
 /**
+ * Get the Absolute walgreens url from a relative one
+ * @param {Element} path relative walgreens path
+ * @returns Absolute wallgreens url
+ */
+export function walgreensUrl(path) {
+  return new URL(path, 'https://www.walgreens.com').toString();
+}
+
+/**
  * Remaps the relative urls to absolute urls.
  * @param {string} content string of html with relative urls
  * @returns the string with absolute urls
@@ -113,6 +122,26 @@ function buildAutoBlocks(main) {
 }
 
 /**
+ * Detect the sidebar section and decorate the main element
+ * @param {Element} main The main element
+ */
+function detectSidebar(main) {
+  const sidebar = main.querySelector('.section.sidebar');
+  if (sidebar) {
+    main.classList.add('sidebar');
+    const sidebarOffset = sidebar.getAttribute('data-start-sidebar-at-section');
+
+    const numSections = main.children.length - 1;
+    main.style = `grid-template-rows: repeat(${numSections}, auto);`;
+
+    if (sidebarOffset && Number.parseInt(sidebar.getAttribute('data-start-sidebar-at-section'), 10)) {
+      const offset = Number.parseInt(sidebar.getAttribute('data-start-sidebar-at-section'), 10);
+      sidebar.style = `grid-row: ${offset} / infinite;`;
+    }
+  }
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -124,6 +153,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  detectSidebar(main);
 }
 
 /**
@@ -162,8 +192,12 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  // TODO: remove this check before go-live
+  const noHeader = new URLSearchParams(window.location.search).has('test');
+  if (!noHeader) {
+    loadHeader(doc.querySelector('header'));
+    loadFooter(doc.querySelector('footer'));
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

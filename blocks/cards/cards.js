@@ -2,6 +2,7 @@ import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 import {
   a, div, li, strong, ul, p, img,
 } from '../../scripts/dom-helpers.js';
+import { walgreensUrl } from '../../scripts/scripts.js';
 
 function decorateCuratedCards(block) {
   const cardsWithBorder = block.classList.contains('border');
@@ -55,7 +56,7 @@ export function decorateAPICards(cardsInfo, cardsWithBorder) {
           a({ href: apiCardLink(offer) },
             div({ class: 'card-image' },
               img({
-                src: new URL(offer.imageUrl, 'https://www.walgreens.com').toString(),
+                src: walgreensUrl(offer.imageUrl),
                 loading: 'lazy',
                 alt: `Offer Image: ${offer.title}`,
               }),
