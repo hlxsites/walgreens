@@ -15,7 +15,6 @@ async function decorateAPICarousel(block) {
   block.append(decorateAPICards(apiInfo.offers, true));
 }
 
-
 function navLeft(block) {
   const ul = block.querySelector('ul');
   ul.scrollLeft -= 600;
@@ -32,7 +31,7 @@ export default async function decorate(block) {
     await decorateAPICarousel(block);
   }
 
-  if (window.matchMedia("(min-width: 769px)").matches) {
+  if (window.matchMedia('(min-width: 769px)').matches) {
     block.append(
       button({ class: 'carousel-nav carousel-nav-left', onclick: () => navLeft(block) },
         span({ class: 'icon icon-arrow-right left-arrow' }),
