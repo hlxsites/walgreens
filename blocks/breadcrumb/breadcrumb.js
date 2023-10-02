@@ -10,11 +10,12 @@ export default async function decorate(block) {
   const mobileSection = (
     div({ class: 'section breadcrumb-container', 'data-section-status': 'loading' },
       div({ class: 'breadcrumb-wrapper' },
-        div({ class: 'breadcrumb block mobile', 'data-block-name': 'breadcrumb', 'data-block-status': 'loading' }),
+        div({ class: 'breadcrumb block mobile', 'data-block-name': 'breadcrumb', 'data-block-status': 'loaded' }),
       ),
     )
   );
   const mobileBlock = mobileSection.querySelector('.block');
+  mobileBlock.style.display = 'none'; // hide in the beginning to avoid CLS
   mobileBlock.append(desktopBlock.children[0].cloneNode(true));
 
   const main = block.closest('main');
@@ -39,4 +40,20 @@ export default async function decorate(block) {
       strong(linkText),
     );
   });
+
+  // only show the mobile breadcrumb, once the previous section is fully loaded
+  const previousSection = mobileSection.previousElementSibling;
+  const observer = new MutationObserver((mutationList) => {
+    mutationList.forEach((mutation) => {
+      if (mutation.type === 'attributes'
+        && mutation.attributeName === 'data-section-status'
+        && previousSection.attributes.getNamedItem('data-section-status').value === 'loaded') {
+        observer.disconnect();
+        console.log('here');
+        mobileBlock.style.display = null;
+      }
+    });
+  });
+
+  observer.observe(previousSection, { attributes: true });
 }
