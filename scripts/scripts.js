@@ -67,15 +67,18 @@ export function loadFileList(fileList) {
       if (
         fileInfo.type === 'js'
         && !scriptExists
-        && !['dtm', 'googleApi', 'speedIndex'].includes(fileName)
+        && !['dtm', 'googleApi', 'speedIndex', 'lsgScriptMin'].includes(fileName)
       ) {
+        console.log(`Loading header script: ${absolutePath}`);
         loadScript(absolutePath, {
           type: 'text/javascript',
           charset: 'UTF-8',
           async: true,
         });
       } else if (fileInfo.type === 'css') {
-        loadCSS(absolutePath);
+        if (fileInfo !== 'lsgURL') {
+          loadCSS(absolutePath);
+        }
       }
     }
   });

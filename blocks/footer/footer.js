@@ -6,6 +6,7 @@ import { resolveRelativeURLs } from '../../scripts/scripts.js';
 * @param {Element} block The footer block element
 */
 export default async function decorate(block) {
+  return;
   // fetch footer content
   const resp = await fetch('https://www.walgreens.com/common/v1/footerui');
   if (resp.ok) {
