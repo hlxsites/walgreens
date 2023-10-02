@@ -7,12 +7,13 @@ export default async function decorate(block) {
 
   // duplicate breadcrumb information in a new section + block for mobile
   // at the and of the page
-  const mobileSection = 
+  const mobileSection = (
     div({ class: 'section breadcrumb-container', 'data-section-status': 'loading' },
       div({ class: 'breadcrumb-wrapper' },
-        div({ class: 'breadcrumb block mobile', 'data-block-name': 'breadcrumb', 'data-block-status': "loaded" }),
-      ),  
-    );
+        div({ class: 'breadcrumb block mobile', 'data-block-name': 'breadcrumb', 'data-block-status': 'loading' }),
+      ),
+    )
+  );
   const mobileBlock = mobileSection.querySelector('.block');
   mobileBlock.append(desktopBlock.children[0].cloneNode(true));
 
@@ -20,9 +21,11 @@ export default async function decorate(block) {
   main.append(mobileSection);
 
   // decorate desktop block
-  desktopBlock.querySelectorAll('li').forEach((item, idx, arr) => {
+  desktopBlock.querySelectorAll('li').forEach((item) => {
     const link = item.querySelector('a');
-    link && link.appendChild(span({ class: 'icon icon-arrow-right' }));
+    if (!link) return;
+
+    link.appendChild(span({ class: 'icon icon-arrow-right' }));
   });
   await decorateIcons(desktopBlock);
 
