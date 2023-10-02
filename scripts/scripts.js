@@ -76,7 +76,7 @@ export function loadFileList(fileList) {
           async: true,
         });
       } else if (fileInfo.type === 'css') {
-        if (fileInfo !== 'lsgURL') {
+        if (fileName !== 'lsgURL') {
           loadCSS(absolutePath);
         }
       }
