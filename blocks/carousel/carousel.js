@@ -15,12 +15,15 @@ async function decorateAPICarousel(block) {
   block.append(decorateAPICards(apiInfo.offers, true));
 }
 
-function navLeft(block, e) {
-  // TODO scroll/translate left
+
+function navLeft(block) {
+  const ul = block.querySelector('ul');
+  ul.scrollLeft -= 600;
 }
 
-function navRight(block, e) {
-  // TODO scroll/translate right
+function navRight(block) {
+  const ul = block.querySelector('ul');
+  ul.scrollLeft += 600;
 }
 
 export default async function decorate(block) {
@@ -29,14 +32,16 @@ export default async function decorate(block) {
     await decorateAPICarousel(block);
   }
 
-  block.append(
-    button({ class: 'carousel-nav carousel-nav-left', onclick: (e) => navLeft(block, e) },
-      span({ class: 'icon icon-arrow-right' }),
-    ),
-    button({ class: 'carousel-nav carousel-nav-right', onclick: (e) => navRight(block, e) },
-      span({ class: 'icon icon-arrow-right' }),
-    ),
-  );
+  if (window.matchMedia("(min-width: 769px)").matches) {
+    block.append(
+      button({ class: 'carousel-nav carousel-nav-left', onclick: () => navLeft(block) },
+        span({ class: 'icon icon-arrow-right left-arrow' }),
+      ),
+      button({ class: 'carousel-nav carousel-nav-right', onclick: () => navRight(block) },
+        span({ class: 'icon icon-arrow-right' }),
+      ),
+    );
+  }
 
   decorateIcons(block);
   await cardsCSSPromise;

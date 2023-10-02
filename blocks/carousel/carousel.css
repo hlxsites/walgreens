@@ -11,6 +11,12 @@
   gap: 1rem;
   padding: 1rem;
   list-style: none;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory ;
+}
+
+.carousel>ul>li{
+  scroll-snap-align: start;
 }
 
 .carousel>ul::-webkit-scrollbar{
@@ -19,7 +25,7 @@
 
 /* Specific card overrides for carousel - BEGIN */
 .carousel .card {
-  width: calc(25% - 1rem);
+  width: 12rem;
   flex-shrink: 0;
 }
 
@@ -28,6 +34,7 @@
   color: var(--text-color);
   text-align: left;
 }
+
 /* Specific card overrides for carousel - END */
 
 .carousel .carousel-nav {
@@ -48,24 +55,29 @@
   background: #e4e4e4;
   height: 30px;
   width: 30px;
-  outline: 2px solid hsla(0,0%,100%,.8);
-  outline-color: rgba(255, 255, 255, 0.8);
-  outline-style: solid;
-  outline-width: 2px;
+  outline: 2px solid #ffffffd6;
   position: absolute;
   border-radius: 50%;
-}
+  }
 
 .carousel .carousel-nav .icon svg {
   fill: #8a8a8a;
-  width: 12px;
+  width: 24px;
+  height: 24px;
   z-index: 2;
 }
 
+.carousel .icon-arrow-right.left-arrow{
+  transform: rotate(180deg);
+  z-index: 1;
+  top: 7px;
+  left: 5px;
+}
+
 .carousel .carousel-nav.carousel-nav-left {
-  left: 0;
+  left: -1rem;
 }
 
 .carousel .carousel-nav.carousel-nav-right {
-  right: 0;
+  right: -1rem;
 }
