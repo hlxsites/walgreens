@@ -1,3 +1,11 @@
+.breadcrumb.desktop {
+  display: block;
+}
+
+.breadcrumb.mobile {
+  display: none;
+}
+
 .breadcrumb ul {
   list-style: none;
   display: flex;
@@ -25,6 +33,10 @@
   min-height: unset;
 }
 
+.breadcrumb li:last-child .icon {
+  display: none;
+}
+
 .breadcrumb li a svg {
   fill: #707575;
   bottom: -2px;
@@ -45,7 +57,26 @@
 }
 
 @media (max-width: 700px) {
-  .breadcrumb {
+  .breadcrumb.desktop {
     display: none;
+  }
+
+  .breadcrumb.mobile {
+    display: block;
+    margin-bottom: 60px;
+  }
+
+  .breadcrumb ul {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .breadcrumb.mobile li {
+    margin-top: 10px;
+  }
+
+  .breadcrumb.mobile li a {
+    font-size: 1rem;
   }
 }

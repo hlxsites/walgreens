@@ -1,17 +1,39 @@
+import { div, span, strong } from '../../scripts/dom-helpers.js';
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 
 export default async function decorate(block) {
-  block.querySelectorAll('li a').forEach((link, idx, arr) => {
-    if (!idx < arr.length - 1) {
-      return;
-    }
+  const desktopBlock = block;
+  desktopBlock.classList.add('desktop');
 
-    const icon = document.createElement('span');
-    icon.classList.add('icon');
-    icon.classList.add('icon-arrow-right');
+  // duplicate breadcrumb information in a new section + block for mobile
+  // at the and of the page
+  const mobileSection = 
+    div({ class: 'section breadcrumb-container', 'data-section-status': 'loading' },
+      div({ class: 'breadcrumb-wrapper' },
+        div({ class: 'breadcrumb block mobile', 'data-block-name': 'breadcrumb', 'data-block-status': "loaded" }),
+      ),  
+    );
+  const mobileBlock = mobileSection.querySelector('.block');
+  mobileBlock.append(desktopBlock.children[0].cloneNode(true));
 
-    link.appendChild(icon);
+  const main = block.closest('main');
+  main.append(mobileSection);
+
+  // decorate desktop block
+  desktopBlock.querySelectorAll('li').forEach((item, idx, arr) => {
+    const link = item.querySelector('a');
+    link && link.appendChild(span({ class: 'icon icon-arrow-right' }));
   });
+  await decorateIcons(desktopBlock);
 
-  await decorateIcons(block);
+  // decorate mobile block
+  mobileBlock.querySelectorAll('li a').forEach((link) => {
+    const linkText = link.textContent;
+    link.textContent = '';
+
+    link.append(
+      document.createTextNode('‹ '),
+      strong(linkText),
+    );
+  });
 }
