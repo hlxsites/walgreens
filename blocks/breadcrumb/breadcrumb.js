@@ -49,7 +49,6 @@ export default async function decorate(block) {
         && mutation.attributeName === 'data-section-status'
         && previousSection.attributes.getNamedItem('data-section-status').value === 'loaded') {
         observer.disconnect();
-        console.log('here');
         mobileBlock.style.display = null;
       }
     });
