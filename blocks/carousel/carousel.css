@@ -1,10 +1,10 @@
-.carousel{
+.carousel {
   width: 100%;
   margin-bottom: 2rem;
   position: relative;
 }
 
-.carousel>ul{
+.carousel>ul {
   display: flex;
   flex-wrap: nowrap;
   overflow-x: scroll;
@@ -12,20 +12,20 @@
   padding: 1rem;
   list-style: none;
   scroll-behavior: smooth;
-  scroll-snap-type: x mandatory ;
+  scroll-snap-type: x mandatory;
 }
 
-.carousel>ul>li{
+.carousel>ul>li {
   scroll-snap-align: start;
 }
 
-.carousel>ul::-webkit-scrollbar{
+.carousel>ul::-webkit-scrollbar {
   display: none;
 }
 
 /* Specific card overrides for carousel - BEGIN */
 .carousel .card {
-  width: 12rem;
+  width: 30rem;
   flex-shrink: 0;
 }
 
@@ -40,44 +40,56 @@
 .carousel .carousel-nav {
   position: absolute;
   background: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
   padding: 0;
-  background-color: transparent;
-  height: 30px;
-  top: 50%;
-  width: 30px;
+  top: 0;
   z-index: 2;
 }
 
-.carousel .carousel-nav::before {
-  z-index: 1;
-  display: block;
-  content: "";
-  background: #e4e4e4;
-  height: 30px;
-  width: 30px;
-  outline: 2px solid #ffffffd6;
-  position: absolute;
+.carousel .carousel-nav button{
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel .icon-arrow-right{
+  background-color: #f5f5f0;
   border-radius: 50%;
-  }
+  padding: 0.2rem;
+  width: 30px;
+  height: 30px;
+}
 
 .carousel .carousel-nav .icon svg {
-  fill: #8a8a8a;
-  width: 24px;
-  height: 24px;
+  fill: #989090;
+  width: 30px;
+  height: 30px;
   z-index: 2;
 }
 
-.carousel .icon-arrow-right.left-arrow{
+.carousel .icon-arrow-right.left-arrow {
   transform: rotate(180deg);
   z-index: 1;
-  top: 7px;
-  left: 5px;
+
 }
 
-.carousel .carousel-nav.carousel-nav-left {
-  left: -1rem;
-}
+@media only screen and (min-width:701px) {
+  .carousel .card {
+    width: 12rem;
+  }
 
-.carousel .carousel-nav.carousel-nav-right {
-  right: -1rem;
+  .carousel .icon-arrow-right {
+    background: #323264;
+    height: 30px;
+    width: 30px; 
+  }
+
+  .carousel .carousel-nav .icon svg {
+    fill: #fff;
+  }
 }

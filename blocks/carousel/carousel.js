@@ -1,4 +1,4 @@
-import { button, span } from '../../scripts/dom-helpers.js';
+import { button, div, span } from '../../scripts/dom-helpers.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 import { decorateAPICards } from '../cards/cards.js';
 
@@ -31,16 +31,16 @@ export default async function decorate(block) {
     await decorateAPICarousel(block);
   }
 
-  if (window.matchMedia('(min-width: 769px)').matches) {
-    block.append(
-      button({ class: 'carousel-nav carousel-nav-left', onclick: () => navLeft(block) },
+  block.append(
+    div({ class: 'carousel-nav' },
+      button({ class: 'carousel-nav-left', onclick: () => navLeft(block) },
         span({ class: 'icon icon-arrow-right left-arrow' }),
       ),
-      button({ class: 'carousel-nav carousel-nav-right', onclick: () => navRight(block) },
+      button({ class: 'carousel-nav-right', onclick: () => navRight(block) },
         span({ class: 'icon icon-arrow-right' }),
       ),
-    );
-  }
+    ),
+  );
 
   decorateIcons(block);
   await cardsCSSPromise;
