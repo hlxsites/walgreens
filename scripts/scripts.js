@@ -20,15 +20,12 @@ const BASEURL = 'https://walgreens.com';
 export const METADATA_ANAYTICS_TAGS = 'analytics-tags';
 
 export function pushToDataLayer(event, payload) {
-  if (!event) {
-    // eslint-disable-next-line no-console
-    console.error('The data layer event is missing');
-    return;
-  }
   if (!window.digitalData) {
-    window.digitalData = [];
+    window.digitalData = {};
+    window.digitalData.events = [];
   }
-  window.digitalData.push({ event, ...payload });
+  window.digitalData.events.push( event );
+  window.digitalData.page = payload;
 }
 
 export function getTags(tags) {
@@ -65,22 +62,26 @@ export function getEnvironment(hostname) {
 }
 
 function pushPageLoadToDataLayer() {
-  const { hostname } = window.location;
+  const { hostname, pathname } = window.location;
   const environment = getEnvironment(hostname);
-  const tags = getTags(getMetadata(METADATA_ANAYTICS_TAGS));
-  pushToDataLayer('page load started', {
-    page: {
-      pageInfo: {
+  const setSection = pathname.split('/')[1];
+  pushToDataLayer(
+    { eventData: '',
+      eventName: 'DataLayerReady',
+      status: 'processed',
+      triggered: false,
+    },
+    { pageInfo: {
         cleanURL: window.location.href,
         deviceType: getDeviceType(),
         environment: environment,
-        pageName:'',
-        pageTemplate:'',
-        setSection:'',
+        pageName: getMetadata('og:title'),
+        pageTemplate: setSection.replace(/^\w/, (char) => char.toUpperCase()),
+        setSection: setSection,
         serverName: 'hlx.live', // indicator for AEM Edge Delivery
       }
     }
-  });
+  );
 }
 
 /*
