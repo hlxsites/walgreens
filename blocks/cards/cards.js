@@ -4,7 +4,7 @@ import {
 } from '../../scripts/dom-helpers.js';
 import { walgreensUrl } from '../../scripts/scripts.js';
 
-function decorateCuratedCards(block) {
+export function decorateCuratedCards(block) {
   const cardsWithBorder = block.classList.contains('border');
 
   /* change to ul, li */

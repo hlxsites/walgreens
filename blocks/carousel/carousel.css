@@ -46,7 +46,7 @@
   display: flex;
   justify-content: space-between;
   top: 0;
-  z-index: 2;
+  
 }
 
 .carousel .carousel-nav button{

@@ -1,6 +1,6 @@
 import { button, div, span } from '../../scripts/dom-helpers.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
-import { decorateAPICards } from '../cards/cards.js';
+import { decorateAPICards, decorateCuratedCards } from '../cards/cards.js';
 
 async function decorateAPICarousel(block) {
   const apiEndpoint = block.querySelector('a').href;
@@ -29,6 +29,8 @@ export default async function decorate(block) {
   const cardsCSSPromise = loadCSS('/blocks/cards/cards.css');
   if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
     await decorateAPICarousel(block);
+  }else{
+    await decorateCuratedCards(block);
   }
 
   block.append(
