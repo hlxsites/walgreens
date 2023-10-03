@@ -2,7 +2,8 @@ import { div, span } from '../../scripts/dom-helpers.js';
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 
 function closeAllOtherFaqs(faq) {
-  faq.querySelectorAll('.faq-accordion').forEach((acc) => {
+  const allFaqs = document.querySelectorAll('.faq-accordion');
+  allFaqs.forEach((acc) => {
     if (acc !== faq && acc.classList.contains('active')) {
       acc.classList.remove('active');
     }
