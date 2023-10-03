@@ -13,11 +13,12 @@ import {
   loadCSS,
   loadScript,
   getMetadata,
+  fetchPlaceholders,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 const BASEURL = 'https://walgreens.com';
-export const METADATA_ANAYTICS_TAGS = 'analytics-tags';
+const placeholders = await fetchPlaceholders();
 
 export function pushToDataLayer(event, payload) {
   if (!window.digitalData) {
@@ -114,11 +115,13 @@ export function walgreensUrl(path) {
 export function resolveRelativeURLs(content) {
   // Use a regular expression to find relative links (starting with "/")
   const relativeLinkRegex = /(?:href|action)="(?!\/images\/)(\/[^"]+)"/g;
-  const absoluteContent = content.replace(relativeLinkRegex, (match, relativePath) => {
+  const { privacyIcon, localPrivacyIcon } = placeholders;
+  let absoluteContent = content.replace(relativeLinkRegex, (match, relativePath) => {
     // Combine the base URL and the relative path to create an absolute URL
     const absoluteUrl = `${BASEURL}${relativePath}`;
     return `href="${absoluteUrl}"`;
   });
+  absoluteContent = absoluteContent.replace(privacyIcon, localPrivacyIcon);
   return absoluteContent;
 }
 
@@ -144,7 +147,7 @@ export function loadFileList(fileList) {
       if (
         fileInfo.type === 'js'
         && !scriptExists
-        && !['dtm', 'googleApi'].includes(fileName)
+        && !['dtm'].includes(fileName)
       ) {
         loadScript(absolutePath, {
           type: 'text/javascript',
@@ -162,15 +165,22 @@ export function loadFileList(fileList) {
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element
  */
-function buildHeroBlock(main) {
-  const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
-  // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
-    main.prepend(section);
-  }
+function buildBackToTop(main) {
+  const section = document.createElement('div');
+  const bttw = `<div id="backtoTopWidget">
+  <button aria-describedby="scrollToTop" id="topBtn" data-element-name="Back to Top" data-element-type="Page Navigation" class="btt btn__back-to-top backtoTopButton hide" title="Go to top">
+      <span class="hide">
+          <span class="icon icon__arrow-up">
+              <svg aria-hidden="true" focusable="false">
+                  <use xlink:href="/images/adaptive/livestyleguide/walgreens.com/v4/themes/images/icons/symbol-defs.svg#icon__arrow-up"></use>
+              </svg>
+          </span>
+          <span class="body-copy__fourteen" id="scrollToTop">TOP</span>
+      </span>
+  </button>
+</div>`
+  section.innerHTML = bttw;
+  main.append(section);
 }
 
 /**
@@ -191,7 +201,7 @@ async function loadFonts() {
  */
 function buildAutoBlocks(main) {
   try {
-    buildHeroBlock(main);
+    buildBackToTop(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
