@@ -19,6 +19,12 @@
   margin: 0;
   padding: 0;
   vertical-align: baseline;
+  height: unset !important;      /* overwrite external CSS */
+}
+
+.card > a {
+  display: block;
+  width: 100%;
 }
 
 .card.with-border {

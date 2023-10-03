@@ -11,9 +11,75 @@ import {
   waitForLCP,
   loadBlocks,
   loadCSS,
+  loadScript,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
+
+/**
+ * Get the Absolute walgreens url from a relative one
+ * @param {Element} path relative walgreens path
+ * @returns Absolute wallgreens url
+ */
+export function walgreensUrl(path) {
+  return new URL(path, 'https://www.walgreens.com').toString();
+}
+
+/**
+ * Remaps the relative urls to absolute urls.
+ * @param {string} content string of html with relative urls
+ * @returns the string with absolute urls
+ */
+export function resolveRelativeURLs(content) {
+  const baseUrl = 'https://walgreens.com';
+
+  // Use a regular expression to find relative links (starting with "/")
+  const relativeLinkRegex = /(?:href|action)="(?!\/images\/)(\/[^"]+)"/g;
+  const absoluteContent = content.replace(relativeLinkRegex, (match, relativePath) => {
+    // Combine the base URL and the relative path to create an absolute URL
+    const absoluteUrl = `${baseUrl}${relativePath}`;
+    return `href="${absoluteUrl}"`;
+  });
+  return absoluteContent;
+}
+
+/**
+ * Adds the js and css to the head.
+ * @param {JSON} fileList json object that comes with the UI API response
+ */
+export function loadFileList(fileList) {
+  const baseUrl = 'https://www.walgreens.com';
+
+  const scriptTags = document.querySelectorAll('script[src]');
+
+  const fileKeys = Object.keys(fileList);
+
+  fileKeys.forEach((fileName) => {
+    if (fileList[fileName]) {
+      const fileInfo = fileList[fileName];
+      const absolutePath = fileInfo.path.startsWith('http')
+        ? fileInfo.path
+        : baseUrl + fileInfo.path;
+
+      // Check if a script with the same URL is already on the page
+      const scriptExists = [...scriptTags].some((scriptTag) => scriptTag.src === absolutePath);
+
+      if (
+        fileInfo.type === 'js'
+        && !scriptExists
+        && !['dtm', 'googleApi', 'speedIndex'].includes(fileName)
+      ) {
+        loadScript(absolutePath, {
+          type: 'text/javascript',
+          charset: 'UTF-8',
+          async: true,
+        });
+      } else if (fileInfo.type === 'css') {
+        loadCSS(absolutePath);
+      }
+    }
+  });
+}
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -56,6 +122,26 @@ function buildAutoBlocks(main) {
 }
 
 /**
+ * Detect the sidebar section and decorate the main element
+ * @param {Element} main The main element
+ */
+function detectSidebar(main) {
+  const sidebar = main.querySelector('.section.sidebar');
+  if (sidebar) {
+    main.classList.add('sidebar');
+    const sidebarOffset = sidebar.getAttribute('data-start-sidebar-at-section');
+
+    const numSections = main.children.length - 1;
+    main.style = `grid-template-rows: repeat(${numSections}, auto);`;
+
+    if (sidebarOffset && Number.parseInt(sidebar.getAttribute('data-start-sidebar-at-section'), 10)) {
+      const offset = Number.parseInt(sidebar.getAttribute('data-start-sidebar-at-section'), 10);
+      sidebar.style = `grid-row: ${offset} / infinite;`;
+    }
+  }
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -67,6 +153,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  detectSidebar(main);
 }
 
 /**
@@ -105,8 +192,12 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  // TODO: remove this check before go-live
+  const noHeader = new URLSearchParams(window.location.search).has('test');
+  if (!noHeader) {
+    loadHeader(doc.querySelector('header'));
+    loadFooter(doc.querySelector('footer'));
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
