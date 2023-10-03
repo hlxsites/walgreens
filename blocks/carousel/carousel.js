@@ -29,7 +29,7 @@ export default async function decorate(block) {
   const cardsCSSPromise = loadCSS('/blocks/cards/cards.css');
   if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
     await decorateAPICarousel(block);
-  }else{
+  } else {
     await decorateCuratedCards(block);
   }
 
