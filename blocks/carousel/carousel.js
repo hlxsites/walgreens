@@ -15,14 +15,13 @@ async function decorateAPICarousel(block) {
   block.append(decorateAPICards(apiInfo.offers, true));
 }
 
-function navLeft(block) {
+function navCarousel(block, direction) {
   const ul = block.querySelector('ul');
-  ul.scrollLeft -= 600;
-}
-
-function navRight(block) {
-  const ul = block.querySelector('ul');
-  ul.scrollLeft += 600;
+  const li = block.querySelector('li');
+  if (direction === "left") {
+    return ul.scrollLeft -= li.offsetWidth;
+  }
+  ul.scrollLeft += li.offsetWidth;
 }
 
 export default async function decorate(block) {
@@ -33,10 +32,10 @@ export default async function decorate(block) {
 
   block.append(
     div({ class: 'carousel-nav' },
-      button({ class: 'carousel-nav-left', onclick: () => navLeft(block) },
+      button({ class: 'carousel-nav-left', onclick: () => navCarousel(block, 'left') },
         span({ class: 'icon icon-arrow-right left-arrow' }),
       ),
-      button({ class: 'carousel-nav-right', onclick: () => navRight(block) },
+      button({ class: 'carousel-nav-right', onclick: () => navCarousel(block, 'right') },
         span({ class: 'icon icon-arrow-right' }),
       ),
     ),
