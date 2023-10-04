@@ -16,12 +16,31 @@ function resolveRelativeURLs(content) {
   return absoluteContent;
 }
 
-onmessage = (e) => {
-  const { source, content } = e.data;
+onmessage = async (e) => {
+  const APIs = {
+    header: 'https://www.walgreens.com/common/v1/headerui',
+    footer: 'https://www.walgreens.com/common/v1/footerui',
+  }
+  const { source } = e.data;
+  const apiURL = APIs[source];
+  const resp = await fetch(apiURL); //TODO validate
+
+  if (!resp.ok) {
+    postMessage({
+      source,
+      ok: resp.ok,
+    })
+    return;
+  }
+
+  const jsonData = await resp.json();
+  jsonData.content = resolveRelativeURLs(jsonData.content);
+
   console.log(`Message received from ${source}`);
   postMessage({
     source,
-    content: resolveRelativeURLs(content),
+    ok: resp.ok,
+    ...jsonData,
   });
   console.log(`Posting message back to ${source}`);
 };

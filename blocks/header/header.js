@@ -17,22 +17,17 @@ function addCSSStyle(css) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  const apiURL = 'https://www.walgreens.com/common/v1/headerui';
-  const path = apiURL;
-  const resp = await fetch(path);
-
-  if (!resp.ok) {
-    return;
-  }
-
   const worker = new Worker('../../scripts/absolute-worker.js');
-  const jsonData = await resp.json();
-  const { content } = jsonData;
   
   worker.onmessage = (e) => {
+    if (!e.data.ok) {
+      return;
+    }
+    
+    const jsonData = e.data;
     const nav = document.createElement('nav');
     nav.id = 'nav';
-    nav.innerHTML = e.data.content;
+    nav.innerHTML = jsonData.content;
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
@@ -42,5 +37,5 @@ export default async function decorate(block) {
     loadFileList(jsonData.fileList);
     worker.terminate();
   }
-  worker.postMessage({ source: 'header', content });
+  worker.postMessage({ source: 'header' });
 }
