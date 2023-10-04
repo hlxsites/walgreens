@@ -180,9 +180,6 @@ async function loadLazy(doc) {
   const noHeader = new URLSearchParams(window.location.search).has('test');
   if (!noHeader) {
     loadHeader(doc.querySelector('header'));
-    await Promise.all([
-
-    ]);
     loadFooter(doc.querySelector('footer'));
   }
 

@@ -5,9 +5,9 @@ import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 * @param {Element} block The footer block element
 */
 export default async function decorate(block) {
-  // const cssPromise = loadCSS(`${window.hlx.codeBasePath}/styles/footer-clientLSGCSSContent.css`);
+  // const cssPromise = loadCSS(`${window.hlx.codeBasePath}/styles/footer-clientLSGCSSContent.css`); ?? do we need this?
 
-  const worker = new Worker('../../scripts/absolute-worker.js');
+  const worker = new Worker('../../scripts/headerfooter-worker.js');
   // decorate footer DOM
   worker.onmessage = async (e) => {
     if (!e.data.ok) {
@@ -20,7 +20,7 @@ export default async function decorate(block) {
     decorateIcons(footer);
     // await cssPromise;
     block.append(footer);
-
+    worker.terminate();
   }
   worker.postMessage({ source: 'footer' });
 }

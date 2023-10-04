@@ -21,7 +21,7 @@ export default async function decorate(block) {
     loadCSS(`${window.hlx.codeBasePath}/styles/header-clientCSSContent.css`),
     loadCSS(`${window.hlx.codeBasePath}/styles/header-clientLSGCSSContent.css`),
   ];
-  const worker = new Worker('../../scripts/absolute-worker.js');
+  const worker = new Worker('../../scripts/headerfooter-worker.js');
   
   worker.onmessage = async (e) => {
     if (!e.data.ok) {
