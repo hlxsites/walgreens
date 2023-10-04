@@ -35,7 +35,7 @@ export default async function decorate(block) {
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
-    // await Promise.all(cssPromises);
+    await Promise.all(cssPromises);
     block.firstElementChild.replaceWith(navWrapper);
     loadFileList(jsonData.fileList);
     worker.terminate();
