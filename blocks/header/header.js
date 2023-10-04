@@ -18,10 +18,10 @@ function addCSSStyle(css) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // const cssPromises = [
-  //   loadCSS(`${window.hlx.codeBasePath}/external-styles/header-clientCSSContent.css`),
-  //   loadCSS(`${window.hlx.codeBasePath}/external-styles/header-clientLSGCSSContent.css`),
-  // ];
+  const cssPromises = [
+    loadCSS(`${window.hlx.codeBasePath}/external-styles/header-clientCSSContent.css`),
+    loadCSS(`${window.hlx.codeBasePath}/external-styles/header-clientLSGCSSContent.css`),
+  ];
   const worker = new Worker('../../scripts/headerfooter-worker.js');
 
   worker.onmessage = async (e) => {
@@ -30,20 +30,14 @@ export default async function decorate(block) {
     }
 
     const jsonData = e.data;
-    new Promise((resolve) => {
-      addCSSStyle(jsonData.clientCSSContent);
-    });
-    new Promise((resolve) => {
-      addCSSStyle(jsonData.clientLSGCSSContent);
-    });
-    new Promise((resolve) => {
+    new Promise(async (resolve) => {
       const nav = document.createElement('nav');
       nav.id = 'nav';
       nav.innerHTML = jsonData.content;
       const navWrapper = document.createElement('div');
       navWrapper.className = 'nav-wrapper';
       navWrapper.append(nav);
-    // await Promise.all(cssPromises);
+      await Promise.all(cssPromises);
       block.firstElementChild.replaceWith(navWrapper);
       resolve();
     });
