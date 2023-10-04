@@ -27,13 +27,13 @@ export default async function decorate(block) {
     const jsonData = e.data;
     const nav = document.createElement('nav');
     nav.id = 'nav';
-    // nav.innerHTML = jsonData.content;
+    nav.innerHTML = jsonData.content;
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
     block.firstElementChild.replaceWith(navWrapper);
-    addCSSStyle(jsonData.clientCSSContent);
-    addCSSStyle(jsonData.clientLSGCSSContent);
+    // addCSSStyle(jsonData.clientCSSContent);
+    // addCSSStyle(jsonData.clientLSGCSSContent);
     loadFileList(jsonData.fileList);
     worker.terminate();
   }
