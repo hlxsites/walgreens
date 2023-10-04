@@ -27,7 +27,7 @@ export default async function decorate(block) {
     const jsonData = e.data;
     const nav = document.createElement('nav');
     nav.id = 'nav';
-    nav.innerHTML = jsonData.content;
+    // nav.innerHTML = jsonData.content;
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
