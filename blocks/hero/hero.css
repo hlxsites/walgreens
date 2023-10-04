@@ -1,79 +1,106 @@
-/* block specific CSS goes here */
-
-main .hero-container {
-  padding: 0;
-}
-  
 main .hero {
   position: relative;
-  padding: 64px 32px;
-  width: 100%;
-  margin-bottom: 2rem;
-  
 }
 
-main .hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: white;
-}
-
-main .hero p {
-  margin: 0;
-  line-height: 1.5;
-  text-align: center;
-}
-
-main .hero a{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-main .hero p:first-of-type{
-  font-size: 20px;
-}
-
-main .hero picture {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  object-fit: cover;
-}
-
+main .hero > a,
+main .hero picture,
 main .hero img {
-  object-fit: cover;
-  width: 100%;
+  display: block;
+}
+
+main .hero > a:focus {
+  outline: none;
+}
+
+main .hero > a:focus::after {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: var(--link-color) solid 2px;
+  border-radius: 8px;
+  content: '';
+  display: block;
+}
+
+main .hero .background-mobile {
+  display: none;
+}
+
+main .hero .hero-overlay {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  border-radius: 1rem;
+  justify-content: center;
+  padding: 0% 2% 0 4%;
+  width: 50%;
 }
 
-main .alt-hero1,
-main .alt-hero2{
- padding: 32px;
+main .hero .hero-overlay p {
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
 }
 
-main .alt-hero1 p:last-of-type,
-main .alt-hero2 p:last-of-type{
- font-size: 14px;
+main .hero .hero-overlay p:first-child {
+  font-size: 1.75rem;
+  line-height: 1.21;
 }
 
-main .alt-hero1 img{
-  border-radius: 0;
+main .hero .hero-overlay p:last-child {
+  font-size: 1.125rem;
+  line-height: 1.33;
 }
 
-main .alt-hero2{
-  color: white;
+main .hero .hero-overlay strong {
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
 }
 
-@media only screen and (min-width:768px) {
-  main .hero p{
+@media (max-width: 1023px) {
+  main .hero .hero-overlay p,
+  main .hero .hero-overlay p:first-child,
+  main .hero .hero-overlay p:last-child {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  main .hero .background-desktop {
+    display: none;
+  }
+
+  main .hero .background-mobile {
+    border-radius: 16px 16px 0 0;
+    display: block;
+    overflow: hidden;
+  }
+
+  main .hero .hero-overlay {
+    position: static;
+    background-color: #F5F5F0;
+    border-radius: 0 0 16px 16px;
     text-align: left;
+    width: 100%;
+    margin-top: -3px;
+    padding: 6%;
+    height: unset;
+  }
+
+  main .hero .hero-overlay p {
+    color: var(--link-color);
+  }
+
+  main .hero .hero-overlay p:first-child {
+    font-size: 1.375rem;
+  }
+
+  main .hero .hero-overlay p:last-child {
+    font-size: 1.125rem;
   }
 }
