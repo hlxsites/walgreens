@@ -36,11 +36,11 @@ onmessage = async (e) => {
   const jsonData = await resp.json();
   jsonData.content = resolveRelativeURLs(jsonData.content);
 
-  console.log(`Message received from ${source}`);
+  console.error(`Message received from ${source}`);
   postMessage({
     source,
     ok: resp.ok,
     ...jsonData,
   });
-  console.log(`Posting message back to ${source}`);
+  console.error(`Posting message back to ${source}`);
 };
