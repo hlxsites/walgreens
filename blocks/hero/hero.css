@@ -8,6 +8,22 @@ main .hero img {
   display: block;
 }
 
+main .hero > a:focus {
+  outline: none;
+}
+
+main .hero > a:focus::after {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: var(--link-color) solid 2px;
+  border-radius: 8px;
+  content: '';
+  display: block;
+}
+
 main .hero .background-mobile {
   display: none;
 }
