@@ -1,16 +1,15 @@
 import { loadCSS } from '../../scripts/lib-franklin.js';
 import { loadFileList } from '../../scripts/scripts.js';
 
-// eslint-disable-next-line no-unused-vars
-function addCSSStyle(css) {
-  const styleEl = document.querySelector('style');
-  if (styleEl) {
-    styleEl.innerHTML += css;
-  } else {
-    const style = document.createElement('style');
-    style.innerHTML = css;
-    document.head.append(style);
-  }
+async function addContent(block, jsonData, cssPromises) {
+  const nav = document.createElement('nav');
+  nav.id = 'nav';
+  nav.innerHTML = jsonData.content;
+  const navWrapper = document.createElement('div');
+  navWrapper.className = 'nav-wrapper';
+  navWrapper.append(nav);
+  await Promise.all(cssPromises);
+  block.firstElementChild.replaceWith(navWrapper);
 }
 
 /**
@@ -25,26 +24,14 @@ export default async function decorate(block) {
   const worker = new Worker('../../scripts/headerfooter-worker.js');
 
   worker.onmessage = async (e) => {
+    worker.terminate();
+
     if (!e.data.ok) {
       return;
     }
     const jsonData = e.data;
-    new Promise(async (resolve) => {
-      const nav = document.createElement('nav');
-      nav.id = 'nav';
-      nav.innerHTML = jsonData.content;
-      const navWrapper = document.createElement('div');
-      navWrapper.className = 'nav-wrapper';
-      navWrapper.append(nav);
-      await Promise.all(cssPromises);
-      block.firstElementChild.replaceWith(navWrapper);
-      resolve();
-    });
-    new Promise((resolve) => {
-      loadFileList(jsonData.fileList);
-      resolve();
-    });
-    worker.terminate();
+    addContent(block, jsonData, cssPromises);
+    loadFileList(jsonData.fileList);
   };
   worker.postMessage({ source: 'header' });
 }

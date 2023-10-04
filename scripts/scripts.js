@@ -30,7 +30,7 @@ export function walgreensUrl(path) {
  * Adds the js and css to the head.
  * @param {JSON} fileList json object that comes with the UI API response
  */
-export function loadFileList(fileList) {
+export async function loadFileList(fileList) {
   const baseUrl = 'https://www.walgreens.com';
 
   const skip = ['dtm', 'googleApi', 'speedIndex', 'lsgScriptMin'];

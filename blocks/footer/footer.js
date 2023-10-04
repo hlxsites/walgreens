@@ -6,11 +6,14 @@ import { decorateIcons } from '../../scripts/lib-franklin.js';
 */
 export default async function decorate(block) {
   // ?? do we need this CSS ? Footer looks good without it
-  // const cssPromise = loadCSS(`${window.hlx.codeBasePath}/external-styles/footer-clientLSGCSSContent.css`);
+  // const cssPromise = loadCSS(
+  //   `${window.hlx.codeBasePath}/external-styles/footer-clientLSGCSSContent.css`
+  // );
 
   const worker = new Worker('../../scripts/headerfooter-worker.js');
   // decorate footer DOM
   worker.onmessage = async (e) => {
+    worker.terminate();
     if (!e.data.ok) {
       return;
     }
@@ -20,7 +23,6 @@ export default async function decorate(block) {
     decorateIcons(footer);
     // await cssPromise;
     block.append(footer);
-    worker.terminate();
   };
   worker.postMessage({ source: 'footer' });
 }
