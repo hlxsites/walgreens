@@ -32,8 +32,8 @@ export default async function decorate(block) {
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
     block.firstElementChild.replaceWith(navWrapper);
-    addCSSStyle(jsonData.clientCSSContent);
-    addCSSStyle(jsonData.clientLSGCSSContent);
+    // addCSSStyle(jsonData.clientCSSContent);
+    // addCSSStyle(jsonData.clientLSGCSSContent);
     loadFileList(jsonData.fileList);
     worker.terminate();
   }
