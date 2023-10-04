@@ -1,4 +1,5 @@
-import { loadFileList, resolveRelativeURLs, walgreensUrl } from '../../scripts/scripts.js';
+import { loadFileList } from '../../scripts/scripts.js';
+import { resolveRelativeURLs } from '../../scripts/worker-commons.js';
 
 function addCSSStyle(css) {
   const styleEl = document.querySelector('style');
@@ -20,19 +21,26 @@ export default async function decorate(block) {
   const path = apiURL;
   const resp = await fetch(path);
 
-  if (resp.ok) {
-    const jsonData = await resp.json();
-    const { content } = jsonData;
-    const absoluteContent = resolveRelativeURLs(content);
+  if (!resp.ok) {
+    return;
+  }
+
+  const worker = new Worker('../../scripts/absolute-worker.js');
+  const jsonData = await resp.json();
+  const { content } = jsonData;
+  
+  worker.onmessage = (e) => {
     const nav = document.createElement('nav');
     nav.id = 'nav';
-    nav.innerHTML = absoluteContent;
-    addCSSStyle(jsonData.clientCSSContent);
-    addCSSStyle(jsonData.clientLSGCSSContent);
+    nav.innerHTML = e.data.content;
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
     block.firstElementChild.replaceWith(navWrapper);
+    addCSSStyle(jsonData.clientCSSContent);
+    addCSSStyle(jsonData.clientLSGCSSContent);
     loadFileList(jsonData.fileList);
+    worker.terminate();
   }
+  worker.postMessage({ source: 'header', content });
 }
