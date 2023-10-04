@@ -1,0 +1,24 @@
+name: Sync Header/Footer External CSS
+
+on:
+  schedule:
+    - cron: '0 4 * * *'  # This schedules the workflow to run at 4:00 AM EST every day
+
+jobs:
+  curl:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Execute curl command 1
+      run: |
+        curl https://www.walgreens.com/common/v1/headerui | jq -r '.clientLSGCSSContent' > external-styles/header-lsg-css-content.css
+
+    - name: Execute curl command 2
+      run: |
+        curl https://www.walgreens.com/common/v1/headerui | jq -r '.clientCSSContent' > external-styles/header-css-content.css
+
+    - name: Execute curl command 3
+      run: |
+        curl https://www.walgreens.com/common/v1/footerui | jq -r '.clientLSGCSSContent' > external-styles/footer-lsg-css-content.css
