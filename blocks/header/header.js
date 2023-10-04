@@ -1,3 +1,4 @@
+import { loadCSS } from '../../scripts/lib-franklin.js';
 import { loadFileList } from '../../scripts/scripts.js';
 
 function addCSSStyle(css) {
@@ -16,9 +17,13 @@ function addCSSStyle(css) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
+  const cssPromises = [
+    loadCSS(`${window.hlx.codeBasePath}/styles/header-clientCSSContent.css`),
+    loadCSS(`${window.hlx.codeBasePath}/styles/header-clientLSGCSSContent.css`),
+  ];
   const worker = new Worker('../../scripts/absolute-worker.js');
   
-  worker.onmessage = (e) => {
+  worker.onmessage = async (e) => {
     if (!e.data.ok) {
       return;
     }
@@ -30,9 +35,8 @@ export default async function decorate(block) {
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
+    await Promise.all(cssPromises);
     block.firstElementChild.replaceWith(navWrapper);
-    // addCSSStyle(jsonData.clientCSSContent);
-    // addCSSStyle(jsonData.clientLSGCSSContent);
     loadFileList(jsonData.fileList);
     worker.terminate();
   }

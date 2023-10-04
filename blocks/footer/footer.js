@@ -1,14 +1,15 @@
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 
 /**
 * loads and decorates the footer
 * @param {Element} block The footer block element
 */
 export default async function decorate(block) {
-  return;
+  const cssPromise = loadCSS(`${window.hlx.codeBasePath}/styles/header-clientCSSContent.css`);
+
   const worker = new Worker('../../scripts/absolute-worker.js');
   // decorate footer DOM
-  worker.onmessage = (e) => {
+  worker.onmessage = async (e) => {
     if (!e.data.ok) {
       return;
     }
@@ -17,10 +18,9 @@ export default async function decorate(block) {
     const footer = document.createElement('div');
     footer.innerHTML = data.content;
     decorateIcons(footer);
+    await cssPromise;
     block.append(footer);
-    const footerStyles = document.createElement('style');
-    footerStyles.innerHTML = data.clientLSGCSSContent;
-    document.head.appendChild(footerStyles);
+
   }
   worker.postMessage({ source: 'footer' });
 }
