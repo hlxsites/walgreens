@@ -15,8 +15,8 @@ export default async function decorate(block) {
     footer.innerHTML = resolveRelativeURLs(data.content);
     decorateIcons(footer);
     block.append(footer);
-    const footerStyles = document.createElement('style');
-    footerStyles.innerHTML = data.clientLSGCSSContent;
-    document.head.appendChild(footerStyles);
+    // const footerStyles = document.createElement('style');
+    // footerStyles.innerHTML = data.clientLSGCSSContent;
+    // document.head.appendChild(footerStyles);
   }
 }
