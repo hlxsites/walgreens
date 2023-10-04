@@ -5,7 +5,7 @@ import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 * @param {Element} block The footer block element
 */
 export default async function decorate(block) {
-  const cssPromise = loadCSS(`${window.hlx.codeBasePath}/styles/header-clientCSSContent.css`);
+  // const cssPromise = loadCSS(`${window.hlx.codeBasePath}/styles/footer-clientLSGCSSContent.css`);
 
   const worker = new Worker('../../scripts/absolute-worker.js');
   // decorate footer DOM
@@ -18,7 +18,7 @@ export default async function decorate(block) {
     const footer = document.createElement('div');
     footer.innerHTML = data.content;
     decorateIcons(footer);
-    await cssPromise;
+    // await cssPromise;
     block.append(footer);
 
   }
