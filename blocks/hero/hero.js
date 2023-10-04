@@ -1,4 +1,10 @@
-export default function decorate(block) {
+import { waitForEagerImageLoad } from '../../scripts/lib-franklin.js';
+
+function getAspectRatio(img) {
+  return (img.naturalHeight / img.naturalWidth) * 100;
+}
+
+export default async function decorate(block) {
   [...block.children].forEach((row) => {
     if (row.children.length < 2) return;
 
@@ -27,4 +33,14 @@ export default function decorate(block) {
     link.append(...block.children);
     block.append(link);
   }
+
+  let lcpImage = null;
+  const mq = window.matchMedia("(max-width: 768px)");
+  if (mq.matches) {
+    lcpImage = block.querySelector('.background-mobile img');
+  } else {
+    lcpImage = block.querySelector('.background-desktop img');
+  }
+
+  await waitForEagerImageLoad(lcpImage);
 }
