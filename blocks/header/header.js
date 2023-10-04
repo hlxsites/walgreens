@@ -28,7 +28,6 @@ export default async function decorate(block) {
     if (!e.data.ok) {
       return;
     }
-
     const jsonData = e.data;
     new Promise(async (resolve) => {
       const nav = document.createElement('nav');
@@ -43,6 +42,7 @@ export default async function decorate(block) {
     });
     new Promise((resolve) => {
       loadFileList(jsonData.fileList);
+      resolve();
     });
     worker.terminate();
   };
