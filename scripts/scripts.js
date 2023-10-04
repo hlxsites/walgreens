@@ -179,8 +179,10 @@ async function loadLazy(doc) {
   // TODO: remove this check before go-live
   const noHeader = new URLSearchParams(window.location.search).has('test');
   if (!noHeader) {
-    loadCSS(`${window.hlx.codeBasePath}/styles/header-css-content.css`);
-    loadCSS(`${window.hlx.codeBasePath}/styles/header-lsg-css-content.css`);
+    await Promise.all([
+      loadCSS(`${window.hlx.codeBasePath}/styles/header-css-content.css`),
+      loadCSS(`${window.hlx.codeBasePath}/styles/header-lsg-css-content.css`),
+    ]);
     loadHeader(doc.querySelector('header'));
     loadFooter(doc.querySelector('footer'));
   }
