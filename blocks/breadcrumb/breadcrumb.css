@@ -1,3 +1,11 @@
+.breadcrumb.desktop {
+  display: block;
+}
+
+.breadcrumb.mobile {
+  display: none;
+}
+
 .breadcrumb ul {
   list-style: none;
   display: flex;
@@ -16,8 +24,17 @@
 }
 
 .breadcrumb li .icon {
+  position: static;
+  overflow: visible;
+  display: inline-block;
   height: unset;
   width: unset;
+  min-width: unset;
+  min-height: unset;
+}
+
+.breadcrumb li:last-child .icon {
+  display: none;
 }
 
 .breadcrumb li a svg {
@@ -27,6 +44,8 @@
   margin: 0;
   padding: 0;
   position: absolute;
+  left: unset;
+  top: unset;
   right: -10px;
   width: 30px;
 }
@@ -38,7 +57,26 @@
 }
 
 @media (max-width: 700px) {
-  .breadcrumb {
+  .breadcrumb.desktop {
     display: none;
+  }
+
+  .breadcrumb.mobile {
+    display: block;
+    margin-bottom: 60px;
+  }
+
+  .breadcrumb ul {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .breadcrumb.mobile li {
+    margin-top: 10px;
+  }
+
+  .breadcrumb.mobile li a {
+    font-size: 1rem;
   }
 }
