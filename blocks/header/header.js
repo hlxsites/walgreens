@@ -1,5 +1,4 @@
 import { loadFileList } from '../../scripts/scripts.js';
-import { resolveRelativeURLs } from '../../scripts/worker-commons.js';
 
 function addCSSStyle(css) {
   const styleEl = document.querySelector('style');
