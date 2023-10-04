@@ -1,9 +1,5 @@
 import { waitForEagerImageLoad } from '../../scripts/lib-franklin.js';
 
-function getAspectRatio(img) {
-  return (img.naturalHeight / img.naturalWidth) * 100;
-}
-
 export default async function decorate(block) {
   [...block.children].forEach((row) => {
     if (row.children.length < 2) return;
@@ -28,19 +24,22 @@ export default async function decorate(block) {
   const link = block.querySelector('a');
   link.parentElement.remove();
 
-  if (link) {    
+  if (link) {
     link.textContent = '';
     link.append(...block.children);
     block.append(link);
   }
 
+  /*
+   * avoid CLS by not displaying the block until the image has finished loading
+   * in this case, it is acceptable to block until the image has loaded,
+   * because the Hero background is also the LCP
+   */
   let lcpImage = null;
-  const mq = window.matchMedia("(max-width: 768px)");
-  if (mq.matches) {
+  if (window.matchMedia('(max-width: 768px)')) {
     lcpImage = block.querySelector('.background-mobile img');
   } else {
     lcpImage = block.querySelector('.background-desktop img');
   }
-
   await waitForEagerImageLoad(lcpImage);
 }
