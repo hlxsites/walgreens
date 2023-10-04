@@ -169,11 +169,6 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
-  const noHeader = new URLSearchParams(window.location.search).has('test');
-  if (!noHeader) {
-    loadHeader(doc.querySelector('header'));
-  }
-
   const main = doc.querySelector('main');
   await loadBlocks(main);
 
@@ -182,7 +177,9 @@ async function loadLazy(doc) {
   if (hash && element) element.scrollIntoView();
 
   // TODO: remove this check before go-live
+  const noHeader = new URLSearchParams(window.location.search).has('test');
   if (!noHeader) {
+    loadHeader(doc.querySelector('header'));
     loadFooter(doc.querySelector('footer'));
   }
 

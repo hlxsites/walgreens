@@ -8,7 +8,7 @@ async function addContent(block, jsonData, cssPromises) {
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
   navWrapper.append(nav);
-  await Promise.all(cssPromises);
+  // await Promise.all(cssPromises);
   block.firstElementChild.replaceWith(navWrapper);
 }
 
@@ -18,8 +18,8 @@ async function addContent(block, jsonData, cssPromises) {
  */
 export default async function decorate(block) {
    const cssPromises = [
-     loadCSS(`${window.hlx.codeBasePath}/external-styles/header-clientCSSContent.css`),
-     loadCSS(`${window.hlx.codeBasePath}/external-styles/header-clientLSGCSSContent.css`),
+  //   loadCSS(`${window.hlx.codeBasePath}/external-styles/header-clientCSSContent.css`),
+  //   loadCSS(`${window.hlx.codeBasePath}/external-styles/header-clientLSGCSSContent.css`),
   ];
   const worker = new Worker('../../scripts/headerfooter-worker.js');
 
