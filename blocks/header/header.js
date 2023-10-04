@@ -28,7 +28,7 @@ export default async function decorate(block) {
     nav.id = 'nav';
     nav.innerHTML = absoluteContent;
     addCSSStyle(jsonData.clientCSSContent);
-    // addCSSStyle(jsonData.clientLSGCSSContent);
+    addCSSStyle(jsonData.clientLSGCSSContent);
     const logo = nav.querySelector('#wag-header-logo-container img');
     logo.setAttribute('width', '38px');
     logo.setAttribute('height', '24.625px');

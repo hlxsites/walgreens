@@ -75,7 +75,7 @@ export function loadFileList(fileList) {
           async: true,
         });
       } else if (fileInfo.type === 'css') {
-        // loadCSS(absolutePath);
+        loadCSS(absolutePath);
       }
     }
   });
