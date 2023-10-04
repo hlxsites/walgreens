@@ -5,13 +5,7 @@ import { decorateIcons } from '../../scripts/lib-franklin.js';
 * @param {Element} block The footer block element
 */
 export default async function decorate(block) {
-  // ?? do we need this CSS ? Footer looks good without it
-  // const cssPromise = loadCSS(
-  //   `${window.hlx.codeBasePath}/external-styles/footer-clientLSGCSSContent.css`
-  // );
-
   const worker = new Worker('../../scripts/headerfooter-worker.js');
-  // decorate footer DOM
   worker.onmessage = async (e) => {
     worker.terminate();
     if (!e.data.ok) {
@@ -21,7 +15,6 @@ export default async function decorate(block) {
     const footer = document.createElement('div');
     footer.innerHTML = e.data.content;
     decorateIcons(footer);
-    // await cssPromise;
     block.append(footer);
   };
   worker.postMessage({ source: 'footer' });
