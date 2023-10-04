@@ -1,4 +1,4 @@
-import { loadFileList, resolveRelativeURLs } from '../../scripts/scripts.js';
+import { loadFileList, resolveRelativeURLs, walgreensUrl } from '../../scripts/scripts.js';
 
 function addCSSStyle(css) {
   const styleEl = document.querySelector('style');
@@ -23,16 +23,16 @@ export default async function decorate(block) {
   if (resp.ok) {
     const jsonData = await resp.json();
     const { content } = jsonData;
-    // const absoluteContent = resolveRelativeURLs(content);
-    // const nav = document.createElement('nav');
-    // nav.id = 'nav';
-    // nav.innerHTML = absoluteContent;
-    // addCSSStyle(jsonData.clientCSSContent);
-    // addCSSStyle(jsonData.clientLSGCSSContent);
-    // const navWrapper = document.createElement('div');
-    // navWrapper.className = 'nav-wrapper';
-    // navWrapper.append(nav);
-    // block.firstElementChild.replaceWith(navWrapper);
+    const absoluteContent = resolveRelativeURLs(content);
+    const nav = document.createElement('nav');
+    nav.id = 'nav';
+    nav.innerHTML = absoluteContent;
+    addCSSStyle(jsonData.clientCSSContent);
+    addCSSStyle(jsonData.clientLSGCSSContent);
+    const navWrapper = document.createElement('div');
+    navWrapper.className = 'nav-wrapper';
+    navWrapper.append(nav);
+    block.firstElementChild.replaceWith(navWrapper);
     loadFileList(jsonData.fileList);
   }
 }
