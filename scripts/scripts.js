@@ -1,6 +1,5 @@
 import {
   sampleRUM,
-  buildBlock,
   loadHeader,
   loadFooter,
   decorateButtons,
@@ -12,10 +11,74 @@ import {
   loadBlocks,
   loadCSS,
   loadScript,
+  getMetadata,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 const DELAYED_RESOURCES = 3000;
+const BASEURL = 'https://walgreens.com';
+
+export function pushToDataLayer(event, payload) {
+  if (!window.digitalData) {
+    window.digitalData = {};
+    window.digitalData.events = [];
+  }
+  window.digitalData.events.push(event);
+  window.digitalData.page = payload;
+}
+
+export function getTags(tags) {
+  return tags ? tags.split(':').filter((tag) => !!tag).map((tag) => tag.trim()) : [];
+}
+
+function getDeviceType() {
+  const { userAgent } = navigator;
+  if (/Mobile/i.test(userAgent)) {
+    return 'mobile';
+  }
+  if (/Tablet/i.test(userAgent)) {
+    return 'tablet';
+  }
+  return 'desktop';
+}
+
+/**
+ * Returns the environment name based on the hostname
+ * @returns {String}
+ */
+export function getEnvironment(hostname) {
+  if (hostname.includes('hlx.page') || hostname.includes('hlx.live')) {
+    return 'stage';
+  }
+  if (hostname.includes(BASEURL)) {
+    return 'prod';
+  }
+  return 'dev';
+}
+
+function pushPageLoadToDataLayer() {
+  const { hostname, pathname } = window.location;
+  const environment = getEnvironment(hostname);
+  const setSection = pathname.split('/')[1];
+  pushToDataLayer({
+    eventData: '',
+    eventName: 'DataLayerReady',
+    status: 'processed',
+    triggered: false,
+  },
+  {
+    pageInfo: {
+      cleanURL: window.location.href,
+      deviceType: getDeviceType(),
+      environment,
+      pageName: getMetadata('og:title'),
+      pageTemplate: setSection.replace(/^\w/, (char) => char.toUpperCase()),
+      setSection,
+      serverName: 'hlx.live', // indicator for AEM Edge Delivery
+    },
+  },
+  );
+}
 
 /**
  * Get the Absolute walgreens url from a relative one
@@ -23,7 +86,7 @@ const DELAYED_RESOURCES = 3000;
  * @returns Absolute wallgreens url
  */
 export function walgreensUrl(path) {
-  return new URL(path, 'https://www.walgreens.com').toString();
+  return new URL(path, BASEURL).toString();
 }
 
 /**
@@ -31,11 +94,8 @@ export function walgreensUrl(path) {
  * @param {JSON} fileList json object that comes with the UI API response
  */
 export async function loadFileList(fileList) {
-  const baseUrl = 'https://www.walgreens.com';
-
   const skip = ['dtm', 'googleApi', 'speedIndex', 'lsgScriptMin'];
   const eager = ['jquery', 'sly', 'headerSupport', 'lsgURL'];
-
   const scriptTags = document.querySelectorAll('script[src]');
 
   const fileKeys = Object.keys(fileList);
@@ -45,7 +105,7 @@ export async function loadFileList(fileList) {
       const fileInfo = fileList[fileName];
       const absolutePath = fileInfo.path.startsWith('http')
         ? fileInfo.path
-        : baseUrl + fileInfo.path;
+        : BASEURL + fileInfo.path;
 
       // Check if a script with the same URL is already on the page
       const scriptExists = [...scriptTags].some((scriptTag) => scriptTag.src === absolutePath);
@@ -69,15 +129,22 @@ export async function loadFileList(fileList) {
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element
  */
-function buildHeroBlock(main) {
-  const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
-  // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
-    main.prepend(section);
-  }
+function buildBackToTop(main) {
+  const section = document.createElement('div');
+  const bttw = `<div id="backtoTopWidget">
+  <button aria-describedby="scrollToTop" id="topBtn" data-element-name="Back to Top" data-element-type="Page Navigation" class="btt btn__back-to-top backtoTopButton hide" title="Go to top">
+      <span class="hide">
+          <span class="icon icon__arrow-up">
+              <svg aria-hidden="true" focusable="false">
+                  <use xlink:href="/images/adaptive/livestyleguide/walgreens.com/v4/themes/images/icons/symbol-defs.svg#icon__arrow-up"></use>
+              </svg>
+          </span>
+          <span class="body-copy__fourteen" id="scrollToTop">TOP</span>
+      </span>
+  </button>
+</div>`;
+  section.innerHTML = bttw;
+  main.append(section);
 }
 
 /**
@@ -98,7 +165,7 @@ async function loadFonts() {
  */
 function buildAutoBlocks(main) {
   try {
-    buildHeroBlock(main);
+    buildBackToTop(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -202,6 +269,7 @@ function loadDelayed() {
 }
 
 async function loadPage() {
+  pushPageLoadToDataLayer();
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
