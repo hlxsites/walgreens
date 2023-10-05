@@ -24,8 +24,8 @@ jobs:
         curl https://www.walgreens.com/common/v1/footerui | jq -r '.clientLSGCSSContent' > external-styles/footer-lsg-css-content.css
 
     - name: Commit and Push Changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
-          git push
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
+        git push

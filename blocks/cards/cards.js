@@ -10,7 +10,7 @@ function decorateCuratedCards(block) {
   /* change to ul, li */
   const list = ul();
   [...block.children].forEach((row) => {
-    const listItem = li({ class: `franklin-card ${cardsWithBorder ? ' with-border' : ''}` });
+    const listItem = li({ class: `card${cardsWithBorder ? ' with-border' : ''}` });
 
     const link = row.querySelector('a');
     let parent = listItem;
@@ -62,7 +62,7 @@ async function decorateAPICards(block) {
   block.append(
     ul(
       ...apiInfo.offers.map((offer) => (
-        li({ class: `franklin-card ${cardsWithBorder ? ' with-border' : ''}` },
+        li({ class: `card${cardsWithBorder ? ' with-border' : ''}` },
           a({ href: apiCardLink(offer) },
             div({ class: 'card-image' },
               img({
