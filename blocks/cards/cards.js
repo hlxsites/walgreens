@@ -4,13 +4,13 @@ import {
 } from '../../scripts/dom-helpers.js';
 import { walgreensUrl } from '../../scripts/scripts.js';
 
-export function decorateCuratedCards(block) {
+export function decorateCuratedCards(block, withBorder) {
   const cardsWithBorder = block.classList.contains('border');
 
   /* change to ul, li */
   const list = ul();
   [...block.children].forEach((row) => {
-    const listItem = li({ class: `card ${cardsWithBorder ? ' with-border' : ''}` });
+    const listItem = li({ class: `card ${cardsWithBorder || withBorder ? ' with-border' : ''}` });
 
     const link = row.querySelector('a');
     let parent = listItem;

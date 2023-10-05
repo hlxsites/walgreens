@@ -30,7 +30,7 @@ export default async function decorate(block) {
   if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
     await decorateAPICarousel(block);
   } else {
-    await decorateCuratedCards(block);
+    await decorateCuratedCards(block, true);
   }
 
   block.append(
