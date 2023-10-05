@@ -61,11 +61,11 @@ function pushPageLoadToDataLayer() {
   const environment = getEnvironment(hostname);
   const setSection = pathname.split('/')[1];
   pushToDataLayer({
-      eventData: '',
-      eventName: 'DataLayerReady',
-      status: 'processed',
-      triggered: false,
-    },
+    eventData: '',
+    eventName: 'DataLayerReady',
+    status: 'processed',
+    triggered: false,
+  },
     {
       pageInfo: {
         cleanURL: window.location.href,
@@ -142,7 +142,7 @@ function buildBackToTop(main) {
           <span class="body-copy__fourteen" id="scrollToTop">TOP</span>
       </span>
   </button>
-</div>`
+</div>`;
   section.innerHTML = bttw;
   main.append(section);
 }

@@ -7,7 +7,7 @@ sampleRUM('cwv');
 /*
   * Returns the environment type based on the hostname.
 */
-export function getEnvType(hostname = window.location.hostname) {
+function getEnvType(hostname = window.location.hostname) {
   const fqdnToEnvType = {
     'walgreens.com': 'live',
     'www.walgreens.com': 'live',
