@@ -18,7 +18,7 @@ function toggleFaq(e) {
   if (arrowIcon === e.target) {
     faq.classList.toggle('active');
     if (answer.style.maxHeight === '0px' || answer.style.maxHeight === '') {
-      answer.style.maxHeight = answer.scrollHeight + 'px';
+      answer.style.maxHeight = answer.scrollHeight+'px';
     } else {
       answer.style.maxHeight = '0';
     }
@@ -26,7 +26,7 @@ function toggleFaq(e) {
     closeAllOtherFaqs(faq);
     faq.classList.toggle('active');
     if (answer.style.maxHeight === '0px' || answer.style.maxHeight === '') {
-      answer.style.maxHeight = answer.scrollHeight + 'px';
+      answer.style.maxHeight = answer.scrollHeight+'px';
     } else {
       answer.style.maxHeight = '0';
     }
