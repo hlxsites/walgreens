@@ -25,7 +25,7 @@ export function pushToDataLayer(event, payload) {
     window.digitalData = {};
     window.digitalData.events = [];
   }
-  window.digitalData.events.push( event );
+  window.digitalData.events.push(event);
   window.digitalData.page = payload;
 }
 
@@ -34,18 +34,16 @@ export function getTags(tags) {
 }
 
 function getDeviceType() {
-    const userAgent = navigator.userAgent;
-
-    if (/Mobile/i.test(userAgent)) {
-        // Mobile device (including tablets)
-        return 'mobile';
-    } else if (/Tablet/i.test(userAgent)) {
-        // Tablet device
-        return 'tablet';
-    } else {
-        // Desktop device
-        return 'desktop';
-    }
+  const { userAgent } = navigator;
+  if (/Mobile/i.test(userAgent)) {
+    // Mobile device (including tablets)
+    return 'mobile';
+  } else if (/Tablet/i.test(userAgent)) {
+    // Tablet device
+    return 'tablet';
+  }
+  // Desktop device
+  return 'desktop';
 }
 
 /**
@@ -66,22 +64,23 @@ function pushPageLoadToDataLayer() {
   const { hostname, pathname } = window.location;
   const environment = getEnvironment(hostname);
   const setSection = pathname.split('/')[1];
-  pushToDataLayer(
-    { eventData: '',
+  pushToDataLayer({
+      eventData: '',
       eventName: 'DataLayerReady',
       status: 'processed',
       triggered: false,
     },
-    { pageInfo: {
+    {
+      pageInfo: {
         cleanURL: window.location.href,
         deviceType: getDeviceType(),
-        environment: environment,
+        environment,
         pageName: getMetadata('og:title'),
         pageTemplate: setSection.replace(/^\w/, (char) => char.toUpperCase()),
-        setSection: setSection,
+        setSection,
         serverName: 'hlx.live', // indicator for AEM Edge Delivery
-      }
-    }
+      },
+    },
   );
 }
 
