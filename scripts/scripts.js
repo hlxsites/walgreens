@@ -66,17 +66,17 @@ function pushPageLoadToDataLayer() {
     status: 'processed',
     triggered: false,
   },
-    {
-      pageInfo: {
-        cleanURL: window.location.href,
-        deviceType: getDeviceType(),
-        environment,
-        pageName: getMetadata('og:title'),
-        pageTemplate: setSection.replace(/^\w/, (char) => char.toUpperCase()),
-        setSection,
-        serverName: 'hlx.live', // indicator for AEM Edge Delivery
-      },
+  {
+    pageInfo: {
+      cleanURL: window.location.href,
+      deviceType: getDeviceType(),
+      environment,
+      pageName: getMetadata('og:title'),
+      pageTemplate: setSection.replace(/^\w/, (char) => char.toUpperCase()),
+      setSection,
+      serverName: 'hlx.live', // indicator for AEM Edge Delivery
     },
+  },
   );
 }
 
