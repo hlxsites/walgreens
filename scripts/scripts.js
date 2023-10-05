@@ -1,6 +1,5 @@
 import {
   sampleRUM,
-  buildBlock,
   loadHeader,
   loadFooter,
   decorateButtons,
@@ -13,13 +12,11 @@ import {
   loadCSS,
   loadScript,
   getMetadata,
-  fetchPlaceholders,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 const DELAYED_RESOURCES = 3000;
 const BASEURL = 'https://walgreens.com';
-const placeholders = await fetchPlaceholders();
 
 export function pushToDataLayer(event, payload) {
   if (!window.digitalData) {
@@ -37,13 +34,11 @@ export function getTags(tags) {
 function getDeviceType() {
   const { userAgent } = navigator;
   if (/Mobile/i.test(userAgent)) {
-    // Mobile device (including tablets)
     return 'mobile';
-  } else if (/Tablet/i.test(userAgent)) {
-    // Tablet device
+  }
+  if (/Tablet/i.test(userAgent)) {
     return 'tablet';
   }
-  // Desktop device
   return 'desktop';
 }
 
@@ -85,19 +80,6 @@ function pushPageLoadToDataLayer() {
   );
 }
 
-/*
-  * Returns the environment type based on the hostname.
-*/
-export function getEnvType(hostname = window.location.hostname) {
-  const fqdnToEnvType = {
-    'walgreens.com': 'live',
-    'www.walgreens.com': 'live',
-    'main--walgreens--hlxsites.hlx.page': 'dev',
-    'main--walgreens--hlxsites.hlx.live': 'live',
-  };
-  return fqdnToEnvType[hostname] || 'dev';
-}
-
 /**
  * Get the Absolute walgreens url from a relative one
  * @param {Element} path relative walgreens path
@@ -112,8 +94,6 @@ export function walgreensUrl(path) {
  * @param {JSON} fileList json object that comes with the UI API response
  */
 export async function loadFileList(fileList) {
-  const baseUrl = 'https://www.walgreens.com';
-
   const skip = ['dtm', 'googleApi', 'speedIndex', 'lsgScriptMin'];
   const eager = ['jquery', 'sly', 'headerSupport', 'lsgURL'];
   const scriptTags = document.querySelectorAll('script[src]');

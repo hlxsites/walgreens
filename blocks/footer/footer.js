@@ -1,4 +1,6 @@
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons, fetchPlaceholders } from '../../scripts/lib-franklin.js';
+
+const placeholders = await fetchPlaceholders();
 
 /**
 * loads and decorates the footer
@@ -6,6 +8,7 @@ import { decorateIcons } from '../../scripts/lib-franklin.js';
 */
 export default async function decorate(block) {
   const worker = new Worker('../../scripts/headerfooter-worker.js');
+  const { privacyIcon, localPrivacyIcon } = placeholders;
   worker.onmessage = async (e) => {
     worker.terminate();
     if (!e.data.ok) {
@@ -17,5 +20,5 @@ export default async function decorate(block) {
     decorateIcons(footer);
     block.append(footer);
   };
-  worker.postMessage({ source: 'footer' });
+  worker.postMessage({ source: 'footer', privacyIcon, localPrivacyIcon });
 }

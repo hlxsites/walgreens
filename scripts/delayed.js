@@ -1,11 +1,21 @@
 // eslint-disable-next-line import/no-cycle
 import { loadScript, sampleRUM } from './lib-franklin.js';
-import { getEnvType } from './scripts.js';
 
 // Core Web Vitals RUM collection
 sampleRUM('cwv');
 
-// add more delayed functionality here
+/*
+  * Returns the environment type based on the hostname.
+*/
+export function getEnvType(hostname = window.location.hostname) {
+  const fqdnToEnvType = {
+    'walgreens.com': 'live',
+    'www.walgreens.com': 'live',
+    'main--walgreens--hlxsites.hlx.page': 'dev',
+    'main--walgreens--hlxsites.hlx.live': 'live',
+  };
+  return fqdnToEnvType[hostname] || 'dev';
+}
 
 async function loadAdobeLaunch() {
   const adobedtmSrc = {
