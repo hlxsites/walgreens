@@ -1,3 +1,7 @@
+.cards {
+  margin-bottom: 50px;
+}
+
 .cards > ul {
   list-style: none;
   margin: 0;
@@ -5,14 +9,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 50px;
 }
 
 .cards.border > ul {
   justify-content: flex-start;
 }
 
-.franklin-card {
+.cards .card {
   width: calc(25% - 15px); /* default 4 columns */
   backface-visibility: hidden;
   font: inherit;
@@ -22,18 +25,18 @@
   height: unset !important;      /* overwrite external CSS */
 }
 
-.franklin-card > a {
+.cards .card > a {
   display: block;
   width: 100%;
 }
 
-.franklin-card.with-border {
+.cards .card.with-border {
   box-shadow: 0 1px 6px 1px rgba(64 64 64 / 15%);
   border-radius: 8px;
   margin: 10px 0;
 }
 
-.franklin-card .card-image {
+.cards .card .card-image {
   line-height: 0;
   margin-bottom: 20px;
   height: 180px;
@@ -41,12 +44,12 @@
   justify-content: center;
 }
 
-.franklin-card.with-border .card-image {
+.cards .card.with-border .card-image {
   height: 155px;
   margin-bottom: 30px;
 }
 
-.franklin-card.with-border > a {
+.cards .card.with-border > a {
   display: block;
   margin: 0 auto;
   padding: 24px 0;
@@ -54,11 +57,17 @@
   z-index: 2;
 }
 
-.franklin-card .card-image picture {
+.cards .card .card-image picture {
   display: block;
 }
 
-.franklin-card .card-image img {
+.cards.cta .card .card-image {
+  width: 100%;
+  height: 80px;
+  margin-bottom: 0;
+}
+
+.cards .card .card-image img {
   height: auto;
   max-height: 100%;
   max-width: 100%;
@@ -66,65 +75,70 @@
   object-fit: cover;
 }
 
-.franklin-card .card-body {
+.cards .card .card-body {
   text-align: center;
   line-height: 1.5;
   padding: 0;
   margin-bottom: 30px;
 }
 
-.franklin-card:not(.with-border) .card-body {
+.cards .card:not(.with-border) .card-body {
   color: var(--text-color);
 }
 
-.franklin-card .card-body p {
+.cards .card .card-body p {
   margin: 0;
   padding: 0;
 }
 
-.franklin-card .card-body p:first-child {
+.cards .card .card-body p:first-child {
   font-size: 1.375rem;
 }
 
-.franklin-card .card-body p:nth-child(2) {
+.cards .card .card-body p:nth-child(2) {
   font-size: 1rem;
   line-height: 1.19;
 }
 
-.franklin-card .card-body p:nth-child(3) {
+.cards .card .card-body p:nth-child(3) {
   font-size: 1rem;
   letter-spacing: .2px;
   line-height: 1.5;
 }
 
-.franklin-card .card-body p strong {
+.cards .card .card-body p strong {
   font-weight: 700;
   font-size: 1.375rem;
 }
 
-.cards.columns-3 .franklin-card {
+.cards.cta .card .card-body {
+  color: unset;
+  font-size: var(--body-font-size-m);
+}
+
+.cards.columns-3 .card {
   width: calc(33.3333% - 15px);
 }
 
-.cards.columns-4 .franklin-card {
+.cards.columns-4 .card {
   width: calc(25% - 15px);
 }
 
-.cards.columns-5 .franklin-card {
+.cards.columns-5 .card {
   width: calc(20% - 25px);
 }
 
 
 @media (max-width: 1023px) {
-  .cards.columns-4 .franklin-card {
+  .cards.columns-4 .card {
     width: calc(50% - 10px);
   }
 
-  .cards.columns-5 .franklin-card {
+  .cards.columns-5 .card {
     width: 50%;
   }
 
-  .cards.columns-3 .franklin-card {
+  .cards.columns-3 .card {
     width: calc(50% - 10px);
   }
 
@@ -133,31 +147,33 @@
   }
 }
 
+@media (min-width: 767px) {
+  .cards.bottom-border {
+    border-bottom: 1px solid var(--highlight-background-color);
+  }
+}
+
 @media (max-width: 767px) {
-  .cards.columns-5 .franklin-card {
+  .cards.columns-5 .card {
     width: 100%;
   }
 }
 
 @media (max-width: 599px) {
-  .cards.columns-3 .franklin-card {
+  .cards.columns-3 .card {
     width: 100%;
     margin-top: 30px;
   }
 
-  .cards.columns-4 .franklin-card {
+  .cards.columns-4 .card {
     width: 100%;
   }
 }
 
-.franklin-card.with-border .card-body p:first-child,
-.franklin-card.with-border .card-body p:nth-child(2),
-.franklin-card.with-border .card-body p:nth-child(3),
-.franklin-card.with-border .card-body p strong {
+.cards .card.with-border .card-body p:first-child,
+.cards .card.with-border .card-body p:nth-child(2),
+.cards .card.with-border .card-body p:nth-child(3),
+.cards .card.with-border .card-body p strong {
   font-size: 1rem;
   line-height: 1.5;
 }
-
-
-
-
