@@ -2,6 +2,7 @@ import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 import {
   a, div, li, strong, ul, p, img,
 } from '../../scripts/dom-helpers.js';
+import { walgreensUrl } from '../../scripts/scripts.js';
 
 function decorateCuratedCards(block) {
   const cardsWithBorder = block.classList.contains('border');
@@ -9,7 +10,7 @@ function decorateCuratedCards(block) {
   /* change to ul, li */
   const list = ul();
   [...block.children].forEach((row) => {
-    const listItem = li({ class: `card ${cardsWithBorder ? ' with-border' : ''}` });
+    const listItem = li({ class: `franklin-card ${cardsWithBorder ? ' with-border' : ''}` });
 
     const link = row.querySelector('a');
     let parent = listItem;
@@ -61,11 +62,11 @@ async function decorateAPICards(block) {
   block.append(
     ul(
       ...apiInfo.offers.map((offer) => (
-        li({ class: `card ${cardsWithBorder ? ' with-border' : ''}` },
+        li({ class: `franklin-card ${cardsWithBorder ? ' with-border' : ''}` },
           a({ href: apiCardLink(offer) },
             div({ class: 'card-image' },
               img({
-                src: new URL(offer.imageUrl, 'https://www.walgreens.com').toString(),
+                src: walgreensUrl(offer.imageUrl),
                 loading: 'lazy',
                 alt: `Offer Image: ${offer.title}`,
               }),

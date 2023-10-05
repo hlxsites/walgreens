@@ -16,7 +16,8 @@ import {
   fetchPlaceholders,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = []; // add your LCP blocks to the list
+const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
+const DELAYED_RESOURCES = 3000;
 const BASEURL = 'https://walgreens.com';
 const placeholders = await fetchPlaceholders();
 
@@ -107,28 +108,14 @@ export function walgreensUrl(path) {
 }
 
 /**
- * Remaps the relative urls to absolute urls.
- * @param {string} content string of html with relative urls
- * @returns the string with absolute urls
- */
-export function resolveRelativeURLs(content) {
-  // Use a regular expression to find relative links (starting with "/")
-  const relativeLinkRegex = /(?:href|action)="(?!\/images\/)(\/[^"]+)"/g;
-  const { privacyIcon, localPrivacyIcon } = placeholders;
-  let absoluteContent = content.replace(relativeLinkRegex, (match, relativePath) => {
-    // Combine the base URL and the relative path to create an absolute URL
-    const absoluteUrl = `${BASEURL}${relativePath}`;
-    return `href="${absoluteUrl}"`;
-  });
-  absoluteContent = absoluteContent.replace(privacyIcon, localPrivacyIcon);
-  return absoluteContent;
-}
-
-/**
  * Adds the js and css to the head.
  * @param {JSON} fileList json object that comes with the UI API response
  */
-export function loadFileList(fileList) {
+export async function loadFileList(fileList) {
+  const baseUrl = 'https://www.walgreens.com';
+
+  const skip = ['dtm', 'googleApi', 'speedIndex', 'lsgScriptMin'];
+  const eager = ['jquery', 'sly', 'headerSupport', 'lsgURL'];
   const scriptTags = document.querySelectorAll('script[src]');
 
   const fileKeys = Object.keys(fileList);
@@ -143,16 +130,14 @@ export function loadFileList(fileList) {
       // Check if a script with the same URL is already on the page
       const scriptExists = [...scriptTags].some((scriptTag) => scriptTag.src === absolutePath);
 
-      if (
-        fileInfo.type === 'js'
-        && !scriptExists
-        && !['dtm'].includes(fileName)
-      ) {
-        loadScript(absolutePath, {
-          type: 'text/javascript',
-          charset: 'UTF-8',
-          async: true,
-        });
+      if (fileInfo.type === 'js' && !scriptExists && !skip.includes(fileName)) {
+        if (eager.includes(fileName)) {
+          loadScript(absolutePath, { type: 'text/javascript', charset: 'UTF-8', async: true });
+        } else {
+          setTimeout(() => {
+            loadScript(absolutePath, { type: 'text/javascript', charset: 'UTF-8', async: true });
+          }, DELAYED_RESOURCES);
+        }
       } else if (fileInfo.type === 'css') {
         loadCSS(absolutePath);
       }
@@ -299,7 +284,7 @@ async function loadLazy(doc) {
  */
 function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
-  window.setTimeout(() => import('./delayed.js'), 3000);
+  window.setTimeout(() => import('./delayed.js'), DELAYED_RESOURCES);
   // load anything that can be postponed to the latest here
 }
 

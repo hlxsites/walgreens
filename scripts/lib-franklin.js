@@ -613,6 +613,20 @@ export function decorateButtons(element) {
   });
 }
 
+export async function waitForEagerImageLoad(img) {
+  if (!img) return;
+
+  await new Promise((resolve) => {
+    if (img && !img.complete) {
+      img.setAttribute('loading', 'eager');
+      img.addEventListener('load', resolve);
+      img.addEventListener('error', resolve);
+    } else {
+      resolve();
+    }
+  });
+}
+
 /**
  * Load LCP block and/or wait for LCP in default content.
  */
@@ -623,15 +637,7 @@ export async function waitForLCP(lcpBlocks) {
 
   document.body.style.display = null;
   const lcpCandidate = document.querySelector('main img');
-  await new Promise((resolve) => {
-    if (lcpCandidate && !lcpCandidate.complete) {
-      lcpCandidate.setAttribute('loading', 'eager');
-      lcpCandidate.addEventListener('load', resolve);
-      lcpCandidate.addEventListener('error', resolve);
-    } else {
-      resolve();
-    }
-  });
+  waitForEagerImageLoad(lcpCandidate);
 }
 
 /**
