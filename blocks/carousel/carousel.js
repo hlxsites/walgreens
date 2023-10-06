@@ -15,13 +15,59 @@ async function decorateAPICarousel(block) {
   block.append(decorateAPICards(apiInfo.offers, true));
 }
 
-function navCarousel(block, direction) {
+function navCarousel(block, direction, walk) {
   const ul = block.querySelector('ul');
   const li = block.querySelector('li');
+  if (typeof direction === "number") {
+    ul.scrollLeft -= direction;
+    return;
+  }
   if (direction === 'left') {
     ul.scrollLeft -= li.offsetWidth;
   } else {
     ul.scrollLeft += li.offsetWidth;
+  }
+}
+
+function makeCarouselDraggable(carousel) {
+  let isDown = false;
+  let startX = 0;
+  let walk = 0;
+
+  carousel.addEventListener('mousedown', handleDragStart);
+  carousel.addEventListener('touchstart', handleDragStart, { passive: true });
+
+  carousel.addEventListener('mouseleave', handleDragEnd);
+  carousel.addEventListener('mouseup', handleDragEnd);
+  carousel.addEventListener('touchend', handleDragEnd);
+
+  carousel.addEventListener('mousemove', handleDragMove);
+  carousel.addEventListener('touchmove', handleDragMove, { passive: true });
+
+  function handleDragStart(e) {
+    isDown = true;
+    startX = getDragXPosition(e);
+  }
+
+  function handleDragEnd() {
+    isDown = false;
+  }
+
+  function handleDragMove(e) {
+    if (!isDown) {
+      return;
+    }
+    e.preventDefault();
+    const currentX = getDragXPosition(e);
+    walk = currentX - startX;
+    navCarousel(carousel, walk);
+  }
+
+  function getDragXPosition(e) {
+    if (e.type.startsWith('touch')) {
+      return e.touches[0].pageX;
+    }
+    return e.pageX;
   }
 }
 
@@ -32,6 +78,8 @@ export default async function decorate(block) {
   } else {
     await decorateCuratedCards(block, true);
   }
+
+  makeCarouselDraggable(block);
 
   block.append(
     div({ class: 'carousel-nav' },
