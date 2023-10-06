@@ -8,7 +8,7 @@
 
 
 .carousel>ul {
-  width: 90%;
+  max-width: 90%;
   display: flex;
   flex-wrap: nowrap;
   overflow-x: scroll;
@@ -24,9 +24,9 @@
 
 /* Specific card overrides for carousel - BEGIN */
 .carousel .card {
-  width: 100%;
+  width: 90%;
   flex-shrink: 0;
-  /* scroll-snap-align: start; */
+  scroll-snap-align: start;
 }
 .carousel.cards-4 .card,
 .carousel.cards-5 .card{
@@ -70,7 +70,7 @@
 .carousel .carousel-nav .icon svg {
   fill: #989090;
   width: 30px;
-  height: 30px;
+  height: 32px;
 }
 
 .carousel .icon-arrow-right.left-arrow {
@@ -78,10 +78,6 @@
 }
 
 @media only screen and (min-width:701px) {
-  .carousel>ul {
-    max-width: 100%;
-  }
-
   .carousel.cards-4 .card {
     width: calc(100% / 4);
   }
