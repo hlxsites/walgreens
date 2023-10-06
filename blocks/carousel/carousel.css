@@ -28,6 +28,7 @@
   flex-shrink: 0;
   scroll-snap-align: start;
 }
+
 .carousel.cards-4 .card,
 .carousel.cards-5 .card{
   width: 100%;
@@ -44,6 +45,7 @@
   pointer-events: none;
   background-color: red;
 }
+
 .carousel .carousel-nav {
   position: absolute;
   background: none;
