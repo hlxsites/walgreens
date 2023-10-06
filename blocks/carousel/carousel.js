@@ -34,6 +34,13 @@ function makeCarouselDraggable(carousel) {
   let startX = 0;
   let walk = 0;
 
+  function getDragXPosition(e) {
+    if (e.type.startsWith('touch')) {
+      return e.touches[0].pageX;
+    }
+    return e.pageX;
+  }
+  
   function handleDragStart(e) {
     isDown = true;
     startX = getDragXPosition(e);
@@ -53,12 +60,6 @@ function makeCarouselDraggable(carousel) {
     navCarousel(carousel, walk);
   }
 
-  function getDragXPosition(e) {
-    if (e.type.startsWith('touch')) {
-      return e.touches[0].pageX;
-    }
-    return e.pageX;
-  }
 
   carousel.addEventListener('mousedown', handleDragStart);
   carousel.addEventListener('touchstart', handleDragStart, { passive: true });
