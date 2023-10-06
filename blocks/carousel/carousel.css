@@ -12,7 +12,7 @@
   display: flex;
   flex-wrap: nowrap;
   overflow-x: scroll;
-  gap: 2rem;
+  gap: 1rem;
   list-style: none;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
