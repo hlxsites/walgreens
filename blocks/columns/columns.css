@@ -7,6 +7,10 @@
   width: 100%;
 }
 
+.columns:not(.dotw):not(.promo) {
+  display: none;
+}
+
 .columns>div>div {
   order: 1;
 }
@@ -71,6 +75,16 @@
 .columns.promo .button-container a:hover::after {
   transform: scaleX(1);
   transition: 0.3s;
+}
+
+@media (min-width: 600px) {
+  .columns:not(.dotw):not(.promo) {
+    display: block;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    padding: 20px 0;
+  }
 }
 
 @media (min-width: 900px) {
