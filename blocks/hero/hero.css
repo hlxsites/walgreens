@@ -1,5 +1,38 @@
+/* stylelint-disable custom-property-empty-line-before */
+
 main .hero {
+  --hero-text-color: var(--text-color);
+  --hero-desktop-text-color: var(--hero-text-color);
+  --hero-mobile-text-color: var(--hero-text-color);
+
+  --hero-background-color: none;
+  --hero-desktop-backround-color: var(--hero-background-color);
+  --hero-mobile-background-color: var(--hero-background-color);
+
+  --hero-text-align: left;
+  --hero-desktop-text-align: var(--hero-text-align);
+  --hero-mobile-text-align: var(--hero-text-align);
+
+  --hero-paragraph-padding: 0;
+  --hero-desktop-paragraph-padding: var(--hero-paragraph-padding);
+  --hero-mobile-paragraph-padding: var(--hero-paragraph-padding);
+
+  --hero-margin-bottom: 0;
+
+  --hero-title-size: 1.75rem;
+  --hero-desktop-title-size: var(--hero-title-size);
+  --hero-mobile-title-size: var(--hero-title-size);
+
+  --hero-subtitle-size: 1.125rem;
+  --hero-desktop-subtitle-size: var(--hero-subtitle-size);
+  --hero-mobile-subtitle-size: var(--hero-subtitle-size);
+
+  background-color: var(--hero-background-color);
   position: relative;
+}
+
+main .hero.rounded {
+  border-radius: 16px;
 }
 
 main .hero > a,
@@ -39,19 +72,22 @@ main .hero .hero-overlay {
   width: 50%;
 }
 
+
 main .hero .hero-overlay p {
   margin: 0;
-  padding: 0;
-  color: var(--text-color);
+  padding: var(--hero-desktop-paragraph-padding) 0;
+  color: var(--hero-desktop-text-color);
+  text-align: var(--hero-desktop-text-align);
 }
 
 main .hero .hero-overlay p:first-child {
-  font-size: 1.75rem;
+  white-space: nowrap;
+  font-size: var(--hero-desktop-title-size);
   line-height: 1.21;
 }
 
 main .hero .hero-overlay p:last-child {
-  font-size: 1.125rem;
+  font-size: var(--hero-desktop-subtitle-size);
   line-height: 1.33;
 }
 
@@ -63,14 +99,20 @@ main .hero .hero-overlay strong {
 }
 
 @media (max-width: 1023px) {
-  main .hero .hero-overlay p,
-  main .hero .hero-overlay p:first-child,
-  main .hero .hero-overlay p:last-child {
-    font-size: 1rem;
+  main .hero {
+    --hero-title-size: 1rem;
+    --hero-subtitle-size: 1rem;
   }
 }
 
 @media (max-width: 768px) {
+  main .hero {
+    --hero-text-color: var(--link-color);
+    --hero-background-color: #F5F5F0;
+    --hero-title-size: 1.375rem;
+    --hero-subtitle-size: 1.125rem;
+  }
+
   main .hero .background-desktop {
     display: none;
   }
@@ -83,7 +125,6 @@ main .hero .hero-overlay strong {
 
   main .hero .hero-overlay {
     position: static;
-    background-color: #F5F5F0;
     border-radius: 0 0 16px 16px;
     text-align: left;
     width: 100%;
@@ -92,15 +133,22 @@ main .hero .hero-overlay strong {
     height: unset;
   }
 
+  main .hero a {
+    width: 100%;
+  }
+
   main .hero .hero-overlay p {
-    color: var(--link-color);
+    color: var(--hero-mobile-text-color);
+    padding: var(--hero-mobile-paragraph-padding) 0;
+    text-align: var(--hero-mobile-text-align);
   }
 
   main .hero .hero-overlay p:first-child {
-    font-size: 1.375rem;
+    white-space: unset;
+    font-size: var(--hero-mobile-title-size);
   }
-
+  
   main .hero .hero-overlay p:last-child {
-    font-size: 1.125rem;
+    font-size: var(--hero-mobile-subtitle-size);
   }
 }
