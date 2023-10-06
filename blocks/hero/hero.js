@@ -1,21 +1,56 @@
-import { waitForEagerImageLoad } from '../../scripts/lib-franklin.js';
+import { toClassName, waitForEagerImageLoad } from '../../scripts/lib-franklin.js';
 
 export default async function decorate(block) {
   [...block.children].forEach((row) => {
     if (row.children.length < 2) return;
 
-    const configCell = row.children[0];
+    const [configCell, contentCell] = row.children;
 
-    if (configCell.textContent.toLowerCase().trim() === 'desktop') {
+    const config = configCell.textContent.toLowerCase().trim();
+    if (config === 'desktop') {
       row.classList.add('background-desktop');
     }
 
-    if (configCell.textContent.toLowerCase().trim() === 'mobile') {
+    if (config === 'mobile') {
       row.classList.add('background-mobile');
     }
 
-    if (configCell.textContent.toLowerCase().trim() === 'overlay') {
+    if (config === 'overlay') {
       row.classList.add('hero-overlay');
+    }
+
+    const supportedOverrides = [
+      'text color',
+      'desktop text color',
+      'mobile text color',
+
+      'background color',
+      'desktop background color',
+      'mobile background color',
+
+      'text align',
+      'mobile text align',
+      'desktop text align',
+
+      'paragraph padding',
+      'mobile paragraph padding',
+      'desktop paragraph padding',
+
+      'title size',
+      'desktop title size',
+      'mobile title size',
+
+      'subtitle size',
+      'desktop subtitle size',
+      'mobile subtitle size',
+    ];
+
+    if (supportedOverrides.includes(config)) {
+      if (contentCell.textContent) {
+        const cssVar = `--hero-${toClassName(config)}`;
+        block.style.setProperty(cssVar, contentCell.textContent);
+      }
+      contentCell.remove();
     }
 
     configCell.remove();
@@ -28,6 +63,10 @@ export default async function decorate(block) {
     link.textContent = '';
     link.append(...block.children);
     block.append(link);
+  }
+
+  if (document.querySelector('.hero') !== block) {
+    block.style.marginBottom = '50px';
   }
 
   /*
