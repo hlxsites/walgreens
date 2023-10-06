@@ -18,7 +18,7 @@ async function decorateAPICarousel(block) {
 function navCarousel(block, direction, walk) {
   const ul = block.querySelector('ul');
   const li = block.querySelector('li');
-  if (typeof direction === "number") {
+  if (typeof direction === 'number') {
     ul.scrollLeft -= direction;
     return;
   }
@@ -33,16 +33,6 @@ function makeCarouselDraggable(carousel) {
   let isDown = false;
   let startX = 0;
   let walk = 0;
-
-  carousel.addEventListener('mousedown', handleDragStart);
-  carousel.addEventListener('touchstart', handleDragStart, { passive: true });
-
-  carousel.addEventListener('mouseleave', handleDragEnd);
-  carousel.addEventListener('mouseup', handleDragEnd);
-  carousel.addEventListener('touchend', handleDragEnd);
-
-  carousel.addEventListener('mousemove', handleDragMove);
-  carousel.addEventListener('touchmove', handleDragMove, { passive: true });
 
   function handleDragStart(e) {
     isDown = true;
@@ -69,6 +59,16 @@ function makeCarouselDraggable(carousel) {
     }
     return e.pageX;
   }
+
+  carousel.addEventListener('mousedown', handleDragStart);
+  carousel.addEventListener('touchstart', handleDragStart, { passive: true });
+
+  carousel.addEventListener('mouseleave', handleDragEnd);
+  carousel.addEventListener('mouseup', handleDragEnd);
+  carousel.addEventListener('touchend', handleDragEnd);
+
+  carousel.addEventListener('mousemove', handleDragMove);
+  carousel.addEventListener('touchmove', handleDragMove, { passive: true });
 }
 
 export default async function decorate(block) {
