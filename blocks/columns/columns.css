@@ -44,6 +44,11 @@
   font-size: 32px;
 }
 
+.columns.promo .button-container {
+  margin: auto;
+  max-width: 500px;
+}
+
 .columns.promo .button-container a {
   position: relative;
   display: block;
