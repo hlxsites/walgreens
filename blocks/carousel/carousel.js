@@ -15,7 +15,7 @@ async function decorateAPICarousel(block) {
   block.append(decorateAPICards(apiInfo.offers, true));
 }
 
-function navCarousel(block, direction, walk) {
+function navCarousel(block, direction) {
   const ul = block.querySelector('ul');
   const li = block.querySelector('li');
   if (typeof direction === 'number') {
@@ -40,7 +40,7 @@ function makeCarouselDraggable(carousel) {
     }
     return e.pageX;
   }
-  
+
   function handleDragStart(e) {
     isDown = true;
     startX = getDragXPosition(e);
@@ -59,7 +59,6 @@ function makeCarouselDraggable(carousel) {
     walk = currentX - startX;
     navCarousel(carousel, walk);
   }
-
 
   carousel.addEventListener('mousedown', handleDragStart);
   carousel.addEventListener('touchstart', handleDragStart, { passive: true });
