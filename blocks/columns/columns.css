@@ -7,7 +7,7 @@
   width: 100%;
 }
 
-.columns:not(.dotw):not(.promo) {
+.columns:not(.dotw, .promo) {
   display: none;
 }
 
@@ -78,7 +78,7 @@
 }
 
 @media (min-width: 600px) {
-  .columns:not(.dotw):not(.promo) {
+  .columns:not(.dotw, .promo) {
     display: block;
     width: 80%;
     margin: auto;
