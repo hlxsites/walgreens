@@ -36,10 +36,11 @@ export default async function decorate(block) {
    * because the Hero background is also the LCP
    */
   let lcpImage = null;
-  if (window.matchMedia('(max-width: 768px)')) {
+  if (window.matchMedia('(max-width: 768px)').matches) {
     lcpImage = block.querySelector('.background-mobile img');
   } else {
     lcpImage = block.querySelector('.background-desktop img');
   }
+  console.log('LCP image', lcpImage);
   await waitForEagerImageLoad(lcpImage);
 }
