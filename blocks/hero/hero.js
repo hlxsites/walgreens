@@ -41,6 +41,5 @@ export default async function decorate(block) {
   } else {
     lcpImage = block.querySelector('.background-desktop img');
   }
-  console.log('LCP image', lcpImage);
   await waitForEagerImageLoad(lcpImage);
 }
