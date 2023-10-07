@@ -1,5 +1,49 @@
-import { div, span } from '../../scripts/dom-helpers.js';
+import {
+  a, div, img, li, span, ul,
+} from '../../scripts/dom-helpers.js';
 import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { walgreensUrl } from '../../scripts/scripts.js';
+
+function decorateCuratedListOfLinks(panel) {
+  panel.querySelectorAll('ul a').forEach((link) => {
+    if (!link.previousElementSibling || link.previousElementSibling.nodeName.toLowerCase() !== 'picture') {
+      return;
+    }
+
+    const text = link.textContent;
+    link.innerHTML = '';
+    link.append(
+      span({ class: 'link-image' }, link.previousElementSibling),
+      span({ class: 'link-text' }, text),
+    );
+  });
+}
+
+async function decorateAPIListOfLinks(panel) {
+  const link = panel.querySelector('a');
+  const apiEndpoint = link.href;
+  link.parentElement.remove();
+  const apiResponse = await fetch(apiEndpoint);
+
+  if (!apiResponse.ok) {
+    return;
+  }
+
+  const apiInfo = await apiResponse.json();
+
+  panel.append(
+    ul(
+      ...apiInfo.categories.map((category) => (
+        li(
+          a({ href: walgreensUrl(category.url) },
+            span({ class: 'link-image' }, img({ src: category.imageUrl })),
+            span({ class: 'link-text' }, category.name),
+          ),
+        )
+      )),
+    ),
+  );
+}
 
 /**
  * The sidepanel has a more complex behaviour.
@@ -20,21 +64,27 @@ import { decorateIcons } from '../../scripts/lib-franklin.js';
  *  - each row has a list of links, optionally prepended by images
  * @param {Element} block sidepanel block
  */
-export default function decorate(block) {
-  [...block.children].forEach((row) => {
+export default async function decorate(block) {
+  for (let i = 0; i < block.children.length; i += 1) {
+    const row = block.children[i];
     const panel = row.children[0];
-    panel.querySelectorAll('a').forEach((link) => {
-      if (!link.previousElementSibling || link.previousElementSibling.nodeName.toLowerCase() !== 'picture') {
-        return;
-      }
 
-      const text = link.textContent;
-      link.innerHTML = '';
-      link.append(
-        span({ class: 'link-image' }, link.previousElementSibling),
-        span({ class: 'link-text' }, text),
+    if (panel.querySelector('ul')) {
+      decorateCuratedListOfLinks(panel);
+    } else {
+      // eslint-disable-next-line no-await-in-loop
+      await decorateAPIListOfLinks(panel);
+    }
+
+    if (!i) {
+      panel.querySelector('ul').append(
+        li({ class: 'shop-by-brand' },
+          a({ href: 'https://www.walgreens.com/store/store/brands/brand.jsp' },
+            'Shop by Brand',
+          ),
+        ),
       );
-    });
+    }
 
     const header = panel.querySelector('h2');
     const list = panel.querySelector('ul');
@@ -58,7 +108,7 @@ export default function decorate(block) {
         list,
       ),
     );
-  });
+  }
 
   decorateIcons(block);
 }

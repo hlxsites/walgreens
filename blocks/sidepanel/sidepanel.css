@@ -27,6 +27,7 @@
 }
 
 .sidepanel .panel-accordion li picture,
+.sidepanel .panel-accordion li img,
 .sidepanel .panel-accordion .accordion-button .icon {
   display: none;
 }
@@ -53,8 +54,13 @@
     width: 100%;
   }
 
-  .sidepanel .panel-accordion li picture {
+  .sidepanel .panel-accordion li picture,
+  .sidepanel .panel-accordion li img {
     display: block;
+  }
+
+  .sidepanel .panel-accordion li.shop-by-brand {
+    display: none;
   }
 
   .sidepanel .panel-accordion li .link-image {
