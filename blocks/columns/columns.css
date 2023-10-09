@@ -7,6 +7,10 @@
   width: 100%;
 }
 
+.columns:not(.dotw, .promo) {
+  display: none;
+}
+
 .columns>div>div {
   order: 1;
 }
@@ -44,6 +48,11 @@
   font-size: 32px;
 }
 
+.columns.promo .button-container {
+  margin: auto;
+  max-width: 500px;
+}
+
 .columns.promo .button-container a {
   position: relative;
   display: block;
@@ -66,6 +75,16 @@
 .columns.promo .button-container a:hover::after {
   transform: scaleX(1);
   transition: 0.3s;
+}
+
+@media (min-width: 600px) {
+  .columns:not(.dotw, .promo) {
+    display: block;
+    width: 80%;
+    margin: auto;
+    text-align: center;
+    padding: 20px 0;
+  }
 }
 
 @media (min-width: 900px) {

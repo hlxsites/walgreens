@@ -29,9 +29,9 @@ async function loadAdobeLaunch() {
   });
 }
 
-loadScript('https://resources.digital-cloud-west.medallia.com/wdcwest/378975/onsite/embed.js', {
+/* loadScript('https://resources.digital-cloud-west.medallia.com/wdcwest/378975/onsite/embed.js', {
   type: 'text/javascript',
   async: true,
-});
+}); */
 
 await loadAdobeLaunch();
