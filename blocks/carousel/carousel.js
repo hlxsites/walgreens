@@ -17,15 +17,14 @@ async function decorateAPICarousel(block) {
 
 function navCarousel(block, direction) {
   const ul = block.querySelector('ul');
-  const li = block.querySelector('li');
   if (typeof direction === 'number') {
     ul.scrollLeft -= direction;
     return;
   }
   if (direction === 'left') {
-    ul.scrollLeft -= li.offsetWidth;
+    ul.scrollLeft -= ul.offsetWidth;
   } else {
-    ul.scrollLeft += li.offsetWidth;
+    ul.scrollLeft += ul.offsetWidth;
   }
 }
 
