@@ -34,6 +34,10 @@
   width: 100%;
 }
 
+.carousel .card .card-image{
+  text-align: center;
+}
+
 .carousel .card .card-body {
   margin-bottom: 0;
   color: var(--text-color);
