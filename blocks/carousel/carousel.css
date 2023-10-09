@@ -6,8 +6,7 @@
   justify-content: center;
 }
 
-
-.carousel>ul {
+.carousel.cards ul {
   max-width: 90%;
   display: flex;
   flex-wrap: nowrap;
@@ -23,7 +22,7 @@
 }
 
 /* Specific card overrides for carousel - BEGIN */
-.carousel .card {
+.carousel.cards .card {
   width: 90%;
   flex-shrink: 0;
   scroll-snap-align: start;
@@ -34,22 +33,17 @@
   width: 100%;
 }
 
-.carousel .card .card-image{
+.carousel.cards .card .card-image{
   text-align: center;
 }
 
-.carousel .card .card-body {
+.carousel.cards .card .card-body {
   margin-bottom: 0;
   color: var(--text-color);
   text-align: left;
 }
 
 /* Specific card overrides for carousel - END */
-.carousel.disable{
-  pointer-events: none;
-  background-color: red;
-}
-
 .carousel .carousel-nav {
   position: absolute;
   background: none;
