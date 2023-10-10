@@ -272,6 +272,12 @@ main img {
   margin: auto;
 }
 
+.restrictions-apply p{
+  font-size: .875rem;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
 /* section metadata */
 main .section.highlight {
   background-color: var(--highlight-background-color);
