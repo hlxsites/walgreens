@@ -2,34 +2,26 @@ import { div, span } from '../../scripts/dom-helpers.js';
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 
 function closeAllOtherFaqs(faq) {
-  const allFaqs = document.querySelectorAll('.faq-accordion');
+  const allFaqs = document.querySelectorAll('.faq-question');
   allFaqs.forEach((acc) => {
     if (acc !== faq && acc.classList.contains('active')) {
-      acc.querySelector('.faq-answer').style.maxHeight = '0';
+      acc.nextElementSibling.style.maxHeight = null;
+      acc.nextElementSibling.style.marginBottom = null;
       acc.classList.remove('active');
     }
   });
 }
 
-function toggleFaq(e) {
-  const faq = e.target.closest('.faq-accordion');
-  const answer = faq.querySelector('.faq-answer');
-  const arrowIcon = faq.querySelector('.icon');
-  if (arrowIcon === e.target) {
-    faq.classList.toggle('active');
-    if (answer.style.maxHeight === '0px' || answer.style.maxHeight === '') {
-      answer.style.maxHeight = `${answer.scrollHeight}px`;
-    } else {
-      answer.style.maxHeight = '0';
-    }
+function toggleFaq() {
+  this.classList.toggle('active');
+  const panel = this.nextElementSibling;
+  if (panel.style.maxHeight) {
+    panel.style.maxHeight = null;
+    panel.style.marginBottom = null;
   } else {
-    closeAllOtherFaqs(faq);
-    faq.classList.toggle('active');
-    if (answer.style.maxHeight === '0px' || answer.style.maxHeight === '') {
-      answer.style.maxHeight = `${answer.scrollHeight}px`;
-    } else {
-      answer.style.maxHeight = '0';
-    }
+    closeAllOtherFaqs(this);
+    panel.style.maxHeight = `${panel.scrollHeight}px`;
+    panel.style.marginBottom = '10px';
   }
 }
 
@@ -46,7 +38,6 @@ export default async function decorate(block) {
   block.innerHTML = '';
   faqs.forEach((faq) => {
     const { question, answer } = faq;
-
     block.append(
       div({ class: 'faq-accordion' },
         div({ class: 'faq-question', onclick: toggleFaq },

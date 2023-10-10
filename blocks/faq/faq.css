@@ -1,94 +1,60 @@
-main .faq {
-    text-align: left;
+.faq {
+    margin: 20px 0;
 }
 
-main .faq .faq-accordion {
+.faq .faq-accordion {
     position: relative;
     width: 100%;
     height: auto;
     background-color: white;
     border-radius: 4px;
-    border-bottom: 0.67px solid rgb(225 225 225);
-    border-top: 0.67px solid rgb(225 225 225);
-    margin-top: -0.67px;
+    border-bottom: 1px solid #e1e1e1;
 }
 
-main .faq .faq-question {
+.faq .faq-accordion:first-child {
+    border-top: 1px solid #e1e1e1;
+}
+
+.faq .faq-question {
     display: block;
     padding: 13px 50px 13px 0;
     text-decoration: none;
     color: #284b9b;
     font-weight: 700;
     font-size: 18px;
-    transition: all .25s ease-in-out;
     cursor: pointer;
     position: relative;
     width: 95%;
 }
 
-main .faq .faq-question:hover {
+.faq .faq-question:hover {
     text-decoration: underline;
 }
 
-main .faq .faq-question::before {
-    font-size: 24px;
-    top: 4px;
-    margin-right: 10px;
-}
-
-main .faq .faq-answer {
+.faq .faq-answer {
     color: #707070;
     font-size: 18px;
     line-height: 28px;
     font-weight: 400;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease-in-out;
+    transition: max-height 0.3s ease-in-out;
 }
 
-main .faq .faq-answer a{
+.faq .faq-answer a{
     text-decoration: underline;
 }
 
-main .faq .faq-answer a:hover{
+.faq .faq-answer a:hover{
     color: white;
     background-color: #323264;
 }
 
-main .faq .active .faq-question {
+.faq .faq-question.active {
     color: #252426;
 }
 
-main .faq .active .faq-answer {
-    height: auto;
-    padding: 5px 15px 30px 0;
-}
-
-main .faq .faq-answer ul {
-    margin: 0 0 8px 20px;
-}
-
-main .faq .faq-answer ul li {
-    font-size: 18px;
-    line-height: 28px;
-    list-style: disc;
-}
-
-main .faq .faq-answer ul li ul li {
-    font-size: 18px;
-    line-height: 28px;
-}
-
-main .faq .faq-answer p {
-    color: #707070;
-    font-size: 18px;
-    line-height: 28px;
-    font-weight: 400;
-    margin-top: 0;
-    margin-bottom: 10px;
-}
-
-main .faq .faq-question .icon {
+.faq .faq-question .icon {
     position: absolute;
     color: var(--text-color);
     min-width: 15px;
@@ -101,7 +67,7 @@ main .faq .faq-question .icon {
     transition: .3s;
   }
 
-main .faq .faq-question .icon svg {
+.faq .faq-question .icon svg {
     position: absolute;
     top: -6px;
     width: 24px;
@@ -109,15 +75,6 @@ main .faq .faq-question .icon svg {
     margin: auto;
 }
 
-main .faq .faq-accordion.active .faq-question .icon {
+.faq .faq-question.active .icon {
     transform: rotateX(180deg);
-  }
-
-
-@media (max-width: 600px) {
-    main .faq .faq-question,
-    main .faq .faq-answer {
-        font-size: 18px;
-        line-height: 28px;
-    }
 }

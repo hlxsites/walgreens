@@ -27,8 +27,8 @@
   background-color: #01A0C0;
   border-radius: 0.5rem;
   color: var(--overlay-font-color);
-  padding: 0.5rem;
-  margin-block: 1rem;
+  padding: 1rem;
+  margin: 2rem 0 4rem;
 }
 
 .columns.dotw p {
@@ -97,11 +97,6 @@
   .columns > div > div {
     flex: 1;
     order: unset;
-  }
-
-  .columns.dotw {
-    padding: 1rem;
-    margin-block: 1rem;
   }
 
   .columns.dotw p {
