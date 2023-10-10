@@ -12,9 +12,9 @@ function closeAllOtherFaqs(faq) {
   });
 }
 
-function toggleFaq(e) {
+function toggleFaq() {
   this.classList.toggle('active');
-  var panel = this.nextElementSibling;
+  const panel = this.nextElementSibling;
   if (panel.style.maxHeight) {
     panel.style.maxHeight = null;
     panel.style.marginBottom = null;
