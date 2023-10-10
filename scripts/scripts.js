@@ -14,8 +14,8 @@ import {
   getMetadata,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
-const DELAYED_RESOURCES = 3000;
+const LCP_BLOCKS = []; // add your LCP blocks to the list
+const DELAYED_RESOURCES = 4500;
 const BASEURL = 'https://walgreens.com';
 
 export function pushToDataLayer(event, payload) {
