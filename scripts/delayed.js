@@ -1,8 +1,10 @@
 // eslint-disable-next-line import/no-cycle
-import { loadScript, sampleRUM } from './lib-franklin.js';
+import { fetchPlaceholders, loadScript, sampleRUM } from './lib-franklin.js';
 
 // Core Web Vitals RUM collection
 sampleRUM('cwv');
+// fetch placeholders file
+const placeholders = await fetchPlaceholders();
 
 /*
   * Returns the environment type based on the hostname.
@@ -29,9 +31,30 @@ async function loadAdobeLaunch() {
   });
 }
 
-/* loadScript('https://resources.digital-cloud-west.medallia.com/wdcwest/378975/onsite/embed.js', {
-  type: 'text/javascript',
-  async: true,
-}); */
+// OneTrust Cookies Consent Notice start
+if (!window.location.host.includes('hlx.page') && !window.location.host.includes('localhost')) {
+  const otId = placeholders.onetrustid;
+  if (otId) {
+    loadScript('https://cdn.cookielaw.org/scripttemplates/otSDKStub.js', {
+      type: 'text/javascript',
+      charset: 'UTF-8',
+      'data-domain-script': `${otId}`,
+    });
+
+    window.OptanonWrapper = () => {
+    };
+  }
+
+  const allButtons = document.querySelectorAll('a.button');
+  allButtons.forEach((button) => {
+    if (button.getAttribute('href').includes('cookie-policy')) {
+      button.addEventListener('click', (e) => {
+        // eslint-disable-next-line no-undef
+        OneTrust.ToggleInfoDisplay();
+        e.preventDefault();
+      });
+    }
+  });
+}
 
 await loadAdobeLaunch();
