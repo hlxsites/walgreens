@@ -132,7 +132,7 @@ export async function loadFileList(fileList) {
 function buildBackToTop(main) {
   const section = document.createElement('div');
   const bttw = `<button aria-describedby="scrollToTop" id="topBtn" data-element-name="Back to Top" data-element-type="Page Navigation" class="btt btn__back-to-top backtoTopButton hide" title="Go to top">
-    <span class="icon icon__arrow-up">
+    <span class="icon icon-arrow-up">
       <svg aria-hidden="true" focusable="false">
         <use xlink:href="/images/adaptive/livestyleguide/walgreens.com/v4/themes/images/icons/symbol-defs.svg#icon__arrow-up"></use>
       </svg>

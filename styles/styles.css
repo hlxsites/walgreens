@@ -267,10 +267,8 @@ main img {
   width: 100%;
 }
 
-.icon.icon__arrow-up{
-  padding-left: 3px;
+.icon.icon-arrow-up{
   height: 12px;
-  width: 12px;
 }
 
 .section > div {
