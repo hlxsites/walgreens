@@ -66,17 +66,17 @@ function pushPageLoadToDataLayer() {
     status: 'processed',
     triggered: false,
   },
-    {
-      pageInfo: {
-        cleanURL: window.location.href,
-        deviceType: getDeviceType(),
-        environment,
-        pageName: getMetadata('og:title'),
-        pageTemplate: setSection.replace(/^\w/, (char) => char.toUpperCase()),
-        setSection,
-        serverName: 'hlx.live', // indicator for AEM Edge Delivery
-      },
+  {
+    pageInfo: {
+      cleanURL: window.location.href,
+      deviceType: getDeviceType(),
+      environment,
+      pageName: getMetadata('og:title'),
+      pageTemplate: setSection.replace(/^\w/, (char) => char.toUpperCase()),
+      setSection,
+      serverName: 'hlx.live', // indicator for AEM Edge Delivery
     },
+  },
   );
 }
 
@@ -144,10 +144,10 @@ function buildBackToTop(main) {
   const btn = document.getElementById('topBtn');
   const docEl = document.documentElement;
 
-  btn.addEventListener('click', () => docEl.scrollTop = 0);
+  btn.addEventListener('click', () => {docEl.scrollTop = 0});
 
   window.onscroll = () => {
-    if (docEl.scrollTop > docEl.scrollHeight * .1) {
+    if (docEl.scrollTop > docEl.scrollHeight * 0.1) {
       btn.classList.remove('hide');
     } else {
       btn.classList.add('hide');
