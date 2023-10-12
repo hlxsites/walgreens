@@ -144,7 +144,9 @@ function buildBackToTop(main) {
   const btn = document.getElementById('topBtn');
   const docEl = document.documentElement;
 
-  btn.addEventListener('click', () => {docEl.scrollTop = 0});
+  btn.addEventListener('click', () => {
+    docEl.scrollTop = 0;
+  });
 
   window.onscroll = () => {
     if (docEl.scrollTop > docEl.scrollHeight * 0.1) {
@@ -152,7 +154,7 @@ function buildBackToTop(main) {
     } else {
       btn.classList.add('hide');
     }
-  }
+  };
 }
 
 /**
