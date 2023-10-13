@@ -67,6 +67,7 @@
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -264,6 +265,10 @@ main img {
 .icon svg {
   height: 100%;
   width: 100%;
+}
+
+.icon.icon-arrow-up{
+  height: 12px;
 }
 
 .section > div {
