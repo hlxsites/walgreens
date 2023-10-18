@@ -34,5 +34,6 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        git add external-styles/header-lsg-css-content.css external-styles/header-css-content.css external-styles/footer-lsg-css-content.css
         git commit -m "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
         git push origin HEAD:main
