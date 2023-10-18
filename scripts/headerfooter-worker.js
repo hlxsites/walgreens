@@ -4,7 +4,7 @@
  * @returns the string with absolute urls
  */
 function resolveRelativeURLs(content, privacyIcon, localPrivacyIcon) {
-  const baseUrl = 'https://walgreens.com';
+  const baseUrl = 'https://www.walgreens.com';
 
   // Use a regular expression to find relative links (starting with "/")
   const relativeLinkRegex = /(?:href|action)="(?!\/images\/)(\/[^"]+)"/g;

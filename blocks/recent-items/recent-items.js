@@ -1,16 +1,31 @@
-import { div, ul, li, a, img, p, strong, span, h2 } from "../../scripts/dom-helpers.js";
-import { buildBlock, decorateBlock, fetchPlaceholders, loadBlock, loadCSS, updateSectionsStatus } from "../../scripts/lib-franklin.js";
-import { walgreensUrl } from "../../scripts/scripts.js";
+import {
+  div,
+  ul,
+  li,
+  a,
+  img,
+  p,
+  strong,
+  span,
+  h2
+} from '../../scripts/dom-helpers.js';
+import {
+  buildBlock,
+  decorateBlock,
+  fetchPlaceholders,
+  loadBlock
+} from '../../scripts/lib-franklin.js';
+import { walgreensUrl } from '../../scripts/scripts.js';
 
 // fetch placeholders file
 const placeholders = await fetchPlaceholders();
 
 function createOptionsUrl(productUrl) {
   const newUrl = walgreensUrl(productUrl);
-  const params = new URLSearchParams();
-  //params.set('criteria', 'Recently viewed items');
-  //params.set('product', id);
-  //params.set('position', index);
+  // const params = new URLSearchParams();
+  // params.set('criteria', 'Recently viewed items');
+  // params.set('product', id);
+  // params.set('position', index);
   return newUrl;
 }
 
@@ -46,24 +61,25 @@ function decorateRIBlock(data) {
             ),
             div({ class: 'card-body' },
               p({ class: 'product-title' }, strong(offer.productInfo.productDisplayName)),
-              offer.productInfo.reviewURL ? span({ class: 'product-rating'},
-                img({
-                  src: walgreensUrl(offer.productInfo.reviewURL),
-                  loading: 'lazy',
-                  alt: offer.productInfo.reviewHoverMessage,
-                }),
-                div(offer.productInfo.reviewCount)) : '',
-              offer.priceInfo.salePriceHtml ?
-                div(parseHTML(offer.priceInfo.salePriceHtml)) :
-                div(parseHTML(offer.priceInfo.regularPriceHtml)),
+              offer.productInfo.reviewURL
+                ? span({ class: 'product-rating' },
+                  img({
+                    src: walgreensUrl(offer.productInfo.reviewURL),
+                    loading: 'lazy',
+                    alt: offer.productInfo.reviewHoverMessage,
+                  }),
+                  div(offer.productInfo.reviewCount))
+                : '',
+              offer.priceInfo.salePriceHtml
+                ? div(parseHTML(offer.priceInfo.salePriceHtml))
+                : div(parseHTML(offer.priceInfo.regularPriceHtml)),
               offer.priceInfo.ruleMessage ? div({ class: 'rulemessage' }, offer.priceInfo.ruleMessage.prefix) : '',
               offer.priceInfo.salePriceHtml ? div({ class: 'strike' }, offer.priceInfo.regularPrice) : '',
-              Object.keys(offer.productInfo.availableSkus).length > 0 ?
-                div({ class: 'options' }, 
-                  a({
-                    href: createOptionsUrl(offer.productUrl) },
-                    'Choose Options')) :
-                '',
+              Object.keys(offer.productInfo.availableSkus).length > 0
+                ? div({ class: 'options' },
+                  a({ href: createOptionsUrl(offer.productUrl) },
+                    'Choose Options'))
+                : '',
             ),
           ),
         )),
@@ -75,17 +91,15 @@ function decorateRIBlock(data) {
 /**
  * Convenience function that combines the RI list with product information.
  * @param {JSON} productList ordered
- * @param {JSON} products 
- * @returns {JSON} 
+ * @param {JSON} products
+ * @returns {JSON}
  */
 function mergeProductInfo(productList, products) {
   const productMap = {};
-
   // Populate productMap with products from "products" using skuId as the key
   products.forEach((product) => {
     productMap[product.productInfo.skuId] = product;
   });
-
   // Merge products from "productList" with products from "products"
   const combinedProducts = productList.map((productListItem) => {
     const skuId = productListItem.productInfo.skuId;
@@ -94,12 +108,10 @@ function mergeProductInfo(productList, products) {
     if (existingProduct) {
       // Check if the products are exactly the same
       const isSameProduct = JSON.stringify(productListItem) === JSON.stringify(existingProduct);
-
       // If the products are the same, return the original productListItem
       if (isSameProduct) {
         return productListItem;
       }
-
       // If a product with the same skuId exists in "products," merge the properties
       return { ...productListItem, ...existingProduct };
     } else {
@@ -139,9 +151,8 @@ export default async function decorate(block) {
           // Check if the response is gzip-encoded
           if (response.headers.get('Content-Encoding') === 'gzip') {
             return response.blob();
-          } else {
-            return response.json();
           }
+          return response.json();
         } else {
           throw new Error('POST request failed');
         }
@@ -175,7 +186,6 @@ export default async function decorate(block) {
       .catch(error => {
         console.error('Error:', error);
       });
-      //await uhCSSPromise;
   } else {
     block.textContent = '';
   }

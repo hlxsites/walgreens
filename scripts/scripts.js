@@ -16,7 +16,7 @@ import {
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 const DELAYED_RESOURCES = 4500;
-const BASEURL = 'https://walgreens.com';
+const BASEURL = 'https://www.walgreens.com';
 
 export function pushToDataLayer(event, payload) {
   if (!window.digitalData) {
