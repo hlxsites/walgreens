@@ -22,7 +22,7 @@ const placeholders = await fetchPlaceholders();
 
 function reconstructURL(url, product, index) {
   const criteria = 'Recently%20viewed%20items';
-  const newURL = walgreensUrl(`${url.split('?')[0]}?criteria=${criteria}&product=${product}&position=${index+=1}`);
+  const newURL = walgreensUrl(`${url.split('?')[0]}?criteria=${criteria}&product=${product}&position=${index += 1}`);
   return newURL;
 }
 
@@ -34,7 +34,7 @@ function parseHTML(htmlString) {
 
 function getCookie() {
   const cookies = document.cookie.split('; ');
-  for (let i = 0; i < cookies.length; i+=1) {
+  for (let i = 0; i < cookies.length; i += 1) {
     const cookie = cookies[i].split('=');
     if (cookie[0] === 'rvi') {
       return decodeURIComponent(cookie[1]);
@@ -48,20 +48,20 @@ function trigerDataLayer() {
     this.parentElement) + 1;
   window.digitalData.triggerCustomEvent(
     'recommendationClick', {
-    recommendation: {
-      type: 'product recommendations',
-      name: 'Recently viewed items',
-      placement: index,
+      recommendation: {
+        type: 'product recommendations',
+        name: 'Recently viewed items',
+        placement: index,
+      },
+      prodRecoData: {
+        position: '1',
+        productProdID: '300401524',
+        productWIC: '526048',
+      },
+      productFinding: {
+        method: 'product recommendations',
+      },
     },
-    prodRecoData: {
-      position: '1',
-      productProdID: '300401524',
-      productWIC: '526048',
-    },
-    productFinding: {
-      method: 'product recommendations',
-    },
-  },
   );
 }
 
@@ -70,8 +70,10 @@ function decorateRIBlock(data) {
     ul(
       ...data.map((offer, index) => (
         li({ class: 'card with-border' },
-          a({ onclick: trigerDataLayer,
-            href: reconstructURL(offer.productUrl, offer.productInfo.wic, index)},
+          a({
+            onclick: trigerDataLayer,
+            href: reconstructURL(offer.productUrl, offer.productInfo.wic, index)
+          },
             div({ class: 'card-image' },
               img({
                 src: offer.productInfo.imageUrl,
@@ -169,8 +171,6 @@ export default async function decorate(block) {
             return response.blob();
           }
           return response.json();
-        } else {
-          throw new Error('POST request failed');
         }
       })
       .then((data) => {
@@ -178,7 +178,7 @@ export default async function decorate(block) {
           // If response is gzip-encoded, decode it
           return new Promise((resolve, reject) => {
             const reader = new FileReader();
-            reader.onload = function () {
+            reader.onload = function onloadCallback() {
               try {
                 resolve(JSON.parse(reader.result));
               } catch (error) {
@@ -197,9 +197,6 @@ export default async function decorate(block) {
         const carouselBl = buildBlock('carousel', decorateRIBlock(combinedProducts));
         block.append(carouselBl);
         block.classList.add('carousel', 'cards', 'cards-4');
-      })
-      .catch((error) => {
-        console.error('Error:', error);
       });
   } else {
     block.textContent = '';

@@ -15,7 +15,7 @@ import {
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
-const DELAYED_RESOURCES = 4500;
+const DELAYED_RESOURCES = 3000;
 const BASEURL = 'https://www.walgreens.com';
 
 export function pushToDataLayer(event, payload) {
