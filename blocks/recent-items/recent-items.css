@@ -1,0 +1,3 @@
+.sidebar .section.recent-items-container {
+  grid-column: span 2;
+}
