@@ -7,13 +7,13 @@ import {
   p,
   strong,
   span,
-  h2
+  h2,
 } from '../../scripts/dom-helpers.js';
 import {
   buildBlock,
   decorateBlock,
   fetchPlaceholders,
-  loadBlock
+  loadBlock,
 } from '../../scripts/lib-franklin.js';
 import { walgreensUrl } from '../../scripts/scripts.js';
 
@@ -21,9 +21,8 @@ import { walgreensUrl } from '../../scripts/scripts.js';
 const placeholders = await fetchPlaceholders();
 
 function reconstructURL(url, product, index) {
-  const criteria = "Recently%20viewed%20items";
-  // const position = Array.from(document.querySelectorAll('a')).findIndex(a => a.href === url) + 1;
-  const newURL = walgreensUrl(`${url.split('?')[0]}?criteria=${criteria}&product=${product}&position=${index}`);
+  const criteria = 'Recently%20viewed%20items';
+  const newURL = walgreensUrl(`${url.split('?')[0]}?criteria=${criteria}&product=${product}&position=${index+=1}`);
   return newURL;
 }
 
@@ -35,7 +34,7 @@ function parseHTML(htmlString) {
 
 function getCookie() {
   const cookies = document.cookie.split('; ');
-  for (let i = 0; i < cookies.length; i++) {
+  for (let i = 0; i < cookies.length; i+=1) {
     const cookie = cookies[i].split('=');
     if (cookie[0] === 'rvi') {
       return decodeURIComponent(cookie[1]);
@@ -44,24 +43,25 @@ function getCookie() {
   return null;
 }
 
-function trigger () {
-  const index = Array.prototype.indexOf.call(this.parentElement.parentElement.children, this.parentElement) + 1;
+function trigerDataLayer() {
+  const index = Array.prototype.indexOf.call(this.parentElement.parentElement.children,
+    this.parentElement) + 1;
   window.digitalData.triggerCustomEvent(
     'recommendationClick', {
     recommendation: {
       type: 'product recommendations',
       name: 'Recently viewed items',
-      placement: index
+      placement: index,
     },
     prodRecoData: {
       position: '1',
       productProdID: '300401524',
-      productWIC: '526048'
+      productWIC: '526048',
     },
     productFinding: {
-      method: 'product recommendations'
-    }
-  }
+      method: 'product recommendations',
+    },
+  },
   );
 }
 
@@ -70,7 +70,8 @@ function decorateRIBlock(data) {
     ul(
       ...data.map((offer, index) => (
         li({ class: 'card with-border' },
-          a({ href: reconstructURL(offer.productUrl, offer.productInfo.wic, ++index), onclick: trigger },
+          a({ onclick: trigerDataLayer,
+            href: reconstructURL(offer.productUrl, offer.productInfo.wic, index)},
             div({ class: 'card-image' },
               img({
                 src: offer.productInfo.imageUrl,
@@ -119,7 +120,7 @@ function mergeProductInfo(productList, products) {
   });
   // Merge products from "productList" with products from "products"
   const combinedProducts = productList.map((productListItem) => {
-    const skuId = productListItem.productInfo.skuId;
+    const { skuId } = productListItem.productInfo;
     const existingProduct = productMap[skuId];
 
     if (existingProduct) {
@@ -131,12 +132,10 @@ function mergeProductInfo(productList, products) {
       }
       // If a product with the same skuId exists in "products," merge the properties
       return { ...productListItem, ...existingProduct };
-    } else {
-      // If not found in "products," return the original productListItem
-      return productListItem;
     }
+    // If not found in "products," return the original productListItem
+    return productListItem;
   });
-
   return combinedProducts;
 }
 
@@ -152,18 +151,18 @@ export default async function decorate(block) {
     await loadBlock(heading);
 
     // Define the POST request options
-    const requestOptions = {
+    /* const requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: JSON.stringify({ rvi: rviCookie }),
-    };
+    }; */
 
     // Make the POST request
-    //fetch(rviurl, requestOptions)  - TODO: swap this when using real url
+    // fetch(rviurl, requestOptions)  - TODO: swap this when using real url
     fetch(rviurl)
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
           // Check if the response is gzip-encoded
           if (response.headers.get('Content-Encoding') === 'gzip') {
@@ -174,7 +173,7 @@ export default async function decorate(block) {
           throw new Error('POST request failed');
         }
       })
-      .then(data => {
+      .then((data) => {
         if (data instanceof Blob) {
           // If response is gzip-encoded, decode it
           return new Promise((resolve, reject) => {
@@ -188,11 +187,10 @@ export default async function decorate(block) {
             };
             reader.readAsText(data);
           });
-        } else {
-          return data;
         }
+        return data;
       })
-      .then(decodedData => {
+      .then((decodedData) => {
         const { productList, products } = decodedData;
         const combinedProducts = mergeProductInfo(productList, products);
         // build block
@@ -200,7 +198,7 @@ export default async function decorate(block) {
         block.append(carouselBl);
         block.classList.add('carousel', 'cards', 'cards-4');
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error:', error);
       });
   } else {
