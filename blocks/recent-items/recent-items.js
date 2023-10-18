@@ -20,13 +20,11 @@ import { walgreensUrl } from '../../scripts/scripts.js';
 // fetch placeholders file
 const placeholders = await fetchPlaceholders();
 
-function createOptionsUrl(productUrl) {
-  const newUrl = walgreensUrl(productUrl);
-  // const params = new URLSearchParams();
-  // params.set('criteria', 'Recently viewed items');
-  // params.set('product', id);
-  // params.set('position', index);
-  return newUrl;
+function reconstructURL(url, product, index) {
+  const criteria = "Recently%20viewed%20items";
+  // const position = Array.from(document.querySelectorAll('a')).findIndex(a => a.href === url) + 1;
+  const newURL = walgreensUrl(`${url.split('?')[0]}?criteria=${criteria}&product=${product}&position=${index}`);
+  return newURL;
 }
 
 function parseHTML(htmlString) {
@@ -46,12 +44,33 @@ function getCookie() {
   return null;
 }
 
+function trigger () {
+  const index = Array.prototype.indexOf.call(this.parentElement.parentElement.children, this.parentElement) + 1;
+  window.digitalData.triggerCustomEvent(
+    'recommendationClick', {
+    recommendation: {
+      type: 'product recommendations',
+      name: 'Recently viewed items',
+      placement: index
+    },
+    prodRecoData: {
+      position: '1',
+      productProdID: '300401524',
+      productWIC: '526048'
+    },
+    productFinding: {
+      method: 'product recommendations'
+    }
+  }
+  );
+}
+
 function decorateRIBlock(data) {
   return (
     ul(
-      ...data.map((offer) => (
+      ...data.map((offer, index) => (
         li({ class: 'card with-border' },
-          a({ href: walgreensUrl(offer.productUrl) },
+          a({ href: reconstructURL(offer.productUrl, offer.productInfo.wic, ++index), onclick: trigger },
             div({ class: 'card-image' },
               img({
                 src: offer.productInfo.imageUrl,
@@ -73,12 +92,10 @@ function decorateRIBlock(data) {
               offer.priceInfo.salePriceHtml
                 ? div(parseHTML(offer.priceInfo.salePriceHtml))
                 : div(parseHTML(offer.priceInfo.regularPriceHtml)),
-              offer.priceInfo.ruleMessage ? div({ class: 'rulemessage' }, offer.priceInfo.ruleMessage.prefix) : '',
-              offer.priceInfo.salePriceHtml ? div({ class: 'strike' }, offer.priceInfo.regularPrice) : '',
+              offer.priceInfo.ruleMessage ? div({ class: 'color__text-red' }, offer.priceInfo.ruleMessage.prefix) : '',
+              offer.priceInfo.salePriceHtml ? div({ class: 'regularprice text__line-through', 'aria-hidden': true }, offer.priceInfo.regularPrice) : '',
               Object.keys(offer.productInfo.availableSkus).length > 0
-                ? div({ class: 'options' },
-                  a({ href: createOptionsUrl(offer.productUrl) },
-                    'Choose Options'))
+                ? div({ class: 'options' }, 'Choose Options')
                 : '',
             ),
           ),
@@ -133,7 +150,7 @@ export default async function decorate(block) {
     block.parentElement.parentElement.prepend(div(heading));
     decorateBlock(heading);
     await loadBlock(heading);
-  
+
     // Define the POST request options
     const requestOptions = {
       method: 'POST',
@@ -142,7 +159,7 @@ export default async function decorate(block) {
       },
       body: JSON.stringify({ rvi: rviCookie }),
     };
-  
+
     // Make the POST request
     //fetch(rviurl, requestOptions)  - TODO: swap this when using real url
     fetch(rviurl)
@@ -177,7 +194,7 @@ export default async function decorate(block) {
       })
       .then(decodedData => {
         const { productList, products } = decodedData;
-        const combinedProducts = mergeProductInfo(productList, products);        
+        const combinedProducts = mergeProductInfo(productList, products);
         // build block
         const carouselBl = buildBlock('carousel', decorateRIBlock(combinedProducts));
         block.append(carouselBl);
