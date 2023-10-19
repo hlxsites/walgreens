@@ -21,8 +21,9 @@ import { walgreensUrl } from '../../scripts/scripts.js';
 const placeholders = await fetchPlaceholders();
 
 function reconstructURL(url, product, index) {
+  const position = index += 1;
   const criteria = 'Recently%20viewed%20items';
-  const newURL = walgreensUrl(`${url.split('?')[0]}?criteria=${criteria}&product=${product}&position=${index += 1}`);
+  const newURL = walgreensUrl(`${url.split('?')[0]}?criteria=${criteria}&product=${product}&position=${position}`);
   return newURL;
 }
 
@@ -72,35 +73,35 @@ function decorateRIBlock(data) {
         li({ class: 'card with-border' },
           a({
             onclick: trigerDataLayer,
-            href: reconstructURL(offer.productUrl, offer.productInfo.wic, index)
+            href: reconstructURL(offer.productUrl, offer.productInfo.wic, index),
           },
-            div({ class: 'card-image' },
-              img({
-                src: offer.productInfo.imageUrl,
-                loading: 'lazy',
-                alt: `Offer Image: ${offer.productInfo.productName}`,
-              }),
-            ),
-            div({ class: 'card-body' },
-              p({ class: 'product-title' }, strong(offer.productInfo.productDisplayName)),
-              offer.productInfo.reviewURL
-                ? span({ class: 'product-rating' },
-                  img({
-                    src: walgreensUrl(offer.productInfo.reviewURL),
-                    loading: 'lazy',
-                    alt: offer.productInfo.reviewHoverMessage,
-                  }),
-                  div(offer.productInfo.reviewCount))
-                : '',
-              offer.priceInfo.salePriceHtml
-                ? div(parseHTML(offer.priceInfo.salePriceHtml))
-                : div(parseHTML(offer.priceInfo.regularPriceHtml)),
-              offer.priceInfo.ruleMessage ? div({ class: 'color__text-red' }, offer.priceInfo.ruleMessage.prefix) : '',
-              offer.priceInfo.salePriceHtml ? div({ class: 'regularprice text__line-through', 'aria-hidden': true }, offer.priceInfo.regularPrice) : '',
-              Object.keys(offer.productInfo.availableSkus).length > 0
-                ? div({ class: 'options' }, 'Choose Options')
-                : '',
-            ),
+          div({ class: 'card-image' },
+            img({
+              src: offer.productInfo.imageUrl,
+              loading: 'lazy',
+              alt: `Offer Image: ${offer.productInfo.productName}`,
+            }),
+          ),
+          div({ class: 'card-body' },
+            p({ class: 'product-title' }, strong(offer.productInfo.productDisplayName)),
+            offer.productInfo.reviewURL
+              ? span({ class: 'product-rating' },
+                img({
+                  src: walgreensUrl(offer.productInfo.reviewURL),
+                  loading: 'lazy',
+                  alt: offer.productInfo.reviewHoverMessage,
+                }),
+                div(offer.productInfo.reviewCount))
+              : '',
+            offer.priceInfo.salePriceHtml
+              ? div(parseHTML(offer.priceInfo.salePriceHtml))
+              : div(parseHTML(offer.priceInfo.regularPriceHtml)),
+            offer.priceInfo.ruleMessage ? div({ class: 'color__text-red' }, offer.priceInfo.ruleMessage.prefix) : '',
+            offer.priceInfo.salePriceHtml ? div({ class: 'regularprice text__line-through', 'aria-hidden': true }, offer.priceInfo.regularPrice) : '',
+            Object.keys(offer.productInfo.availableSkus).length > 0
+              ? div({ class: 'options' }, 'Choose Options')
+              : '',
+          ),
           ),
         )),
       ),
@@ -152,6 +153,7 @@ export default async function decorate(block) {
     decorateBlock(heading);
     await loadBlock(heading);
 
+    // TODO: swap this when using real url
     // Define the POST request options
     /* const requestOptions = {
       method: 'POST',
@@ -162,7 +164,7 @@ export default async function decorate(block) {
     }; */
 
     // Make the POST request
-    // fetch(rviurl, requestOptions)  - TODO: swap this when using real url
+    // fetch(rviurl, requestOptions)
     fetch(rviurl)
       .then((response) => {
         if (response.ok) {
