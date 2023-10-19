@@ -21,9 +21,9 @@ import { walgreensUrl } from '../../scripts/scripts.js';
 const placeholders = await fetchPlaceholders();
 
 function reconstructURL(url, product, index) {
-  const position = index += 1;
+  let position = index;
   const criteria = 'Recently%20viewed%20items';
-  const newURL = walgreensUrl(`${url.split('?')[0]}?criteria=${criteria}&product=${product}&position=${position}`);
+  const newURL = walgreensUrl(`${url.split('?')[0]}?criteria=${criteria}&product=${product}&position=${position += 1}`);
   return newURL;
 }
 
@@ -174,6 +174,7 @@ export default async function decorate(block) {
           }
           return response.json();
         }
+        return null;
       })
       .then((data) => {
         if (data instanceof Blob) {
