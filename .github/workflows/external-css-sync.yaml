@@ -3,13 +3,20 @@ name: Sync Header/Footer External CSS
 on:
   schedule:
     - cron: '0 4 * * *'  # This schedules the workflow to run at 4:00 AM EST every day
+env:
+  HEADERUI: 'https://www.walgreens.com/common/v1/headerui'
+  FOOTERUI: 'https://www.walgreens.com/common/v1/footerui'
 
 jobs:
   curl:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
 
     - name: Install jq
       run: |
@@ -18,22 +25,23 @@ jobs:
 
     - name: Fetch Header UI and Extract LSGCSS
       run: |
-        curl https://www.walgreens.com/common/v1/headerui | jq -r '.clientLSGCSSContent' > external-styles/header-lsg-css-content.css
+        curl ${{ env.HEADERUI }} | jq -r '.clientLSGCSSContent' > external-styles/header-lsg-css-content.css
 
     - name: Fetch Header UI and Extract CSS
       run: |
-        curl https://www.walgreens.com/common/v1/headerui | jq -r '.clientCSSContent' > external-styles/header-css-content.css
+        curl ${{ env.HEADERUI }} | jq -r '.clientCSSContent' > external-styles/header-css-content.css
 
     - name: Fetch Footer UI and Extract LSGCSS
       run: |
-        curl https://www.walgreens.com/common/v1/footerui | jq -r '.clientLSGCSSContent' > external-styles/footer-lsg-css-content.css
+        curl ${{ env.FOOTERUI }} | jq -r '.clientLSGCSSContent' > external-styles/footer-lsg-css-content.css
 
-    - name: Commit and Push Changes
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Configure git
       run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add external-styles/header-lsg-css-content.css external-styles/header-css-content.css external-styles/footer-lsg-css-content.css
-        git commit -m "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
-        git push origin HEAD:main
+        git config user.name "GitHubActions"
+        git config user.email "<>"
+
+      - name: Commit and Push Changes
+      uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
+          file_pattern: "external-styles/*.css"
