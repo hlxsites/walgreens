@@ -3,6 +3,7 @@ name: Sync Header/Footer External CSS
 on:
   schedule:
     - cron: '0 4 * * *'  # This schedules the workflow to run at 4:00 AM EST every day
+
 env:
   HEADERUI: 'https://www.walgreens.com/common/v1/headerui'
   FOOTERUI: 'https://www.walgreens.com/common/v1/footerui'
@@ -40,8 +41,8 @@ jobs:
         git config user.name "GitHubActions"
         git config user.email "<>"
 
-      - name: Commit and Push Changes
+    - name: Commit and Push Changes
       uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
-          file_pattern: "external-styles/*.css"
+      with:
+        commit_message: "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
+        file_pattern: "external-styles/*.css"
