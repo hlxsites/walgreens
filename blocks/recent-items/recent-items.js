@@ -12,10 +12,12 @@ import {
 import {
   buildBlock,
   decorateBlock,
+  decorateIcons,
   fetchPlaceholders,
   loadBlock,
 } from '../../scripts/lib-franklin.js';
 import { walgreensUrl } from '../../scripts/scripts.js';
+import { addCarouselNav } from '../carousel/carousel.js';
 
 // fetch placeholders file
 const placeholders = await fetchPlaceholders();
@@ -194,12 +196,15 @@ export default async function decorate(block) {
         return data;
       })
       .then((decodedData) => {
+        block.classList.add('carousel', 'cards', 'cards-4');
         const { productList, products } = decodedData;
         const combinedProducts = mergeProductInfo(productList, products);
         // build block
         const carouselBl = buildBlock('carousel', decorateRIBlock(combinedProducts));
-        block.append(carouselBl);
-        block.classList.add('carousel', 'cards', 'cards-4');
+        const carouselUl = carouselBl.querySelector('ul');
+        block.append(carouselUl);
+        addCarouselNav(block);
+        decorateIcons(block);
       });
   } else {
     block.textContent = '';

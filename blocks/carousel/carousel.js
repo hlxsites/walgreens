@@ -28,7 +28,7 @@ function navCarousel(block, direction) {
   }
 }
 
-function makeCarouselDraggable(carousel) {
+export function makeCarouselDraggable(carousel) {
   let isDown = false;
   let startX = 0;
   let walk = 0;
@@ -70,6 +70,19 @@ function makeCarouselDraggable(carousel) {
   carousel.addEventListener('touchmove', handleDragMove, { passive: true });
 }
 
+export function addCarouselNav(block) {
+  return block.append(
+    div({ class: 'carousel-nav' },
+      button({ class: 'carousel-nav-left', onclick: () => navCarousel(block, 'left') },
+        span({ class: 'icon icon-arrow-right left-arrow' }),
+      ),
+      button({ class: 'carousel-nav-right', onclick: () => navCarousel(block, 'right') },
+        span({ class: 'icon icon-arrow-right' }),
+      ),
+    ),
+  );
+}
+
 export default async function decorate(block) {
   const cardsCSSPromise = loadCSS('/blocks/cards/cards.css');
   block.classList.add('cards');
@@ -80,18 +93,7 @@ export default async function decorate(block) {
   }
 
   makeCarouselDraggable(block);
-
-  block.append(
-    div({ class: 'carousel-nav' },
-      button({ class: 'carousel-nav-left', onclick: () => navCarousel(block, 'left') },
-        span({ class: 'icon icon-arrow-right left-arrow' }),
-      ),
-      button({ class: 'carousel-nav-right', onclick: () => navCarousel(block, 'right') },
-        span({ class: 'icon icon-arrow-right' }),
-      ),
-    ),
-  );
-
+  addCarouselNav(block);
   decorateIcons(block);
   await cardsCSSPromise;
 }
