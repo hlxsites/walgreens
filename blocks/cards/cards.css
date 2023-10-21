@@ -34,6 +34,7 @@
   box-shadow: 0 1px 6px 1px rgba(64 64 64 / 15%);
   border-radius: 8px;
   margin: 10px 0;
+  border: 1px solid rgba(64 64 64 / 15%);
 }
 
 .cards .card .card-image {
@@ -55,6 +56,13 @@
   padding: 24px 0;
   width: 85%;
   z-index: 2;
+}
+
+.cards .card.with-border .card-body:only-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 .cards .card .card-image picture {
