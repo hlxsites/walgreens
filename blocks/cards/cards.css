@@ -58,13 +58,6 @@
   z-index: 2;
 }
 
-.cards .card.with-border .card-body:only-child {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
 .cards .card .card-image picture {
   display: block;
 }
@@ -94,6 +87,18 @@
   color: var(--text-color);
 }
 
+.cards.cta .card .card-body {
+  color: unset;
+  font-size: var(--body-font-size-m);
+}
+
+.cards .card.with-border .card-body:only-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .cards .card .card-body p {
   margin: 0;
   padding: 0;
@@ -117,11 +122,6 @@
 .cards .card .card-body p strong {
   font-weight: 700;
   font-size: 1.375rem;
-}
-
-.cards.cta .card .card-body {
-  color: unset;
-  font-size: var(--body-font-size-m);
 }
 
 .cards.columns-3 .card {

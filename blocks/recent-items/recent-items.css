@@ -28,11 +28,11 @@
   font-size: var(--body-font-size-xs);
 }
 
-.recent-items .card .product-rating div:before {
+.recent-items .card .product-rating div::before {
   content: '(';
 }
 
-.recent-items .card .product-rating div:after {
+.recent-items .card .product-rating div::after {
   content: ')';
 }
 
