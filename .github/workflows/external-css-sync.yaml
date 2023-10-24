@@ -36,13 +36,16 @@ jobs:
       run: |
         curl ${{ env.FOOTERUI }} | jq -r '.clientLSGCSSContent' > external-styles/footer-lsg-css-content.css
 
-    - name: Configure git
+    - name: Commit files
       run: |
-        git config user.name "GitHubActions"
-        git config user.email "<>"
+        git config --local user.name  ${{ github.actor }}
+        git config --local user.email "<>"
+        git add .
+        git commit -m "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
 
-    - name: Commit and Push Changes
-      uses: stefanzweifel/git-auto-commit-action@v5
+    - name: Push changes
+      uses: ad-m/github-push-action@master
       with:
-        commit_message: "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
-        file_pattern: "external-styles/*.css"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
+        force: true
