@@ -36,7 +36,7 @@ async function decorateAPIListOfLinks(panel) {
       ...apiInfo.categories.map((category) => (
         li(
           a({ href: walgreensUrl(category.url) },
-            span({ class: 'link-image' }, img({ src: category.imageUrl })),
+            category.imageUrl === 'null' ? '' : span({ class: 'link-image' }, img({ src: category.imageUrl })),
             span({ class: 'link-text' }, category.name),
           ),
         )

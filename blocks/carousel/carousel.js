@@ -1,5 +1,6 @@
 import { button, div, span } from '../../scripts/dom-helpers.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
+import { pushToDataLayer } from '../../scripts/scripts.js';
 import { decorateAPICards, decorateCuratedCards } from '../cards/cards.js';
 
 async function decorateAPICarousel(block) {
@@ -28,7 +29,7 @@ function navCarousel(block, direction) {
   }
 }
 
-function makeCarouselDraggable(carousel) {
+export function makeCarouselDraggable(carousel) {
   let isDown = false;
   let startX = 0;
   let walk = 0;
@@ -70,18 +71,8 @@ function makeCarouselDraggable(carousel) {
   carousel.addEventListener('touchmove', handleDragMove, { passive: true });
 }
 
-export default async function decorate(block) {
-  const cardsCSSPromise = loadCSS('/blocks/cards/cards.css');
-  block.classList.add('cards');
-  if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
-    await decorateAPICarousel(block);
-  } else {
-    await decorateCuratedCards(block, true);
-  }
-
-  makeCarouselDraggable(block);
-
-  block.append(
+export function addCarouselNav(block) {
+  return block.append(
     div({ class: 'carousel-nav' },
       button({ class: 'carousel-nav-left', onclick: () => navCarousel(block, 'left') },
         span({ class: 'icon icon-arrow-right left-arrow' }),
@@ -91,7 +82,37 @@ export default async function decorate(block) {
       ),
     ),
   );
+}
 
+function couponsLoaded() {
+  pushToDataLayer({
+    eventData: {
+      contentName: 'WD',
+      contentType: 'coupon recommendation carousel',
+      impressionType: 'present',
+      recommendationType: 'none',
+    },
+    eventName: 'ContentImpression',
+    status: 'processed',
+    triggered: true,
+  },
+  );
+}
+
+export default async function decorate(block) {
+  const cardsCSSPromise = loadCSS('/blocks/cards/cards.css');
+  block.classList.add('cards');
+  if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
+    await decorateAPICarousel(block);
+  } else {
+    await decorateCuratedCards(block, true);
+  }
+  // required to update analytics - no styling affects
+  if (block.classList.contains('dotw')) {
+    couponsLoaded();
+  }
+  makeCarouselDraggable(block);
+  addCarouselNav(block);
   decorateIcons(block);
   await cardsCSSPromise;
 }

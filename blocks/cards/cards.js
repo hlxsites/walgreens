@@ -24,6 +24,7 @@ export function decorateCuratedCards(block, withBorder) {
     [...parent.children].forEach((child) => {
       if (child.children.length === 1 && child.querySelector('picture')) child.className = 'card-image';
       else child.className = 'card-body';
+      if (child.innerHTML === '') child.remove();
     });
     list.append(listItem);
   });
