@@ -95,4 +95,12 @@
   .carousel .carousel-nav .icon svg {
     fill: var(--background-color);
   }
+
+  .carousel .carousel-nav button.disabled {
+    pointer-events: none;
+  }
+
+  .carousel .carousel-nav button.disabled .icon-arrow-right {
+    background: #8a8a8a;
+  }
 }

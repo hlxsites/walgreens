@@ -1,5 +1,6 @@
 import { button, div, span } from '../../scripts/dom-helpers.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
+import { pushToDataLayer } from '../../scripts/scripts.js';
 import { decorateAPICards, decorateCuratedCards } from '../cards/cards.js';
 
 async function decorateAPICarousel(block) {
@@ -83,6 +84,21 @@ export function addCarouselNav(block) {
   );
 }
 
+function couponsLoaded() {
+  pushToDataLayer({
+    eventData: {
+      contentName: 'WD',
+      contentType: 'coupon recommendation carousel',
+      impressionType: 'present',
+      recommendationType: 'none',
+    },
+    eventName: 'ContentImpression',
+    status: 'processed',
+    triggered: true,
+  },
+  );
+}
+
 export default async function decorate(block) {
   const cardsCSSPromise = loadCSS('/blocks/cards/cards.css');
   block.classList.add('cards');
@@ -91,7 +107,10 @@ export default async function decorate(block) {
   } else {
     await decorateCuratedCards(block, true);
   }
-
+  // required to update analytics - no styling affects
+  if (block.classList.contains('dotw')) {
+    couponsLoaded();
+  }
   makeCarouselDraggable(block);
   addCarouselNav(block);
   decorateIcons(block);

@@ -15,8 +15,9 @@ import {
   decorateIcons,
   fetchPlaceholders,
   loadBlock,
+  toCamelCase,
 } from '../../scripts/lib-franklin.js';
-import { walgreensUrl } from '../../scripts/scripts.js';
+import { pushToDataLayer, walgreensUrl } from '../../scripts/scripts.js';
 import { addCarouselNav } from '../carousel/carousel.js';
 
 // fetch placeholders file
@@ -35,37 +36,44 @@ function parseHTML(htmlString) {
   return doc.querySelector('span');
 }
 
-function getCookie() {
+function getCookie(name) {
   const cookies = document.cookie.split('; ');
+  let source = 'rvi';
+  if (name === 'buyItAgain') source = 'rpi';
   for (let i = 0; i < cookies.length; i += 1) {
     const cookie = cookies[i].split('=');
-    if (cookie[0] === 'rvi') {
+    if (cookie[0] === source) {
       return decodeURIComponent(cookie[1]);
     }
   }
   return null;
 }
 
-function trigerDataLayer() {
-  const index = Array.prototype.indexOf.call(this.parentElement.parentElement.children,
-    this.parentElement) + 1;
-  window.digitalData.triggerCustomEvent(
-    'recommendationClick', {
-      recommendation: {
-        type: 'product recommendations',
-        name: 'Recently viewed items',
-        placement: index,
-      },
-      prodRecoData: {
-        position: '1',
-        productProdID: '300401524',
-        productWIC: '526048',
-      },
-      productFinding: {
-        method: 'product recommendations',
-      },
+function productClick() {
+  const children = Array.from(this.parentElement.parentElement.children);
+  const index = children.indexOf(this.parentElement) + 1;
+  const idMatch = this.href.match(/ID=(.*?)-product/);
+  const prodID = idMatch ? idMatch[1] : null;
+  const searchParams = new URLSearchParams(this.href);
+  const wic = searchParams.get('product');
+
+  const customEvent = {
+    recommendation: {
+      type: 'product recommendations',
+      name: 'Recently viewed items',
+      placement: index,
     },
-  );
+    prodRecoData: {
+      position: `${index}`,
+      productProdID: `${prodID}`,
+      productWIC: `${wic}`,
+    },
+    productFinding: {
+      method: 'product recommendations',
+    },
+  };
+
+  window.digitalData.triggerCustomEvent('recommendationClick', customEvent);
 }
 
 function decorateRIBlock(data) {
@@ -74,7 +82,7 @@ function decorateRIBlock(data) {
       ...data.map((offer, index) => (
         li({ class: 'card with-border' },
           a({
-            onclick: trigerDataLayer,
+            onclick: productClick,
             href: reconstructURL(offer.productUrl, offer.productInfo.wic, index),
           },
           div({ class: 'card-image' },
@@ -144,30 +152,66 @@ function mergeProductInfo(productList, products) {
   return combinedProducts;
 }
 
+/**
+ * Updates digitalData with all RVI
+ * @param {*} products results from API call
+ */
+function rviLoaded(products) {
+  const prodRecoData = [];
+  if (products.length) {
+    products.forEach((product, index) => {
+      const position = index + 1;
+      prodRecoData.push({
+        position: `${position}`,
+        productProdID: `${product.productInfo.prodId}`,
+        productWIC: `${product.productInfo.wic}`,
+      });
+    });
+  }
+
+  pushToDataLayer({
+    eventData: {
+      prodRecoData,
+      recommendation: {
+        name: 'Recently viewed items',
+        placement: '1',
+        type: 'product recommendations',
+      },
+    },
+    eventName: 'recommendationImpression',
+    status: 'processed',
+    triggered: true,
+  },
+  );
+}
+
 export default async function decorate(block) {
-  const rviCookie = getCookie();
-  const { rviurl } = placeholders;
+  const resource = toCamelCase(block.textContent);
+  const riCookie = getCookie(resource);
+  const sourceUrl = placeholders[resource];
   // if the cookie doesn't exist, display nothing.
-  if (rviCookie) {
+  if (riCookie) {
     const heading = buildBlock('underlined-heading', h2(block.textContent.trim()));
     block.textContent = '';
     block.parentElement.parentElement.prepend(div(heading));
     decorateBlock(heading);
     await loadBlock(heading);
 
-    // TODO: swap this when using real url
     // Define the POST request options
-    /* const requestOptions = {
+    let requestOptions = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: JSON.stringify({ rvi: rviCookie }),
-    }; */
+      body: JSON.stringify({ rvi: riCookie }),
+    };
+    // Set to null if localhost avoid CORS error
+    if (window.location.hostname === 'localhost') {
+      requestOptions = null;
+    }
 
     // Make the POST request
-    // fetch(rviurl, requestOptions)
-    fetch(rviurl)
+    fetch(sourceUrl, requestOptions)
       .then((response) => {
         if (response.ok) {
           // Check if the response is gzip-encoded
@@ -199,6 +243,7 @@ export default async function decorate(block) {
         block.classList.add('carousel', 'cards', 'cards-4');
         const { productList, products } = decodedData;
         const combinedProducts = mergeProductInfo(productList, products);
+        rviLoaded(combinedProducts);
         // build block
         const carouselBl = buildBlock('carousel', decorateRIBlock(combinedProducts));
         const carouselUl = carouselBl.querySelector('ul');

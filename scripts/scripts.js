@@ -24,7 +24,7 @@ export function pushToDataLayer(event, payload) {
     window.digitalData.events = [];
   }
   window.digitalData.events.push(event);
-  window.digitalData.page = payload;
+  if (payload) window.digitalData.page = payload;
 }
 
 export function getTags(tags) {
