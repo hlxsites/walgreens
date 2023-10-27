@@ -59,7 +59,7 @@ export function getEnvironment(hostname) {
 function pushPageLoadToDataLayer() {
   const { hostname, pathname } = window.location;
   const environment = getEnvironment(hostname);
-  const setSection = pathname.split('/')[1];
+  const siteSection = pathname.split('/')[1];
   pushToDataLayer({
     eventData: '',
     eventName: 'DataLayerReady',
@@ -72,8 +72,8 @@ function pushPageLoadToDataLayer() {
       deviceType: getDeviceType(),
       environment,
       pageName: getMetadata('og:title'),
-      pageTemplate: setSection.replace(/^\w/, (char) => char.toUpperCase()),
-      setSection,
+      pageTemplate: (siteSection === 'topic') ? 'Topic' : 'Shop',
+      siteSection,
       serverName: 'hlx.live', // indicator for AEM Edge Delivery
     },
   },
@@ -125,6 +125,22 @@ export async function loadFileList(fileList) {
   });
 }
 
+function pageScrolled() {
+  const siteSection = window.location.pathname.split('/')[1];
+  pushToDataLayer({
+    eventData: {
+      contentName: `Back to Top - ${(siteSection === 'topic') ? 'Topic' : 'Shop Landing'}`,
+      contentType: 'Page Navigation - Back to Top',
+      impressionType: 'present',
+      recommendationType: 'none',
+    },
+    eventName: 'ContentImpression',
+    status: 'processed',
+    triggered: true,
+  },
+  );
+}
+
 /**
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element
@@ -150,6 +166,7 @@ function buildBackToTop(main) {
 
   window.onscroll = () => {
     if (docEl.scrollTop > docEl.scrollHeight * 0.1) {
+      if (btn.classList.contains('hide')) pageScrolled();
       btn.classList.remove('hide');
     } else {
       btn.classList.add('hide');
