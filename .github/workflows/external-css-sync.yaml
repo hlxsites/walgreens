@@ -16,9 +16,15 @@ jobs:
       contents: write
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         ref: ${{ github.head_ref }}
+        # The bot user https://github.com/franklinbot4walgreens is used to commit the changes.
+        # The personal access token was created from: https://github.com/settings/tokens
+        # The token is stored in the secrets of the this repo.
+        # See https://github.com/hlxsites/walgreens/settings/secrets/actions
+        # More info: https://stackoverflow.com/a/72515781/79461
+        # token: ${{ secrets.BOT_ACCESS_TOKEN }}
 
     - name: Install jq
       run: |
@@ -37,16 +43,9 @@ jobs:
       run: |
         curl ${{ env.FOOTERUI }} | jq -r '.clientLSGCSSContent' > external-styles/footer-lsg-css-content.css
 
-    - name: Commit files
-      run: |
-        git config --local user.name  ${{ github.actor }}
-        git config --local user.email "<>"
-        git add .
-        git commit -m "Update header-lsg-css-content.css, header-css-content.css, and footer-lsg-css-content.css"
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
+    - name: Commit and push changes
+      uses: stefanweifel/git-auto-commit-action@v5
       with:
-        github_token: ${{ secrets.BOT_ACCESS_TOKEN }}
         branch: main
-        force: true
+        file_pattern: '*-css-content.css'
+        commit_message: 'Update header/footer dynamic css'
