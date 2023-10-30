@@ -3,6 +3,7 @@ name: Sync Header/Footer External CSS
 on:
   schedule:
     - cron: '0 4 * * *'  # This schedules the workflow to run at 4:00 AM EST every day
+  workflow_dispatch:
 
 env:
   HEADERUI: 'https://www.walgreens.com/common/v1/headerui'
