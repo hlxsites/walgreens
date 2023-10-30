@@ -24,7 +24,7 @@ jobs:
         # The token is stored in the secrets of the this repo.
         # See https://github.com/hlxsites/walgreens/settings/secrets/actions
         # More info: https://stackoverflow.com/a/72515781/79461
-        # token: ${{ secrets.BOT_ACCESS_TOKEN }}
+        token: ${{ secrets.BOT_ACCESS_TOKEN }}
 
     - name: Install jq
       run: |
