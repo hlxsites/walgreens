@@ -44,7 +44,7 @@ jobs:
         curl ${{ env.FOOTERUI }} | jq -r '.clientLSGCSSContent' > external-styles/footer-lsg-css-content.css
 
     - name: Commit and push changes
-      uses: stefanweifel/git-auto-commit-action@v5
+      uses: stefanzweifel/git-auto-commit-action@v5
       with:
         branch: main
         file_pattern: '*-css-content.css'
