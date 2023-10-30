@@ -49,4 +49,3 @@ jobs:
         branch: main
         file_pattern: '*-css-content.css'
         commit_message: 'Update header/footer dynamic css'
-        push_options: --force
