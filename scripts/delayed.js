@@ -14,7 +14,7 @@ function getEnvType(hostname = window.location.hostname) {
     'walgreens.com': 'live',
     'www.walgreens.com': 'live',
     'main--walgreens--hlxsites.hlx.page': 'dev',
-    'main--walgreens--hlxsites.hlx.live': 'live',
+    'main--walgreens--hlxsites.hlx.live': 'dev',
   };
   return fqdnToEnvType[hostname] || 'dev';
 }
@@ -22,7 +22,7 @@ function getEnvType(hostname = window.location.hostname) {
 async function loadAdobeLaunch() {
   const adobedtmSrc = {
     dev: 'https://assets.adobedtm.com/98d94abf0996/ebfaa8e9c235/launch-e03a396c8cc7-development.min.js',
-    preview: '',
+    preview: 'https://assets.adobedtm.com/98d94abf0996/ebfaa8e9c235/launch-e03a396c8cc7-development.min.js',
     live: 'https://assets.adobedtm.com/launch-ENdd5c82450e4a478ba693752c21000d75.min.js',
   };
   await loadScript(adobedtmSrc[getEnvType()], {
