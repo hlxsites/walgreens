@@ -33,15 +33,15 @@ jobs:
 
     - name: Fetch Header UI and Extract LSGCSS
       run: |
-        curl ${{ env.HEADERUI }} | jq -r '.clientLSGCSSContent' > external-styles/header-lsg-css-content.css
+        curl ${{ env.HEADERUI }} | jq -r '.clientLSGCSSContent' > external-topic/external-styles/header-lsg-css-content.css
 
     - name: Fetch Header UI and Extract CSS
       run: |
-        curl ${{ env.HEADERUI }} | jq -r '.clientCSSContent' > external-styles/header-css-content.css
+        curl ${{ env.HEADERUI }} | jq -r '.clientCSSContent' > external-topic/external-styles/header-css-content.css
 
     - name: Fetch Footer UI and Extract LSGCSS
       run: |
-        curl ${{ env.FOOTERUI }} | jq -r '.clientLSGCSSContent' > external-styles/footer-lsg-css-content.css
+        curl ${{ env.FOOTERUI }} | jq -r '.clientLSGCSSContent' > external-topic/external-styles/footer-lsg-css-content.css
 
     - name: Commit and push changes
       uses: stefanzweifel/git-auto-commit-action@v5
