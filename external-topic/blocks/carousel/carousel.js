@@ -100,7 +100,7 @@ function couponsLoaded() {
 }
 
 export default async function decorate(block) {
-  const cardsCSSPromise = loadCSS('/blocks/cards/cards.css');
+  const cardsCSSPromise = loadCSS(`${window.hlx.codeBasePath}/blocks/cards/cards.css`);
   block.classList.add('cards');
   if (block.children.length === 1 && block.querySelectorAll('a').length === 1) {
     await decorateAPICarousel(block);
