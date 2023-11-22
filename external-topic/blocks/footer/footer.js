@@ -1,4 +1,4 @@
-import { decorateIcons, fetchPlaceholders } from '../../scripts/lib-franklin.js';
+import { decorateIcons, fetchPlaceholders } from '../../scripts/aem.js';
 
 const placeholders = await fetchPlaceholders();
 

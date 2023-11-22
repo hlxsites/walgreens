@@ -16,16 +16,16 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' && github.event.head_commit.message == 'Initial commit' }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js 18
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Uninstall dependencies
         run: |
           npm uninstall --save-dev semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/exec
       - name: Remove Helper Files
-        run: | 
+        run: |
           rm -rf \
             .github/workflows/cleanup-on-create.yaml \
             .github/workflows/semantic-release.yaml \

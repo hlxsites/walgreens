@@ -67,7 +67,7 @@
   border-radius: 50%;
 }
 
-.carousel .carousel-nav .icon svg {
+.carousel .carousel-nav .icon img {
   fill: #989090;
   width: 30px;
   height: 32px;
@@ -92,8 +92,8 @@
     width: 30px;
   }
 
-  .carousel .carousel-nav .icon svg {
-    fill: var(--background-color);
+  .carousel .carousel-nav .icon img {
+    filter: brightness(0) invert(1);
   }
 
   .carousel .carousel-nav button.disabled {

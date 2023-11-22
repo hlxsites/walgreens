@@ -53,12 +53,15 @@
   max-width: 500px;
 }
 
-.columns.promo .button-container a {
+.columns.promo .button-container a.button {
   position: relative;
   display: block;
   width: 100%;
   text-align: center;
-  padding: 1rem;
+  color: var(--link-color);
+  background-color: unset;
+  margin: 0;
+  padding: 20px 0;
 }
 
 .columns.promo .button-container a::after {

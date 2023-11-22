@@ -1,5 +1,5 @@
 import { button, div, span } from '../../scripts/dom-helpers.js';
-import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
+import { decorateIcons, loadCSS } from '../../scripts/aem.js';
 import { pushToDataLayer } from '../../scripts/scripts.js';
 import { decorateAPICards, decorateCuratedCards } from '../cards/cards.js';
 
@@ -73,11 +73,14 @@ export function makeCarouselDraggable(carousel) {
 
 export function addCarouselNav(block) {
   return block.append(
-    div({ class: 'carousel-nav' },
-      button({ class: 'carousel-nav-left', onclick: () => navCarousel(block, 'left') },
+    div(
+      { class: 'carousel-nav' },
+      button(
+        { class: 'carousel-nav-left', onclick: () => navCarousel(block, 'left') },
         span({ class: 'icon icon-arrow-right left-arrow' }),
       ),
-      button({ class: 'carousel-nav-right', onclick: () => navCarousel(block, 'right') },
+      button(
+        { class: 'carousel-nav-right', onclick: () => navCarousel(block, 'right') },
         span({ class: 'icon icon-arrow-right' }),
       ),
     ),
@@ -95,8 +98,7 @@ function couponsLoaded() {
     eventName: 'ContentImpression',
     status: 'processed',
     triggered: true,
-  },
-  );
+  });
 }
 
 export default async function decorate(block) {

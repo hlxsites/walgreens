@@ -1,4 +1,4 @@
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture } from '../../scripts/aem.js';
 import {
   a, div, li, strong, ul, p, img,
 } from '../../scripts/dom-helpers.js';
@@ -53,23 +53,26 @@ export function decorateAPICards(cardsInfo, cardsWithBorder) {
   return (
     ul(
       ...cardsInfo.map((offer) => (
-        li({ class: `card ${cardsWithBorder ? ' with-border' : ''}` },
-          a({ href: apiCardLink(offer) },
-            div({ class: 'card-image' },
+        li(
+          { class: `card ${cardsWithBorder ? ' with-border' : ''}` },
+          a(
+            { href: apiCardLink(offer) },
+            div(
+              { class: 'card-image' },
               img({
                 src: walgreensUrl(offer.imageUrl),
                 loading: 'lazy',
                 alt: `Offer Image: ${offer.title}`,
               }),
             ),
-            div({ class: 'card-body' },
+            div(
+              { class: 'card-body' },
               p(strong(offer.title)),
               offer.brand ? p(strong(offer.brand)) : '',
               offer.offerDescription ? p(offer.offerDescription) : '',
             ),
           ),
-        )),
-      ),
+        ))),
     )
   );
 }

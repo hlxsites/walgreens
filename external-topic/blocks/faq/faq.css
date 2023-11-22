@@ -67,7 +67,7 @@
     transition: .3s;
   }
 
-.faq .faq-question .icon svg {
+.faq .faq-question .icon img {
     position: absolute;
     top: -6px;
     width: 24px;

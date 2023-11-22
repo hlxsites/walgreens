@@ -1,4 +1,4 @@
-import { toClassName, waitForEagerImageLoad } from '../../scripts/lib-franklin.js';
+import { toClassName, waitForEagerImageLoad } from '../../scripts/aem.js';
 
 export default async function decorate(block) {
   [...block.children].forEach((row) => {

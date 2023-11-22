@@ -1,5 +1,5 @@
 import { div, span } from '../../scripts/dom-helpers.js';
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons } from '../../scripts/aem.js';
 
 function closeAllOtherFaqs(faq) {
   const allFaqs = document.querySelectorAll('.faq-question');
@@ -39,8 +39,10 @@ export default async function decorate(block) {
   faqs.forEach((faq) => {
     const { question, answer } = faq;
     block.append(
-      div({ class: 'faq-accordion' },
-        div({ class: 'faq-question', onclick: toggleFaq },
+      div(
+        { class: 'faq-accordion' },
+        div(
+          { class: 'faq-question', onclick: toggleFaq },
           question,
           span({ class: 'icon icon-arrow-down' }),
         ),

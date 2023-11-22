@@ -16,7 +16,7 @@ import {
   fetchPlaceholders,
   loadBlock,
   toCamelCase,
-} from '../../scripts/lib-franklin.js';
+} from '../../scripts/aem.js';
 import { pushToDataLayer, walgreensUrl } from '../../scripts/scripts.js';
 import { addCarouselNav } from '../carousel/carousel.js';
 
@@ -80,41 +80,46 @@ function decorateRIBlock(data) {
   return (
     ul(
       ...data.map((offer, index) => (
-        li({ class: 'card with-border' },
-          a({
-            onclick: productClick,
-            href: reconstructURL(offer.productUrl, offer.productInfo.wic, index),
-          },
-          div({ class: 'card-image' },
-            img({
-              src: offer.productInfo.imageUrl,
-              loading: 'lazy',
-              alt: `Offer Image: ${offer.productInfo.productName}`,
-            }),
+        li(
+          { class: 'card with-border' },
+          a(
+            {
+              onclick: productClick,
+              href: reconstructURL(offer.productUrl, offer.productInfo.wic, index),
+            },
+            div(
+              { class: 'card-image' },
+              img({
+                src: offer.productInfo.imageUrl,
+                loading: 'lazy',
+                alt: `Offer Image: ${offer.productInfo.productName}`,
+              }),
+            ),
+            div(
+              { class: 'card-body' },
+              p({ class: 'product-title' }, strong(offer.productInfo.productDisplayName)),
+              offer.productInfo.reviewURL
+                ? span(
+                  { class: 'product-rating' },
+                  img({
+                    src: walgreensUrl(offer.productInfo.reviewURL),
+                    loading: 'lazy',
+                    alt: offer.productInfo.reviewHoverMessage,
+                  }),
+                  div(offer.productInfo.reviewCount),
+                )
+                : '',
+              offer.priceInfo.salePriceHtml
+                ? div(parseHTML(offer.priceInfo.salePriceHtml))
+                : div(parseHTML(offer.priceInfo.regularPriceHtml)),
+              offer.priceInfo.ruleMessage ? div({ class: 'color__text-red' }, offer.priceInfo.ruleMessage.prefix) : '',
+              offer.priceInfo.salePriceHtml ? div({ class: 'regularprice text__line-through', 'aria-hidden': true }, offer.priceInfo.regularPrice) : '',
+              Object.keys(offer.productInfo.availableSkus).length > 0
+                ? div({ class: 'options' }, 'Choose Options')
+                : '',
+            ),
           ),
-          div({ class: 'card-body' },
-            p({ class: 'product-title' }, strong(offer.productInfo.productDisplayName)),
-            offer.productInfo.reviewURL
-              ? span({ class: 'product-rating' },
-                img({
-                  src: walgreensUrl(offer.productInfo.reviewURL),
-                  loading: 'lazy',
-                  alt: offer.productInfo.reviewHoverMessage,
-                }),
-                div(offer.productInfo.reviewCount))
-              : '',
-            offer.priceInfo.salePriceHtml
-              ? div(parseHTML(offer.priceInfo.salePriceHtml))
-              : div(parseHTML(offer.priceInfo.regularPriceHtml)),
-            offer.priceInfo.ruleMessage ? div({ class: 'color__text-red' }, offer.priceInfo.ruleMessage.prefix) : '',
-            offer.priceInfo.salePriceHtml ? div({ class: 'regularprice text__line-through', 'aria-hidden': true }, offer.priceInfo.regularPrice) : '',
-            Object.keys(offer.productInfo.availableSkus).length > 0
-              ? div({ class: 'options' }, 'Choose Options')
-              : '',
-          ),
-          ),
-        )),
-      ),
+        ))),
     )
   );
 }
@@ -181,8 +186,7 @@ function rviLoaded(products) {
     eventName: 'recommendationImpression',
     status: 'processed',
     triggered: true,
-  },
-  );
+  });
 }
 
 export default async function decorate(block) {

@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { fetchPlaceholders, loadScript, sampleRUM } from './lib-franklin.js';
+import { fetchPlaceholders, loadScript, sampleRUM } from './aem.js';
 
 // Core Web Vitals RUM collection
 sampleRUM('cwv');
