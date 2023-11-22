@@ -16,7 +16,7 @@ import {
   fetchPlaceholders,
   loadBlock,
   toCamelCase,
-} from '../../scripts/lib-franklin.js';
+} from '../../scripts/aem.js';
 import { pushToDataLayer, walgreensUrl } from '../../scripts/scripts.js';
 import { addCarouselNav } from '../carousel/carousel.js';
 

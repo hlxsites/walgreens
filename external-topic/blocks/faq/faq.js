@@ -1,5 +1,5 @@
 import { div, span } from '../../scripts/dom-helpers.js';
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons } from '../../scripts/aem.js';
 
 function closeAllOtherFaqs(faq) {
   const allFaqs = document.querySelectorAll('.faq-question');

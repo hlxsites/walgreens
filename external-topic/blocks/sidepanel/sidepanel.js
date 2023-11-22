@@ -1,7 +1,7 @@
 import {
   a, div, img, li, span, ul,
 } from '../../scripts/dom-helpers.js';
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons } from '../../scripts/aem.js';
 import { walgreensUrl } from '../../scripts/scripts.js';
 
 function decorateCuratedListOfLinks(panel) {

@@ -1,5 +1,5 @@
 import { div, span, strong } from '../../scripts/dom-helpers.js';
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons } from '../../scripts/aem.js';
 
 export default async function decorate(block) {
   const desktopBlock = block;

@@ -15,7 +15,7 @@ async function addContent(block, jsonData) {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  const worker = new Worker('../../scripts/headerfooter-worker.js');
+  const worker = new Worker('./scripts/headerfooter-worker.js');
 
   worker.onmessage = async (e) => {
     worker.terminate();

@@ -12,7 +12,7 @@ import {
   loadCSS,
   loadScript,
   getMetadata,
-} from './lib-franklin.js';
+} from './aem.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 const DELAYED_RESOURCES = 3000;
@@ -270,12 +270,8 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  // TODO: remove this check before go-live
-  const noHeader = new URLSearchParams(window.location.search).has('test');
-  if (!noHeader) {
-    loadHeader(doc.querySelector('header'));
-    loadFooter(doc.querySelector('footer'));
-  }
+  loadHeader(doc.querySelector('header'));
+  loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

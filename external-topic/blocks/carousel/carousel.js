@@ -1,5 +1,5 @@
 import { button, div, span } from '../../scripts/dom-helpers.js';
-import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
+import { decorateIcons, loadCSS } from '../../scripts/aem.js';
 import { pushToDataLayer } from '../../scripts/scripts.js';
 import { decorateAPICards, decorateCuratedCards } from '../cards/cards.js';
 
