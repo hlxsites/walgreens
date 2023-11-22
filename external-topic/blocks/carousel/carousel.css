@@ -62,9 +62,6 @@
   z-index: 2;
 }
 
-.carousel .carousel-nav button.carousel-nav-left {
-}
-
 .carousel .icon-arrow-right {
   background-color: var(--highlight-background-color);
   border-radius: 50%;
