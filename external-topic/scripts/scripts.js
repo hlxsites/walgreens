@@ -60,23 +60,24 @@ function pushPageLoadToDataLayer() {
   const { hostname, pathname } = window.location;
   const environment = getEnvironment(hostname);
   const siteSection = pathname.split('/')[1];
-  pushToDataLayer({
-    eventData: '',
-    eventName: 'DataLayerReady',
-    status: 'processed',
-    triggered: false,
-  },
-  {
-    pageInfo: {
-      cleanURL: window.location.href,
-      deviceType: getDeviceType(),
-      environment,
-      pageName: getMetadata('og:title'),
-      pageTemplate: (siteSection === 'topic') ? 'Topic' : 'Shop',
-      siteSection,
-      serverName: 'hlx.live', // indicator for AEM Edge Delivery
+  pushToDataLayer(
+    {
+      eventData: '',
+      eventName: 'DataLayerReady',
+      status: 'processed',
+      triggered: false,
     },
-  },
+    {
+      pageInfo: {
+        cleanURL: window.location.href,
+        deviceType: getDeviceType(),
+        environment,
+        pageName: getMetadata('og:title'),
+        pageTemplate: (siteSection === 'topic') ? 'Topic' : 'Shop',
+        siteSection,
+        serverName: 'hlx.live', // indicator for AEM Edge Delivery
+      },
+    },
   );
 }
 
@@ -137,8 +138,7 @@ function pageScrolled() {
     eventName: 'ContentImpression',
     status: 'processed',
     triggered: true,
-  },
-  );
+  });
 }
 
 /**

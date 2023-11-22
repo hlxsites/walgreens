@@ -39,8 +39,10 @@ export default async function decorate(block) {
   faqs.forEach((faq) => {
     const { question, answer } = faq;
     block.append(
-      div({ class: 'faq-accordion' },
-        div({ class: 'faq-question', onclick: toggleFaq },
+      div(
+        { class: 'faq-accordion' },
+        div(
+          { class: 'faq-question', onclick: toggleFaq },
           question,
           span({ class: 'icon icon-arrow-down' }),
         ),

@@ -35,7 +35,8 @@ async function decorateAPIListOfLinks(panel) {
     ul(
       ...apiInfo.categories.map((category) => (
         li(
-          a({ href: walgreensUrl(category.url) },
+          a(
+            { href: walgreensUrl(category.url) },
             category.imageUrl === 'null' ? '' : span({ class: 'link-image' }, img({ src: category.imageUrl })),
             span({ class: 'link-text' }, category.name),
           ),
@@ -78,8 +79,10 @@ export default async function decorate(block) {
 
     if (!i) {
       panel.querySelector('ul').append(
-        li({ class: 'shop-by-brand' },
-          a({ href: 'https://www.walgreens.com/store/store/brands/brand.jsp' },
+        li(
+          { class: 'shop-by-brand' },
+          a(
+            { href: 'https://www.walgreens.com/store/store/brands/brand.jsp' },
             'Shop by Brand',
           ),
         ),
@@ -100,11 +103,13 @@ export default async function decorate(block) {
     panel.setAttribute('role', 'button');
 
     panel.append(
-      div({ class: 'accordion-button', onclick: openCloseAccordion },
+      div(
+        { class: 'accordion-button', onclick: openCloseAccordion },
         header,
         span({ class: 'icon icon-arrow-down' }),
       ),
-      div({ class: 'accordion-content' },
+      div(
+        { class: 'accordion-content' },
         list,
       ),
     );

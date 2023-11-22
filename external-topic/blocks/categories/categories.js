@@ -17,28 +17,31 @@ export default async function decorate(block) {
     ul(
       ...apiInfo.map((category) => (
         li(
-          div({ class: 'category' },
-            div({ class: 'category-image' },
+          div(
+            { class: 'category' },
+            div(
+              { class: 'category-image' },
               img({ src: walgreensUrl(category.imageUrl), alt: `${category.name} Category` }),
             ),
-            div({ class: 'category-body' },
+            div(
+              { class: 'category-body' },
               h3(category.name),
-              ul({ class: 'category-links' },
+              ul(
+                { class: 'category-links' },
                 ...category.childCategories.slice(0, 4).map((link) => (
                   li(
                     a({ href: walgreensUrl(link.url), 'aria-label': `${link.name} Category` }, link.name),
-                  )),
-                ),
+                  ))),
                 li(
-                  a({ href: walgreensUrl(category.url), 'aria-label': `More ${category.name}` },
+                  a(
+                    { href: walgreensUrl(category.url), 'aria-label': `More ${category.name}` },
                     strong('More'),
                   ),
                 ),
               ),
             ),
           ),
-        )),
-      ),
+        ))),
     ),
   );
 }
