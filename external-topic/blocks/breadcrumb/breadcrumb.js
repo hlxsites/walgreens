@@ -8,17 +8,22 @@ export default async function decorate(block) {
   // duplicate breadcrumb information in a new section + block for mobile
   // at the and of the page
   const mobileSection = (
-    div({ class: 'section breadcrumb-container', 'data-section-status': 'loading' },
-      div({ class: 'breadcrumb-wrapper' },
-        div({
-          class: 'breadcrumb block mobile',
-          style: 'display: none;', // hide in the beginning to avoid CLS
-          'data-block-name': 'breadcrumb',
-          'data-block-status': 'loaded',
-        }),
+    div(
+      { class: 'section breadcrumb-container', 'data-section-status': 'loading' },
+      div(
+        { class: 'breadcrumb-wrapper' },
+        div(
+          {
+            class: 'breadcrumb block mobile',
+            style: 'display: none;', // hide in the beginning to avoid CLS
+            'data-block-name': 'breadcrumb',
+            'data-block-status': 'loaded',
+          },
+        ),
       ),
     )
   );
+
   const mobileBlock = mobileSection.querySelector('.block');
   mobileBlock.append(desktopBlock.children[0].cloneNode(true));
 
