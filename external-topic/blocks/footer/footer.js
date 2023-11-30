@@ -7,7 +7,7 @@ const placeholders = await fetchPlaceholders();
 * @param {Element} block The footer block element
 */
 export default async function decorate(block) {
-  const worker = new Worker('../../scripts/headerfooter-worker.js');
+  const worker = new Worker(`${window.hlx.codeBasePath}/scripts/headerfooter-worker.js`);
   const { privacyIcon, localPrivacyIcon } = placeholders;
   worker.onmessage = async (e) => {
     worker.terminate();
