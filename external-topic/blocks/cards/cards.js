@@ -29,7 +29,7 @@ export function decorateCuratedCards(block, withBorder) {
     list.append(listItem);
   });
   list.querySelectorAll('img').forEach((image) => image.closest('picture').replaceWith(
-    createOptimizedPicture(image.src, image.alt, false, [{ width: '750' }]),
+    createOptimizedPicture(image.src, image.alt, false, [{ width: '180' }]),
   ));
   block.textContent = '';
   block.append(list);

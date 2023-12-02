@@ -35,7 +35,7 @@ export default async function decorate(block) {
     const link = item.querySelector('a');
     if (!link) return;
 
-    link.appendChild(span({ class: 'icon icon-arrow-right' }));
+    link.appendChild(span({ class: 'icon icon-arrow-right', 'aria-hidden': true }));
   });
   await decorateIcons(desktopBlock);
 
