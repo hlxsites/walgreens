@@ -1,6 +1,14 @@
-import { decorateIcons, fetchPlaceholders } from '../../scripts/aem.js';
-
-const placeholders = await fetchPlaceholders();
+async function addContent(block, jsonData) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(jsonData.content, 'text/html');
+  const includeContent = Array.from(doc.body.children);
+  block.parentElement.replaceWith(includeContent[0]);
+  let previousEl = includeContent[0];
+  includeContent.slice(1).forEach((node) => {
+    previousEl.insertAdjacentElement('afterend', node);
+    previousEl = node;
+  });
+}
 
 /**
 * loads and decorates the footer
@@ -8,17 +16,13 @@ const placeholders = await fetchPlaceholders();
 */
 export default async function decorate(block) {
   const worker = new Worker(`${window.hlx.codeBasePath}/scripts/headerfooter-worker.js`);
-  const { privacyIcon, localPrivacyIcon } = placeholders;
   worker.onmessage = async (e) => {
     worker.terminate();
     if (!e.data.ok) {
       return;
     }
-
-    const footer = document.createElement('div');
-    footer.innerHTML = e.data.content;
-    decorateIcons(footer);
-    block.append(footer);
+    const jsonData = e.data;
+    addContent(block, jsonData);
   };
-  worker.postMessage({ source: 'footer', privacyIcon, localPrivacyIcon });
+  worker.postMessage({ source: 'footer' });
 }
