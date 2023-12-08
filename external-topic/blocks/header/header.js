@@ -1,13 +1,15 @@
 import { loadFileList } from '../../scripts/scripts.js';
 
 async function addContent(block, jsonData) {
-  const nav = document.createElement('nav');
-  nav.id = 'nav';
-  nav.innerHTML = jsonData.content;
-  const navWrapper = document.createElement('div');
-  navWrapper.className = 'nav-wrapper';
-  navWrapper.append(nav);
-  block.firstElementChild.replaceWith(navWrapper);
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(jsonData.content, 'text/html');
+  const includeContent = Array.from(doc.body.children);
+  block.parentElement.replaceWith(includeContent[0]);
+  let previousEl = includeContent[0];
+  includeContent.slice(1).forEach((node) => {
+    previousEl.insertAdjacentElement('afterend', node);
+    previousEl = node;
+  });
 }
 
 /**
