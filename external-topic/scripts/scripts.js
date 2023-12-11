@@ -95,8 +95,8 @@ export function walgreensUrl(path) {
  * @param {JSON} fileList json object that comes with the UI API response
  */
 export async function loadFileList(fileList) {
-  const skip = ['dtm', 'speedIndex']; // ['dtm', 'googleApi', 'lsgScriptMin'];
-  const eager = ['jquery', 'headerSupport', 'sly', 'lsgURL'];
+  const skip = [];
+  const eager = ['jquery', 'lsgURL', 'polyfill'];
   const scriptTags = document.querySelectorAll('script[src]');
 
   const fileKeys = Object.keys(fileList);

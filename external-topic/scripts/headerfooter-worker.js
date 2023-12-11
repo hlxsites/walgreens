@@ -3,7 +3,7 @@
  * @param {string} content string of html with relative urls
  * @returns the string with absolute urls
  */
-function resolveRelativeURLs(content, privacyIcon, localPrivacyIcon) {
+/* function resolveRelativeURLs(content, privacyIcon, localPrivacyIcon) {
   const baseUrl = 'https://www.walgreens.com';
 
   // Use a regular expression to find relative links (starting with "/")
@@ -15,14 +15,14 @@ function resolveRelativeURLs(content, privacyIcon, localPrivacyIcon) {
   });
   absoluteContent = absoluteContent.replace(privacyIcon, localPrivacyIcon);
   return absoluteContent;
-}
+} */
 
 onmessage = async (e) => {
   const APIs = {
     header: 'https://www.walgreens.com/common/v1/headerui',
     footer: 'https://www.walgreens.com/common/v1/footerui',
   };
-  const { source, privacyIcon, localPrivacyIcon } = e.data;
+  const { source } = e.data;
   const resp = await fetch(APIs[source]);
 
   if (!resp.ok) {
@@ -31,7 +31,6 @@ onmessage = async (e) => {
   }
 
   const jsonData = await resp.json();
-  jsonData.content = resolveRelativeURLs(jsonData.content, privacyIcon, localPrivacyIcon);
 
   postMessage({
     source,
