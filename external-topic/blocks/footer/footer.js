@@ -1,3 +1,5 @@
+import { loadFileList } from '../../scripts/scripts.js';
+
 async function addContent(block, jsonData) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(jsonData.content, 'text/html');
@@ -23,6 +25,7 @@ export default async function decorate(block) {
     }
     const jsonData = e.data;
     addContent(block, jsonData);
+    loadFileList(jsonData.fileList);
   };
   worker.postMessage({ source: 'footer' });
 }
