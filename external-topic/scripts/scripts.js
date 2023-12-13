@@ -95,7 +95,7 @@ export function walgreensUrl(path) {
  * @param {JSON} fileList json object that comes with the UI API response
  */
 export async function loadFileList(fileList) {
-  const skip = ['dtm', 'clientBundleFooter']; // dtm is loaded in delayes.js
+  const skip = ['dtm', 'clientBundleFooter', 'lsgScriptMin']; // dtm is loaded in delayes.js
   const eager = ['jquery'];
   const scriptTags = document.querySelectorAll('script[src]');
 
