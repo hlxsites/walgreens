@@ -56,5 +56,4 @@ if (!window.location.host.includes('hlx.page') && !window.location.host.includes
     }
   });
 }
-
-await loadAdobeLaunch();
+if (!window.location.host.includes('localhost')) await loadAdobeLaunch();

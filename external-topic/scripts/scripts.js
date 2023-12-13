@@ -15,7 +15,7 @@ import {
 } from './aem.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
-const DELAYED_RESOURCES = 3000;
+const DELAYED_RESOURCES = 1000;
 const BASEURL = 'https://www.walgreens.com';
 
 export function pushToDataLayer(event, payload) {
@@ -95,8 +95,8 @@ export function walgreensUrl(path) {
  * @param {JSON} fileList json object that comes with the UI API response
  */
 export async function loadFileList(fileList) {
-  const skip = [];
-  const eager = ['jquery', 'lsgURL', 'polyfill'];
+  const skip = ['dtm', 'clientBundleFooter', 'lsgScriptMin']; // dtm is loaded in delayed.js
+  const eager = ['jquery'];
   const scriptTags = document.querySelectorAll('script[src]');
 
   const fileKeys = Object.keys(fileList);
