@@ -1,9 +1,9 @@
 # Walgreens - Franklin site
-This project is for the https://main--walgreens--hlxsites.hlx.page/ website.
+This project is for the https://main--walgreens--hlxsites.hlx.page/external-topic/ website.
 
 ## Environments
-- Preview: https://main--walgreens--hlxsites.hlx.page/
-- Live: https://main--walgreens--hlxsites.hlx.live/
+- Preview: https://main--walgreens--hlxsites.hlx.page/external-topic/
+- Live: https://main--walgreens--hlxsites.hlx.live/external-topic/
 
 ## Installation
 
