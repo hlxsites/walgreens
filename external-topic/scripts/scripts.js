@@ -291,21 +291,11 @@ function loadDelayed() {
   // load anything that can be postponed to the latest here
 }
 
-function fixScriptTags() {
-  const scripts = document.querySelectorAll('script');
-  scripts.forEach((node) => {
-    if (!node.getAttribute('type')) {
-      node.setAttribute('type', 'text/javascript');
-    }
-  });
-}
-
 async function loadPage() {
   pushPageLoadToDataLayer();
   await loadEager(document);
   await loadLazy(document);
   loadDelayed();
-  fixScriptTags();
 }
 
 loadPage();
