@@ -17,8 +17,9 @@ async function addContent(block, jsonData) {
         script.setAttribute(attribute, value);
       }
 
-      script.setAttribute('type', 'text/javascript'); // force JS
-
+      if (!script.getAttribute('type')) {
+        script.setAttribute('type', 'text/javascript');
+      }
       script.innerHTML = node.innerHTML;
       previousEl.insertAdjacentElement('afterend', script);
       previousEl = script;
