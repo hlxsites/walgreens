@@ -7,8 +7,26 @@ async function addContent(block, jsonData) {
   block.parentElement.replaceWith(includeContent[0]);
   let previousEl = includeContent[0];
   includeContent.slice(1).forEach((node) => {
-    previousEl.insertAdjacentElement('afterend', node);
-    previousEl = node;
+    if (node.nodeName === 'SCRIPT') {
+      const script = document.createElement('script');
+      const attributes = node.getAttributeNames();
+
+      for (let i = 0; i < attributes.length; i += 1) {
+        const attribute = attributes[i];
+        const value = node.getAttribute(attribute);
+        script.setAttribute(attribute, value);
+      }
+
+      if (!script.getAttribute('type')) {
+        script.setAttribute('type', 'text/javascript');
+      }
+      script.innerHTML = node.innerHTML;
+      previousEl.insertAdjacentElement('afterend', script);
+      previousEl = script;
+    } else {
+      previousEl.insertAdjacentElement('afterend', node);
+      previousEl = node;
+    }
   });
 }
 
