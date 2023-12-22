@@ -297,5 +297,5 @@ async function loadPage() {
   await loadLazy(document);
   loadDelayed();
 }
-
+document.cookie = 'v2H=t; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/';
 loadPage();
