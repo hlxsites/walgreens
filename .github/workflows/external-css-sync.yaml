@@ -39,11 +39,11 @@ jobs:
       run: |
         curl ${{ env.HEADERUI }} | jq -r '.clientCSSContent' > external-topic/external-styles/header-css-content.css
 
-    - name: Fetch Footer UI and Extract CSS
+    - name: Fetch Footer UI and Extract LSGCSS
       run: |
         curl ${{ env.FOOTERUI }} | jq -r '.clientLSGCSSContent' > external-topic/external-styles/footer-lsg-css-content.css
 
-    - name: Fetch Footer UI and Extract LSGCSS
+    - name: Fetch Footer UI and Extract CSS
       run: |
         curl ${{ env.FOOTERUI }} | jq -r '.clientCSSContent' > external-topic/external-styles/footer-css-content.css
 
